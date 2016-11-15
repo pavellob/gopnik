@@ -1,4 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
 import App from './App';
-ReactDOM.render(<App />, document.getElementById('app'))
+
+injectTapEventPlugin();
+
+const ThemedApp = () => (
+	<MuiThemeProvider>
+		<App />
+	</MuiThemeProvider>
+)
+
+ReactDOM.render(<ThemedApp />, document.getElementById('app'))
