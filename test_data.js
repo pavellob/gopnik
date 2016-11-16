@@ -4,7 +4,7 @@ export default {
 			id: 1,
         block: "RbQuestion",
         data: {
-          question: "Че за хуйня",
+          question: "Че",
           answers: [{
             id: 55,
             label: "А че?",
@@ -15,10 +15,9 @@ export default {
             id: 77,
             label: "А че такой дерзкий?",
             hint: "обостряешь",
-            nextStepId: 44
-          }] 
-        },
-        nextStepId: 2
+          }],
+        	nextStepId: 2
+        }
 		}
 		]
 };

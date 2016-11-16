@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 
 import DkComponents from './widgets/DkComponents'
+import Step from './Step';
+
 import testData from './test_data';
 
 
@@ -15,11 +17,12 @@ class App extends React.Component {
   render(){
   	const step = _.find(this.props.steps, {id: this.state.stepId});
   	const blockName = _.result(step, 'block');
-  	let Step = DkComponents[blockName];
+  	let TestStep = DkComponents[blockName];
     return (
     	<div>
-	    	<div>{this.state.stepId}</div>
-	    	<Step {...step.data}/>
+    		<Step>
+	    		<TestStep {...step.data}/>
+	    	</Step>
 	    </div>
     )
   }
@@ -28,5 +31,7 @@ class App extends React.Component {
 const { startStepId, steps } = testData;
 
 App.defaultProps = {startStepId, steps};
+
+
 
 export default App

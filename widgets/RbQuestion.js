@@ -1,32 +1,23 @@
 import React from 'react';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
-const styles = {
-  block: {
-    maxWidth: 250,
-  },
-  radioButton: {
-    marginBottom: 16,
-  },
-};
-
 class RbQuestion extends React.Component {
 	constructor() {
 		super();
-		this.update = this.update.bind(this);
+		this.returnResult = this.returnResult.bind(this);
 		this.state = {result: null}
 	}
 
-	update(e, val) {
-		console.log(val);
+	returnResult(e, val) {
 		this.setState({result: val});
+		this.props.setResult(val);
 	};
 
 	render() {
 		return (
 			<div>
-				<h1>{this.props.question}</h1>
-				<RBGroup update={this.update} {...this.props}/>
+				<h2>{this.props.question}</h2>
+				<RBGroup returnResult={this.returnResult} {...this.props}/>
 			</div>
 		)	
 	}
@@ -35,15 +26,17 @@ class RbQuestion extends React.Component {
 class RBGroup extends React.Component {
   render(){
   	let answers = this.props.answers.map( answer => {
-			return <RadioButton key={answer.id} value={answer.id} label={answer.label}/>
+			return <RadioButton key={answer.id} value={answer} label={answer.label}/>
 		});
     return (
-      <RadioButtonGroup name="RbQuestionGroup" onChange={this.props.update}>
+      <RadioButtonGroup name="RbQuestionGroup" onChange={this.props.returnResult}>
 			  {answers}
 			</RadioButtonGroup>
     );
   }
 }
+
+
 
 
 export default RbQuestion;
