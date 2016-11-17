@@ -28,7 +28,6 @@ class Step extends React.Component {
 	}
 
 	setResult(result) {
-		console.log(result);
 		const nextStepId = result.nextStepId || this.props.children.props.nextStepId;
 		console.log("Ответ:", result, "; Дальше идем на шаг", nextStepId);
 		this.setState({
