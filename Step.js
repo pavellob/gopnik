@@ -22,17 +22,23 @@ class Step extends React.Component {
 		this.next = this.next.bind(this);
 		this.setResult = this.setResult.bind(this);
 		this.state = {
-			result: null
+			result: null,
+			nextStepId: -1
 		}
 	}
 
 	setResult(result) {
-		console.log("Дальше идем на шаг", result.nextStepId || this.props.children.props.nextStepId);
+		console.log(result);
+		const nextStepId = result.nextStepId || this.props.children.props.nextStepId;
+		console.log("Ответ:", result, "; Дальше идем на шаг", nextStepId);
+		this.setState({
+			nextStepId: nextStepId,
+			result
+		});
 	}
 
-	next(nextStepId) {
-		console.log("NEXT");
-		console.log(this);
+	next() {
+		this.props.goToNextStep(this.state.nextStepId, this.state.result);
 	}
 
 	back() {
