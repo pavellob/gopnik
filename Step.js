@@ -5,16 +5,6 @@ import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const styles = {
-	paper: {
-		padding: 16,
-		maxWidth: 500
-	},
-	actions: {
-		display: 'flex',
-		justifyContent: 'flex-end'
-	}
-}
 
 class Step extends React.Component {
 	constructor(props){
@@ -41,10 +31,21 @@ class Step extends React.Component {
 	}
 
 	back() {
-		console.log("FUCK");
+		console.log(this.props.background);
 	}
 
 	render() {
+		const styles = {
+			paper: {
+				padding: 16,
+				maxWidth: 500,
+				background: this.props.children.props.background
+			},
+			actions: {
+				display: 'flex',
+				justifyContent: 'flex-end'
+			}
+		}
 		const childrenWithSetResult = React.Children.map(this.props.children, child => {
 			return React.cloneElement(child, {setResult: this.setResult});
 		});

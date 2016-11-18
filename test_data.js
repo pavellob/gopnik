@@ -100,6 +100,7 @@ export default {
         block: "StaticText",
         data: {
           label: "Зато живой",
+          background: '#69F0AE',
         }
 		},
 		{
@@ -116,6 +117,7 @@ export default {
         data: {
           label: "Безумству храбрых поем мы песню",
           text: "it is a simple text" ,
+
         }
 		}
 
