@@ -97,23 +97,25 @@ export default {
 		},
 		{
 			id: 55,
-        block: "RbQuestion",
+        block: "StaticText",
         data: {
-          question: "Зато живой", 
+          label: "Зато живой",
         }
 		},
 		{
 			id: 66,
-        block: "RbQuestion",
+        block: "StaticText",
         data: {
-          question: "Э, да ты чмо, остался без денег", 
+          label: "Э, да ты чмо, остался без денег",
+          text: "it is a simple text" ,
         }
 		},
 		{
 			id: 77,
-        block: "RbQuestion",
+        block: "StaticText",
         data: {
-          question: "Безумству храбрых поем мы песню", 
+          label: "Безумству храбрых поем мы песню",
+          text: "it is a simple text" ,
         }
 		}
 
