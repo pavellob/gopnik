@@ -37,9 +37,19 @@ class Step extends React.Component {
 	render() {
 		const styles = {
 			paper: {
-				padding: 16,
-				maxWidth: 500,
-				background: this.props.children.props.background
+				position: 'relative',
+    		padding: 40,
+    		margin: 40,
+    		minHeight: 600,
+    		display: 'flex',
+    		flexDirection: 'column',
+				backgroundImage: this.props.children.props.background,
+				backgroundPosition: 'center',
+				backgroundSize: 'contain',
+				backgroundRepeat: 'no-repeat'
+			},
+			children: {
+				flexGrow: 1,
 			},
 			actions: {
 				display: 'flex',
@@ -51,7 +61,9 @@ class Step extends React.Component {
 		});
 		return (
 			<Paper zDepth={3} style={styles.paper} >
-				{childrenWithSetResult}
+				<div style={styles.children}>
+					{childrenWithSetResult}
+				</div>
 				<div style={styles.actions}>
 					<FlatButton label="Назад" primary={true} />
 					<RaisedButton label="Дальше" primary={true} onClick={this.next}/>

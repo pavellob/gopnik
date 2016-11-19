@@ -79,7 +79,7 @@ export default {
 			id: 4,
         block: "RbQuestion",
         data: {
-          question: "Хуй в очо!",
+          question: "Дам в лицо!",
           answers: [{
             id: 10,
             label: "#Хук#",
@@ -100,15 +100,16 @@ export default {
         block: "StaticText",
         data: {
           label: "Зато живой",
-          background: '#69F0AE',
+          background: 'url(/assets/images/run.jpg)',
         }
 		},
 		{
 			id: 66,
         block: "StaticText",
         data: {
-          label: "Э, да ты чмо, остался без денег",
-          text: "it is a simple text" ,
+          label: "Э, да ты остался без денег",
+          text: "Еще и побили",
+          background: "url(/assets/images/fail.jpg)",
         }
 		},
 		{
@@ -116,8 +117,8 @@ export default {
         block: "StaticText",
         data: {
           label: "Безумству храбрых поем мы песню",
-          text: "it is a simple text" ,
-
+          text: "Все правильно сделал" ,
+          background: 'url(/assets/images/leo.jpg)',
         }
 		}
 
