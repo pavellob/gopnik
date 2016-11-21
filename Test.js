@@ -73,15 +73,13 @@ class Test extends React.Component {
   	let StepComponent = DkComponents[blockName];
   	let Step = StepMixin(StepComponent)
 
+
     return (
 			<Paper zDepth={3} style={styles.paper} >
 				<div style={styles.step}>
     			<Step stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
     		</div>
-	    	<div style={styles.actions}>
-					<FlatButton label="Назад" primary={true} />
-					<RaisedButton label="Дальше" primary={true} onClick={this.next.bind(this)}/>
-				</div>
+	    	<Actions isTestFinish={this.isTestFinish(step)} next={this.next.bind(this)} />
 			</Paper>
     )
   }
@@ -93,5 +91,35 @@ class Test extends React.Component {
 }
 
 Test.defaultProps = {steps, answers: [], nextStepId: startStepId};
+
+class Actions extends React.Component {
+
+	renderActions() {
+		if (this.props.isTestFinish) {
+			return (
+				<RaisedButton label="Завершить" primary={true}/>
+			)
+		} else {
+			return (
+				<div>
+					<FlatButton label="Назад" primary={true} />
+					<RaisedButton label="Дальше" primary={true} onClick={this.props.next}/>
+				</div>
+			)
+		}
+	}
+
+	render() {
+		const styles = {
+			display: 'flex',
+			justifyContent: 'flex-end'
+		}
+		return (
+			<div style={styles}>	
+				{this.renderActions()}
+			</div>
+		)
+	}
+}
 
 export default Test;
