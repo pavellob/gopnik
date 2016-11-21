@@ -15,7 +15,7 @@ class RbQuestion extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div style={this.props.style}>
 				<h2>{this.props.question}</h2>
 				<RBGroup returnResult={this.returnResult} {...this.props}/>
 			</div>

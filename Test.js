@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import DkComponents from './widgets/DkComponents'
-import Step from './Step';
+import StepMixin from './Step';
 
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -46,7 +46,12 @@ class Test extends React.Component {
 
   render(){
   	const step = _.find(this.props.steps, {id: this.state.stepId});
+
   	const styles = {
+  		step: {
+  			display: 'flex',
+  			flexGrow: 1,
+  		},
 			actions: {
 				display: 'flex',
 				justifyContent: 'flex-end'
@@ -65,12 +70,14 @@ class Test extends React.Component {
 			}
 		}
   	const blockName = _.result(step, 'block');
-  	let TestStep = DkComponents[blockName];
+  	let StepComponent = DkComponents[blockName];
+  	let Step = StepMixin(StepComponent)
+
     return (
 			<Paper zDepth={3} style={styles.paper} >
-    		<Step stepId={this.state.stepId} setNextStep={this.setNextStep}>
-	    		<TestStep {...step.data}/>
-	    	</Step>
+				<div style={styles.step}>
+    			<Step stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
+    		</div>
 	    	<div style={styles.actions}>
 					<FlatButton label="Назад" primary={true} />
 					<RaisedButton label="Дальше" primary={true} onClick={this.next.bind(this)}/>
