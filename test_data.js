@@ -20,9 +20,9 @@ export default {
           {
             id: 3,
             label: "#Убегать",
-            hint: "норм ответ"
+            hint: "норм ответ",
+        	  nextStepId: 55
           }],
-        	nextStepId: 55
         }
 		},
 		{

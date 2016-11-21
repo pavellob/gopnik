@@ -2,8 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+
 
 
 class Step extends React.Component {
@@ -12,7 +11,7 @@ class Step extends React.Component {
 		this.next = this.next.bind(this);
 		this.setResult = this.setResult.bind(this);
 		this.state = {
-			result: null,
+			//result: null,
 			nextStepId: -1
 		}
 	}
@@ -20,10 +19,8 @@ class Step extends React.Component {
 	setResult(result) {
 		const nextStepId = result.nextStepId || this.props.children.props.nextStepId;
 		console.log("Ответ:", result, "; Дальше идем на шаг", nextStepId);
-		this.setState({
-			nextStepId: nextStepId,
-			result
-		});
+		
+		this.props.setNextStep(nextStepId, result);
 	}
 
 	next() {
@@ -60,15 +57,9 @@ class Step extends React.Component {
 			return React.cloneElement(child, {setResult: this.setResult});
 		});
 		return (
-			<Paper zDepth={3} style={styles.paper} >
 				<div style={styles.children}>
 					{childrenWithSetResult}
-				</div>
-				<div style={styles.actions}>
-					<FlatButton label="Назад" primary={true} />
-					<RaisedButton label="Дальше" primary={true} onClick={this.next}/>
-				</div>
-			</Paper>
+				</div>		
 		)
 	}
 }
