@@ -7,6 +7,7 @@ import StepMixin from './Step';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 import testData from './test_data';
@@ -25,7 +26,6 @@ class Test extends React.Component {
 	}
 
 	setNextStep(nextStepId, answer) {
-		console.log('setNextStep');
 		this.setState({nextStepId, answer});
 	}
 
@@ -36,58 +36,59 @@ class Test extends React.Component {
 		}
 	}
 
+	isLastStep(step) {
+		return !(_.has(step.data, 'nextStepId') || _.some(step.data.answers, 'nextStepId'));
+	}
+
 	shouldComponentUpdate(nextProps, nextState) {
 		return nextState.stepId === nextState.nextStepId;
   }
-
-	isTestFinish(step) {
-		return !(_.has(step.data, 'nextStepId') || _.some(step.data.answers, 'nextStepId'));
-	}
 
   render(){
   	const step = _.find(this.props.steps, {id: this.state.stepId});
 
   	const styles = {
-  		step: {
+			paper: {
   			display: 'flex',
   			flexGrow: 1,
-  		},
-			actions: {
-				display: 'flex',
-				justifyContent: 'flex-end'
-			},
-			paper: {
-				position: 'relative',
+    		flexDirection: 'column',
     		padding: 40,
     		margin: 40,
-    		minHeight: 600,
-    		display: 'flex',
-    		flexDirection: 'column',
 				backgroundImage: step.data.background,
 				backgroundPosition: 'center',
 				backgroundSize: 'contain',
 				backgroundRepeat: 'no-repeat'
+			},
+			step: {
+				minHeight: 600,
+    		flexGrow: 1,
+    		display: 'flex',
+    		flexDirection: 'column',
 			}
 		}
   	const blockName = _.result(step, 'block');
   	let StepComponent = DkComponents[blockName];
   	let Step = StepMixin(StepComponent)
 
-
     return (
-			<Paper zDepth={3} style={styles.paper} >
-				<div style={styles.step}>
-    			<Step stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
-    		</div>
-	    	<Actions isTestFinish={this.isTestFinish(step)} next={this.next.bind(this)} />
-			</Paper>
+			<MuiThemeProvider>
+				<Paper zDepth={3} style={styles.paper} >
+	    		<Step  style={styles.step} stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
+		    	<Actions isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.props.finish} />
+				</Paper>
+			</MuiThemeProvider>
+
     )
   }
 
   componentDidUpdate(){
-  	console.log('didMount');
     this.setState({answer: null, nextStepId: null})
   }
+
+  componentWillUnmount(){
+  	console.log('will unmount')
+  }
+
 }
 
 Test.defaultProps = {steps, answers: [], nextStepId: startStepId};
@@ -95,9 +96,9 @@ Test.defaultProps = {steps, answers: [], nextStepId: startStepId};
 class Actions extends React.Component {
 
 	renderActions() {
-		if (this.props.isTestFinish) {
+		if (this.props.isLastStep) {
 			return (
-				<RaisedButton label="Завершить" primary={true}/>
+				<RaisedButton label="Завершить" primary={true} onClick={this.props.finish}/>
 			)
 		} else {
 			return (
