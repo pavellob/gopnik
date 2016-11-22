@@ -53,7 +53,6 @@ class Test extends React.Component {
   			flexGrow: 1,
     		flexDirection: 'column',
     		padding: 40,
-    		margin: 40,
 				backgroundImage: step.data.background,
 				backgroundPosition: 'center',
 				backgroundSize: 'contain',
