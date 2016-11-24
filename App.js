@@ -4,20 +4,26 @@ import ReactDOM from 'react-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Test from './Test';
+import Result from './Result';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class App extends React.Component {
+	constructor(){
+		super();
+		this.state = {
+			result: null
+		}
+	}
 	
 	mount(){
-		console.log(ReactDOM.findDOMNode(this));
-		ReactDOM.render(<Test finish={this.unmount.bind(this)}/>, document.getElementById('root'))
+		ReactDOM.render(<Test finish={this.finishTest.bind(this)}/>, document.getElementById('root'))
   }
 
-  unmount(){
-		console.log('unmount');
+  finishTest(result){
+		console.log(result);
     ReactDOM.unmountComponentAtNode(document.getElementById('root'))
-    ReactDOM.render(<Welcome  label="Начать"  start={this.mount.bind(this)}/>, document.getElementById('root'))
+    ReactDOM.render(<Result/>, document.getElementById('root'))
 	}
 
 	render() {
@@ -60,6 +66,9 @@ class Welcome extends React.Component {
 	}
 
 }
+
+App.defaultProps = {answers: []};
+
 
 export default App
 

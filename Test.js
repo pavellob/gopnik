@@ -31,13 +31,17 @@ class Test extends React.Component {
 
 	next() {
 		if (this.state.nextStepId) {
-    	this.props.answers.push(this.props.answer);
+    	this.props.answers.push(this.state.answer);
 			this.setState({stepId: this.state.nextStepId})
 		}
 	}
 
 	isLastStep(step) {
 		return !(_.has(step.data, 'nextStepId') || _.some(step.data.answers, 'nextStepId'));
+	}
+
+	finishTest(){
+		this.props.finish(this.props.answers);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -73,7 +77,7 @@ class Test extends React.Component {
 			<MuiThemeProvider>
 				<Paper zDepth={3} style={styles.paper} >
 	    		<Step  style={styles.step} stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
-		    	<Actions isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.props.finish} />
+		    	<Actions isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
 				</Paper>
 			</MuiThemeProvider>
 

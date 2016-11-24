@@ -19,7 +19,7 @@ export default {
           },
           {
             id: 3,
-            label: "#Убегать",
+            label: "на, держи",
             hint: "норм ответ",
         	  nextStepId: 55
           }],
