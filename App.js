@@ -23,7 +23,7 @@ class App extends React.Component {
   finishTest(result){
 		console.log(result);
     ReactDOM.unmountComponentAtNode(document.getElementById('root'))
-    ReactDOM.render(<Result/>, document.getElementById('root'))
+    ReactDOM.render(<Result testAnswers={result}/>, document.getElementById('root'))
 	}
 
 	render() {
