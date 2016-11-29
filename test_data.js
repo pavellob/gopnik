@@ -5,6 +5,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Есть касса? А если найду?",
+          image: "/assets/images/1.jpg",
           answers: [{
             id: 1,
             label: "Есть"
@@ -21,6 +22,8 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Чем по жизни живешь?",
+          image: "/assets/images/2.jpg",
+
           answers: [{
             id: 4,
             label: "Торгую, еба",
@@ -39,6 +42,8 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Чем банчишь?",
+          image: "/assets/images/3.jpg",
+
           answers: [{
             id: 7,
             label: "Бухло, сиги, соли, спайсы",
@@ -61,6 +66,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Это как так?",
+          image: "/assets/images/4.jpg",
           answers: [{
             id: 10,
             label: "Через интернет эксплорер, еба!",
@@ -95,6 +101,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "Фискалам чо отстегиваешь?",
+        image: "/assets/images/5.jpg",
         answers: [{
           id: 15,
           label: "ПСН",
@@ -122,6 +129,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "Сколько чеков можешь за день выбить?",
+        image: "/assets/images/6.jpg",
         answers: [
         {
           id: 19,
@@ -140,6 +148,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "Товароучетка есть? А если найду?",
+        image: "/assets/images/7.jpg",
         answers: [
         {
           id: 21,

@@ -64,7 +64,7 @@ class Test extends React.Component {
 			},
 			step: {
 				minHeight: 600,
-    		flexGrow: 1,
+    		flexGrow: 0,
     		display: 'flex',
     		flexDirection: 'column',
 			}

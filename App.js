@@ -35,7 +35,6 @@ class App extends React.Component {
 		return (
 			<div id="root" style={styles.startScreen}> </div>
 		)
-
 	}
 	componentDidMount(){
     console.log('mounted')

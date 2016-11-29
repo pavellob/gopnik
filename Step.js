@@ -7,6 +7,7 @@ import _ from 'lodash';
 let StepMixin = InnerComponent => class extends React.Component {
  constructor(props){
 		super(props);
+		console.log(props);
 		this.setResult = this.setResult.bind(this);
 		this.state = {
 			//result: null,
@@ -24,10 +25,17 @@ let StepMixin = InnerComponent => class extends React.Component {
 		const styles = {
 			children: {
 				flexGrow: 1,
+			},
+			img: {
+				height: 500,
+				width: 'auto',
 			}
 		}
 		return (
-			<InnerComponent style={styles.children} {...this.state} {...this.props} setResult={this.setResult}/>
+			<div>
+				<img src={this.props.image} style={styles.img} />
+				<InnerComponent style={styles.children} {...this.state} {..._.omit(this.props, 'style')} setResult={this.setResult}/>
+			</div>
 		)
 	}
   componentDidMount(){

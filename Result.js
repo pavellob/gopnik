@@ -1,4 +1,6 @@
 import React from 'react';
+import Paper from 'material-ui/Paper';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import testData from './test_data';
 
@@ -16,16 +18,39 @@ class TestResult extends React.Component {
 	}
 
 	render() {
-		console.log(results);
+		const styles = {
+			paper: {
+  			display: 'flex',
+  			flexGrow: 1,
+    		flexDirection: 'column',
+    		padding: 40,
+    		margin: 20,
+			}
+		}
+
 		const Answer = (props) => {
 			return <h1>{props.data}</h1>
 		}
-		console.log(this.props.testAnswers);
+		
 		var result = <Answer data={this.state.testResult.data.label} />;
 		return(
-			<div>
-				{result}
-			</div>
+			<MuiThemeProvider>
+				<div>
+					<Paper zDepth={3} style={styles.paper} >
+						{result}
+					</Paper>
+
+					<Paper zDepth={3} style={styles.paper} >
+						<h1>Рекомендованное оборудование тут</h1>
+						
+					</Paper>
+
+					<Paper zDepth={3} style={styles.paper} >
+						<h1> Форма обратной связи тут </h1>
+					</Paper>
+
+				</div>
+			</MuiThemeProvider>
 		)
 	}
 }
