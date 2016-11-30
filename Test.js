@@ -30,10 +30,8 @@ class Test extends React.Component {
 	}
 
 	next() {
-		if (this.state.nextStepId) {
     	this.props.answers.push(this.state.answer);
 			this.setState({stepId: this.state.nextStepId})
-		}
 	}
 
 	isLastStep(step) {
@@ -41,6 +39,7 @@ class Test extends React.Component {
 	}
 
 	finishTest(){
+    this.props.answers.push(this.state.answer);
 		this.props.finish(this.props.answers);
 	}
 
