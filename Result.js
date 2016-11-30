@@ -4,17 +4,24 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import testData from './test_data';
 
-const { results } = testData;
+const { results, recomendations } = testData;
 
 class TestResult extends React.Component {
 
 	constructor(props) {
 		super(props);
 		const anwsIds = _.map(props.testAnswers, 'id');
-		this.state = {testResult: _.find(results, r => {
-			return !_.isEmpty(_.intersection(r.bindings, anwsIds));
-			
-		})};
+		this.state = {
+			lowResult: _.find(results, r => {
+				return !_.isEmpty(_.intersection(r.bindings, anwsIds));
+			}),
+			recomendation: _.find(recomendations, r => {
+				return _.some(r.bindings, bind => {
+					return !_.isEmpty(_.intersection(bind, anwsIds));
+				})
+			}),
+
+		};
 	}
 
 	render() {
@@ -25,14 +32,30 @@ class TestResult extends React.Component {
     		flexDirection: 'column',
     		padding: 40,
     		margin: 20,
+			},
+			recomendationContent: {
+				display: 'flex',
+
 			}
 		}
 
 		const Answer = (props) => {
 			return <h1>{props.data}</h1>
 		}
+
+		const Recomendation = (props) => {
+			return (
+				<div>
+					<h1>{props.data.label}</h1>
+					<div style={styles.recomendationContent}>
+						<img src={props.data.image}/>
+						<div dangerouslySetInnerHTML={{__html: props.data.text}}/>
+					</div>
+				</div>
+			)
+		}
 		
-		var result = <Answer data={this.state.testResult.data.label} />;
+		var result = <Answer data={this.state.lowResult.data.label} />;
 		return(
 			<MuiThemeProvider>
 				<div>
@@ -41,8 +64,7 @@ class TestResult extends React.Component {
 					</Paper>
 
 					<Paper zDepth={3} style={styles.paper} >
-						<h1>Рекомендованное оборудование тут</h1>
-						
+						<Recomendation data={this.state.recomendation.data} />
 					</Paper>
 
 					<Paper zDepth={3} style={styles.paper} >

@@ -133,11 +133,19 @@ export default {
         answers: [
         {
           id: 19,
-          label: "меньше 100"
+          label: "до 10"
         },
         {
           id: 20,
-          label: "больше 100"
+          label: "от 10 до 20"
+        },
+        {
+          id: 21,
+          label: "от 20 до 30"
+        },
+        {
+          id: 22,
+          label: "от 30"
         } 
         ],
         nextStepId: 102
@@ -151,11 +159,11 @@ export default {
         image: "/assets/images/7.jpg",
         answers: [
         {
-          id: 21,
+          id: 23,
           label: "Есть"
         },
         {
-          id: 22,
+          id: 24,
           label: "Нет"
         } 
         ]
@@ -191,5 +199,34 @@ export default {
         text: "вообще не парься"
       }
     }],
-    recomendations: []
+    recomendations: [{
+      bindings: [[5, 19], [5, 20]],
+      data: {
+        label: "Viki Micro с ККТ Viki Print 57",
+        text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.</p>",
+        image: "/assets/images/kassa-viki-micro-egais.jpg",
+        link: "https://dreamkas.ru/kassy-viki/viki-micro/"
+      }
+    },
+    {
+      bindings: [5,10,15,16],
+      data: {
+        label: "1 июля 2018",
+        text: "вообще не парься"
+      }
+    },
+    {
+      bindings: [7, 17, 18],
+      data: {
+        label: "1 июля 2017",
+        text: "вообще не парься"
+      }
+    },
+    {
+      bindings: [9],
+      data: {
+        label: "касса нужна, но вообще ХЗ",
+        text: "вообще не парься"
+      }
+    }]
 };
