@@ -2,7 +2,7 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import testData from './test_data';
+import testData from '../test_data';
 
 const { results, recomendations } = testData;
 

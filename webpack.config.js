@@ -1,12 +1,27 @@
+var webpack = require('webpack');
+var path = require('path');
+
+var devServer = {
+  inline: true,
+  port: 3333,
+  host: '127.0.0.1',
+  contentBase: path.resolve(__dirname, './endpoint'),
+  publicPath: '/static/',
+};
+
 module.exports = {
-  entry: './main.js',
-  output: {
-    path: './',
-    filename: 'index.js'
+  context: path.resolve(__dirname, './src'),
+  devServer: devServer,
+  entry: {
+    app: [
+      'webpack-dev-server/client?http://' + devServer.host + ':' + devServer.port,
+      './index.js'
+    ]
   },
-  devServer: {
-    inline: true,
-    port: 3333
+  output: {
+    path: path.resolve(__dirname, './endpoint/static'),
+    filename: 'index.js',
+    publicPath: devServer.publicPath
   },
   module: {
     loaders: [
@@ -17,7 +32,18 @@ module.exports = {
         query: {
           presets: ['es2015', 'react']
         }
-      }
+      },
+      {
+        test: /\.css$/,
+        loaders:[
+          'style-loader',
+          'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]',
+          'sass-loader',
+        ],
+      },
     ]
-  }
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 }

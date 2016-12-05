@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
+import styles from './Step.css';
+
 
 
 
@@ -17,29 +19,21 @@ let StepMixin = InnerComponent => class extends React.Component {
   setResult(result) {
 		const nextStepId = result.nextStepId || this.props.nextStepId;
 		console.log("Ответ:", result, "; Дальше идем на шаг", nextStepId);
-		
 		this.props.setNextStep(nextStepId, result);
 	}
 
 	render() {
-		const styles = {
-			children: {
-				flexGrow: 1,
-			},
-			img: {
-				height: 500,
-				width: 'auto',
-			}
-		}
 		return (
-			<div>
-				<img src={this.props.image} style={styles.img} />
-				<InnerComponent style={styles.children} {...this.state} {..._.omit(this.props, 'style')} setResult={this.setResult}/>
+			<div className={styles.step}>
+				<img src={this.props.image} className={styles.img} />
+				<div className={styles.content}>
+					<InnerComponent {...this.state} {..._.omit(this.props, 'style')} setResult={this.setResult}/>
+				</div>
 			</div>
 		)
 	}
   componentDidMount(){
-    console.log('mounted')
+    console.log('step mounted')
   }
 }
 

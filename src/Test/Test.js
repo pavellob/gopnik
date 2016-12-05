@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import DkComponents from './widgets/DkComponents'
+import Components from '../Components/Components'
 import StepMixin from './Step';
 
 import FlatButton from 'material-ui/FlatButton';
@@ -9,8 +9,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import styles from './Test.css';
 
-import testData from './test_data';
+
+import testData from '../test_data';
 
 const { startStepId, steps } = testData;
 
@@ -50,33 +52,15 @@ class Test extends React.Component {
   render(){
   	const step = _.find(this.props.steps, {id: this.state.stepId});
 
-  	const styles = {
-			paper: {
-  			display: 'flex',
-  			flexGrow: 1,
-    		flexDirection: 'column',
-    		padding: 40,
-				backgroundImage: step.data.background,
-				backgroundPosition: 'center',
-				backgroundSize: 'contain',
-				backgroundRepeat: 'no-repeat'
-			},
-			step: {
-				minHeight: 600,
-    		flexGrow: 0,
-    		display: 'flex',
-    		flexDirection: 'column',
-			}
-		}
   	const blockName = _.result(step, 'block');
-  	let StepComponent = DkComponents[blockName];
+  	let StepComponent = Components[blockName];
   	let Step = StepMixin(StepComponent)
 
     return (
 			<MuiThemeProvider>
-				<Paper zDepth={3} style={styles.paper} >
-	    		<Step  style={styles.step} stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
-		    	<Actions isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
+				<Paper zDepth={3} className={styles.container} >
+	    		<Step stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
+		    	<Actions className={styles.actions} isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
 				</Paper>
 			</MuiThemeProvider>
 
@@ -105,7 +89,7 @@ class Actions extends React.Component {
 		} else {
 			return (
 				<div>
-					<FlatButton label="Назад" primary={true} />
+					
 					<RaisedButton label="Дальше" primary={true} onClick={this.props.next}/>
 				</div>
 			)
@@ -113,12 +97,9 @@ class Actions extends React.Component {
 	}
 
 	render() {
-		const styles = {
-			display: 'flex',
-			justifyContent: 'flex-end'
-		}
+		
 		return (
-			<div style={styles}>	
+			<div className={styles.actions}>	
 				{this.renderActions()}
 			</div>
 		)

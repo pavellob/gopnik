@@ -1,6 +1,8 @@
 import React from 'react';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
+import styles from './RbQuestion.css';
+
 class RbQuestion extends React.Component {
 	constructor() {
 		super();
@@ -15,8 +17,8 @@ class RbQuestion extends React.Component {
 
 	render() {
 		return (
-			<div style={this.props.style}>
-				<h2>{this.props.question}</h2>
+			<div className={styles.container}>
+				<h2 className={styles.title}>{this.props.question}</h2>
 				<RBGroup returnResult={this.returnResult} {...this.props}/>
 			</div>
 		)	

@@ -1,0 +1,13 @@
+.img {
+	width: 100%;
+}
+.step {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 1;
+	flex-grow: 0;
+}
+
+.content {
+	padding: 1rem;
+}
