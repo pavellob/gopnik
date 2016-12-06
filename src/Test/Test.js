@@ -12,10 +12,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import styles from './Test.css';
 
 
-import testData from '../test_data';
-
-const { startStepId, steps } = testData;
-
 class Test extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,7 +19,7 @@ class Test extends React.Component {
 		this.state = {
 			nextStepId: null,
 			answer: null,
-			stepId: startStepId
+			stepId: props.startStepId
 		}
 	}
 
@@ -77,7 +73,7 @@ class Test extends React.Component {
 
 }
 
-Test.defaultProps = {steps, answers: [], nextStepId: startStepId};
+Test.defaultProps = {answers: []};
 
 class Actions extends React.Component {
 

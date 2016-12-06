@@ -1,7 +1,8 @@
 export default {
-		startStepId: 1,
-		steps: [{
-			id: 1,
+  test: {
+    startStepId: 1,
+    steps: [{
+      id: 1,
         block: "RbQuestion",
         data: {
           question: "Есть касса? А если найду?",
@@ -16,9 +17,9 @@ export default {
           }],
           nextStepId: 2
         }
-		},
-		{
-			id: 2,
+    },
+    {
+      id: 2,
         block: "RbQuestion",
         data: {
           question: "Чем по жизни живешь?",
@@ -36,9 +37,9 @@ export default {
             nextStepId: 101//2018
           }]
         }
-		},
-		{
-			id: 3,
+    },
+    {
+      id: 3,
         block: "RbQuestion",
         data: {
           question: "Чем банчишь?",
@@ -60,9 +61,9 @@ export default {
             nextStepId: 101//2042
           }]
         }
-		},
-		{
-			id: 4,
+    },
+    {
+      id: 4,
         block: "RbQuestion",
         data: {
           question: "Это как так?",
@@ -95,8 +96,8 @@ export default {
           }
           ]
         }
-		},
-		{
+    },
+    {
       id: 5,
       block: "RbQuestion",
       data: {
@@ -168,89 +169,91 @@ export default {
         } 
         ]
       }
-    }
-
-		],
-    results: [{
-      bindings: [14],
+    }]
+  },
+  result: {
+    lawResults: [{
+      bindings: [[14]],
       data: {
         label: "касса не нужна",
         text: "вообще не парься"
       }
     },
     {
-      bindings: [5,10,15,16],
+      bindings: [[5],[10],[15],[16]],
       data: {
         label: "1 июля 2018",
         text: "вообще не парься"
       }
     },
     {
-      bindings: [7, 17, 18],
+      bindings: [[7], [17], [18]],
       data: {
         label: "1 июля 2017",
         text: "вообще не парься"
       }
     },
     {
-      bindings: [9],
+      bindings: [[9]],
       data: {
         label: "касса нужна, но вообще ХЗ",
         text: "вообще не парься"
       }
     }],
     recomendations: [{
-      bindings: [[5, 19, 23], [5, 20, 23]],
-      data: {
-        label: "Viki Micro с ККТ Viki Print 57",
-        text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
-        image: "/assets/images/kassa-viki-micro-egais.jpg",
-        link: "https://dreamkas.ru/kassy-viki/viki-micro/"
-      }
-    },
-    {
-      bindings: [[5, 19, 24], [5, 20, 24]],
-      data: {
-        label: "Viki Micro с ККТ Viki Print 57",
-        text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
-        image: "/assets/images/kassa-viki-micro-egais.jpg",
-        link: "https://dreamkas.ru/kassy-viki/viki-micro/"
-      }
-    },
-    {
-      bindings: [[5, 21, 23]],
-      data: {
-        label: "ККТ Viki Micro",
-        text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
-        image: "/assets/images/kassa-dlja-alkogolja.jpg",
-        link: "https://dreamkas.ru/kassy-viki/viki-mini/"
-      }
-    },
-    {
-      bindings: [[5, 21, 24]],
-      data: {
-        label: "ККТ Viki Micro",
-        text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
-        image: "/assets/images/kassa-dlja-alkogolja.jpg",
-        link: "https://dreamkas.ru/kassy-viki/viki-mini/"
-      }
-    },
-    {
-      bindings: [[5, 22, 23]],
-      data: {
-        label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
-        text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
-        image: "/assets/images/kassa-viki-classic.jpg",
-        link: "https://dreamkas.ru/kassy-viki/viki-classic/"
-      }
-    },
-    {
-      bindings: [[5, 22, 24]],
-      data: {
-        label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
-        text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
-        image: "/assets/images/kassa-viki-classic.jpg",
-        link: "https://dreamkas.ru/kassy-viki/viki-classic/"
-      }
-    }]
+        bindings: [[5, 19, 23], [5, 20, 23]],
+        data: {
+          label: "Viki Micro с ККТ Viki Print 57",
+          text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
+          image: "/assets/images/kassa-viki-micro-egais.jpg",
+          link: "https://dreamkas.ru/kassy-viki/viki-micro/"
+        }
+      },
+      {
+        bindings: [[5, 19, 24], [5, 20, 24]],
+        data: {
+          label: "Viki Micro с ККТ Viki Print 57",
+          text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
+          image: "/assets/images/kassa-viki-micro-egais.jpg",
+          link: "https://dreamkas.ru/kassy-viki/viki-micro/"
+        }
+      },
+      {
+        bindings: [[5, 21, 23]],
+        data: {
+          label: "ККТ Viki Micro",
+          text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
+          image: "/assets/images/kassa-dlja-alkogolja.jpg",
+          link: "https://dreamkas.ru/kassy-viki/viki-mini/"
+        }
+      },
+      {
+        bindings: [[5, 21, 24]],
+        data: {
+          label: "ККТ Viki Micro",
+          text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
+          image: "/assets/images/kassa-dlja-alkogolja.jpg",
+          link: "https://dreamkas.ru/kassy-viki/viki-mini/"
+        }
+      },
+      {
+        bindings: [[5, 22, 23]],
+        data: {
+          label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
+          text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
+          image: "/assets/images/kassa-viki-classic.jpg",
+          link: "https://dreamkas.ru/kassy-viki/viki-classic/"
+        }
+      },
+      {
+        bindings: [[5, 22, 24]],
+        data: {
+          label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
+          text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
+          image: "/assets/images/kassa-viki-classic.jpg",
+          link: "https://dreamkas.ru/kassy-viki/viki-classic/"
+        }
+      }]
+    
+  }
 };

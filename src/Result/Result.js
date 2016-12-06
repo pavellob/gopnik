@@ -11,7 +11,6 @@ class TestResult extends React.Component {
 	constructor(props) {
 		super(props);
 		const anwsIds = _.map(props.testAnswers, 'id');
-		console.log(anwsIds);
 		this.state = {
 			lowResult: _.find(results, r => {
 				return !_.isEmpty(_.intersection(r.bindings, anwsIds));
@@ -21,7 +20,6 @@ class TestResult extends React.Component {
 					return _.every(bind, b=> anwsIds.includes(b));
 				})
 			}),
-
 		};
 	}
 
