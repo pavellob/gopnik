@@ -1,8 +1,0 @@
-.main {		
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	@media (max-width: 600px) {
-		flex-grow: 1;
-	}
-}

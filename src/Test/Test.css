@@ -1,9 +1,0 @@
-.container {
-}
-
-.actions {
-	border-top: 1px solid rgba(0, 0, 0, 0.12);
-	display: flex;
-	justify-content: flex-end;
-	padding: .5rem;
-}
