@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "deploy": "webpack && gh-pages -d build"
   },
   "author": "pavellob",
   "license": "ISC",
@@ -26,5 +27,8 @@
     "webpack": "^1.12.8",
     "webpack-dev-server": "^1.12.1"
   },
-  "description": "test in react"
+  "description": "test in react",
+  "devDependencies": {
+    "gh-pages": "^0.12.0"
+  }
 }

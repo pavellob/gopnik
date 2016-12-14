@@ -6,7 +6,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Есть касса? А если найду?",
-          image: "/assets/images/1.jpg",
+          image: "static/assets/images/1.jpg",
           answers: [{
             id: 1,
             label: "Есть"
@@ -23,7 +23,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Чем по жизни живешь?",
-          image: "/assets/images/2.jpg",
+          image: "static/assets/images/2.jpg",
 
           answers: [{
             id: 4,
@@ -43,7 +43,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Чем банчишь?",
-          image: "/assets/images/3.jpg",
+          image: "static/assets/images/3.jpg",
 
           answers: [{
             id: 7,
@@ -67,7 +67,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Это как так?",
-          image: "/assets/images/4.jpg",
+          image: "static/assets/images/4.jpg",
           answers: [{
             id: 10,
             label: "Через интернет эксплорер, еба!",
@@ -102,7 +102,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "Фискалам чо отстегиваешь?",
-        image: "/assets/images/5.jpg",
+        image: "static/assets/images/5.jpg",
         answers: [{
           id: 15,
           label: "ПСН",
@@ -130,7 +130,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "Сколько чеков можешь за день выбить?",
-        image: "/assets/images/6.jpg",
+        image: "static/assets/images/6.jpg",
         answers: [
         {
           id: 19,
@@ -157,7 +157,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "Товароучетка есть? А если найду?",
-        image: "/assets/images/7.jpg",
+        image: "static/assets/images/7.jpg",
         answers: [
         {
           id: 23,
@@ -205,7 +205,7 @@ export default {
         data: {
           label: "Viki Micro с ККТ Viki Print 57",
           text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
-          image: "/assets/images/kassa-viki-micro-egais.jpg",
+          image: "static/assets/images/kassa-viki-micro-egais.jpg",
           link: "https://dreamkas.ru/kassy-viki/viki-micro/"
         }
       },
@@ -214,7 +214,7 @@ export default {
         data: {
           label: "Viki Micro с ККТ Viki Print 57",
           text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
-          image: "/assets/images/kassa-viki-micro-egais.jpg",
+          image: "static/assets/images/kassa-viki-micro-egais.jpg",
           link: "https://dreamkas.ru/kassy-viki/viki-micro/"
         }
       },
@@ -223,7 +223,7 @@ export default {
         data: {
           label: "ККТ Viki Micro",
           text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
-          image: "/assets/images/kassa-dlja-alkogolja.jpg",
+          image: "static/assets/images/kassa-dlja-alkogolja.jpg",
           link: "https://dreamkas.ru/kassy-viki/viki-mini/"
         }
       },
@@ -232,7 +232,7 @@ export default {
         data: {
           label: "ККТ Viki Micro",
           text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
-          image: "/assets/images/kassa-dlja-alkogolja.jpg",
+          image: "static/assets/images/kassa-dlja-alkogolja.jpg",
           link: "https://dreamkas.ru/kassy-viki/viki-mini/"
         }
       },
@@ -241,7 +241,7 @@ export default {
         data: {
           label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
           text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
-          image: "/assets/images/kassa-viki-classic.jpg",
+          image: "static/assets/images/kassa-viki-classic.jpg",
           link: "https://dreamkas.ru/kassy-viki/viki-classic/"
         }
       },
@@ -250,7 +250,7 @@ export default {
         data: {
           label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
           text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
-          image: "/assets/images/kassa-viki-classic.jpg",
+          image: "static/assets/images/kassa-viki-classic.jpg",
           link: "https://dreamkas.ru/kassy-viki/viki-classic/"
         }
       }]
