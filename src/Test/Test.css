@@ -1,9 +1,84 @@
-.container {
+@value colors "../styles/colors.css";
+@value yellow as yellow__color from colors;
+@value phone, tablet, desktop, not_phone from "../styles/breakpoints.css";
+
+@value topContainerHeight 184px;
+
+.main_container {
 }
+
+.top_block {
+	background: yellow__color;	
+	height: topContainerHeight;
+	display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  @media phone {
+		
+	}
+  @media tablet {
+		padding-left: 40px;
+	}
+	@media desktop {
+		padding-left: 56px;
+	}
+}
+
+.top_container {
+	display: flex;
+	justify-content: flex-end;
+	@media phone {
+		flex-grow: 1;
+		padding-right: 64px;
+	}
+
+	@media tablet {
+		background: url('/static/assets/images/back.svg') left no-repeat;
+		margin-bottom: 40px;
+		flex-grow: 1;
+		padding-right: 64px;
+	}
+	@media desktop {
+		background: url('/static/assets/images/back.svg') left no-repeat;
+		margin-bottom: 40px;
+		width: 944px;
+		padding-right: 80px;
+
+	}
+}
+
+.img {
+	@media phone {
+		height: 160px;
+	}
+	@media not_phone {
+		height: 120px;
+	}
+}
+.card_block {
+	display: flex;
+	justify-content: center;
+}
+
+.card_container {
+	@media phone {
+		flex-grow: 1;
+	}
+	@media tablet {
+		padding: 0 24px;
+		flex-grow: 1;	
+		margin-top: -40px;
+	}
+	@media desktop {
+		width: 944px;
+		margin-top: -40px;
+	}
+}
+
 
 .actions {
 	border-top: 1px solid rgba(0, 0, 0, 0.12);
 	display: flex;
 	justify-content: flex-end;
-	padding: .5rem;
+	padding: 8px;
 }

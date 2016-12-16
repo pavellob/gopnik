@@ -1,6 +1,11 @@
+@value fonts: "../styles/fonts.css";
 .container {
 
 }
 .title {
-	margin: .5em 0 1rem;
+	composes: title from fonts;
+	margin: 8px 0 24px 0;
+}
+
+.control {
 }

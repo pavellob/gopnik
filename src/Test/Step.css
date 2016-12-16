@@ -1,11 +1,9 @@
-.img {
-	width: 100%;
-}
-.step {
+.container {
 	display: flex;
 	flex-direction: column;
 	flex-shrink: 1;
 	flex-grow: 0;
+
 }
 
 .content {

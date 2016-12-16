@@ -6,8 +6,8 @@ import StepMixin from './Step';
 
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Paper from 'material-ui/Paper';
 
 import styles from './Test.css';
 
@@ -53,24 +53,31 @@ class Test extends React.Component {
   	let Step = StepMixin(StepComponent)
 
     return (
-			<MuiThemeProvider>
-				<Paper zDepth={3} className={styles.container} >
-	    		<Step stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
-		    	<Actions className={styles.actions} isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
-				</Paper>
-			</MuiThemeProvider>
-
+    	<div className={styles.main_container}>
+	    	<div className={styles.top_block}>
+					<div className={styles.top_container}>
+						<img src={step.data.image} className={styles.img} />
+					</div>
+	    	</div>
+				<div className={styles.card_block}>
+					<div className={styles.card_container}>
+						<MuiThemeProvider>
+							<Paper zDepth={0}>
+				    		<Step stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
+					    	<Actions className={styles.actions} isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
+							</Paper>
+						</MuiThemeProvider>
+					</div>
+				</div>
+			</div>		
     )
   }
-
   componentDidUpdate(){
     this.setState({answer: null, nextStepId: null})
   }
-
   componentWillUnmount(){
   	console.log('will unmount')
   }
-
 }
 
 Test.defaultProps = {answers: []};
@@ -80,14 +87,15 @@ class Actions extends React.Component {
 	renderActions() {
 		if (this.props.isLastStep) {
 			return (
-				<RaisedButton label="Завершить" primary={true} onClick={this.props.finish}/>
+				<MuiThemeProvider>
+					<RaisedButton label="Завершить" primary={true} onClick={this.props.finish}/>
+				</MuiThemeProvider>
 			)
 		} else {
 			return (
-				<div>
-					
+				<MuiThemeProvider>
 					<RaisedButton label="Дальше" primary={true} onClick={this.props.next}/>
-				</div>
+				</MuiThemeProvider>
 			)
 		}
 	}

@@ -68,8 +68,6 @@ class App extends React.Component {
 
 				</div>
 				<div className={styles.container}>
-					<div className={styles.top_container}>
-					</div>
 					<div id="root" className={styles.main}> 
 					</div>
 				</div>

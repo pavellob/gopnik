@@ -6,7 +6,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Есть касса? А если найду?",
-          image: "static/assets/images/1.jpg",
+          image: "static/assets/images/1.svg",
           answers: [{
             id: 1,
             label: "Есть"

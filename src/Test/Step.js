@@ -1,5 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
+import Paper from 'material-ui/Paper';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 import styles from './Step.css';
 
@@ -24,11 +27,8 @@ let StepMixin = InnerComponent => class extends React.Component {
 
 	render() {
 		return (
-			<div className={styles.step}>
-				<img src={this.props.image} className={styles.img} />
-				<div className={styles.content}>
-					<InnerComponent {...this.state} {..._.omit(this.props, 'style')} setResult={this.setResult}/>
-				</div>
+			<div className={styles.content}>
+				<InnerComponent {...this.state} {..._.omit(this.props, 'style')} setResult={this.setResult}/>
 			</div>
 		)
 	}

@@ -1,12 +1,8 @@
 @value phone, tablet, desktop from "../styles/breakpoints.css";
-@value green as green__color, yellow as yellow__color, grey as background__color from "../styles/colors.css";
-
+@value green as green__color, yellow as yellow__color from "../styles/colors.css";
 
 @value headerHeight 60px;
-@value topContainerHeight 184px+headerHeight;
 @value headerShadow 0 2px 5px 0 rgba(0, 0, 0, 0.4);
-
-
 
 .main {		
 	display: flex;
@@ -26,14 +22,9 @@
 }
 
 .container {
-	background: background__color;
+	padding-top: headerHeight;
 }
 
-.top_container {
-	height: topContainerHeight;
-	background: yellow__color;
-
-}
 
 .footer {
 
