@@ -1,8 +1,40 @@
+@value phone, tablet, desktop from "../styles/breakpoints.css";
+@value green as green__color, yellow as yellow__color, grey as background__color from "../styles/colors.css";
+
+
+@value headerHeight 60px;
+@value topContainerHeight 184px+headerHeight;
+@value headerShadow 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+
+
+
 .main {		
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	@media (max-width: 600px) {
+	@media phone{
 		flex-grow: 1;
 	}
+}
+
+.header {
+	position: fixed;
+	height: headerHeight;
+	background: green__color;
+	box-shadow: headerShadow;
+	width: 100%;
+}
+
+.container {
+	background: background__color;
+}
+
+.top_container {
+	height: topContainerHeight;
+	background: yellow__color;
+
+}
+
+.footer {
+
 }

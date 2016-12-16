@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+var values = require('postcss-modules-values');
 
 var devServer = {
   inline: true,
@@ -39,10 +40,14 @@ module.exports = {
           'style-loader',
           'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]',
           'sass-loader',
+          'postcss-loader',
         ],
       },
     ]
   },
+  postcss: [ 
+    values 
+  ],
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
   ],

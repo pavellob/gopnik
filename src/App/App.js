@@ -63,7 +63,20 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div id="root" className={styles.main}> </div>
+			<div>
+				<div className={styles.header}> 
+
+				</div>
+				<div className={styles.container}>
+					<div className={styles.top_container}>
+					</div>
+					<div id="root" className={styles.main}> 
+					</div>
+				</div>
+
+				<div className={styles.footer}>
+				</div>
+			</div>
 		)
 	}
 	componentDidMount(){

@@ -29,6 +29,7 @@
   },
   "description": "test in react",
   "devDependencies": {
-    "gh-pages": "^0.12.0"
+    "gh-pages": "^0.12.0",
+    "postcss-loader": "^1.2.1"
   }
 }
