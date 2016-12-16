@@ -1,0 +1,5 @@
+@value phone (max-width: 599px);
+@value tablet (min-width: 600px) and (max-width: 1023px);
+@value desktop (min-width: 1024px);
+@value not_phone (min-width: 600px);
+@value not_desktop (max-width: 1023px);
