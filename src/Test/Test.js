@@ -9,6 +9,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 
+import {Button} from 'react-toolbox/lib/button';
+import { Card } from 'react-toolbox/lib/card';
+
 import styles from './Test.css';
 
 
@@ -61,12 +64,10 @@ class Test extends React.Component {
 	    	</div>
 				<div className={styles.card_block}>
 					<div className={styles.card_container}>
-						<MuiThemeProvider>
-							<Paper zDepth={0}>
-				    		<Step stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
-					    	<Actions className={styles.actions} isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
-							</Paper>
-						</MuiThemeProvider>
+						<Card>
+			    		<Step stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
+				    	<Actions className={styles.actions} isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
+						</Card>
 					</div>
 				</div>
 			</div>		
@@ -87,15 +88,11 @@ class Actions extends React.Component {
 	renderActions() {
 		if (this.props.isLastStep) {
 			return (
-				<MuiThemeProvider>
-					<RaisedButton label="Завершить" primary={true} onClick={this.props.finish}/>
-				</MuiThemeProvider>
+				<Button label="Завершить" onClick={this.props.finish} primary raised/>
 			)
 		} else {
 			return (
-				<MuiThemeProvider>
-					<RaisedButton label="Дальше" primary={true} onClick={this.props.next}/>
-				</MuiThemeProvider>
+				<Button label="Дальше" primary={true} onClick={this.props.next} primary raised/>
 			)
 		}
 	}

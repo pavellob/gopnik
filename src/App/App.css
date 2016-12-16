@@ -1,8 +1,7 @@
 @value phone, tablet, desktop from "../styles/breakpoints.css";
-@value green as green__color, yellow as yellow__color from "../styles/colors.css";
 
-@value headerHeight 60px;
-@value headerShadow 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+$headerHeight: 60px;
+$headerShadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
 
 .main {		
 	display: flex;
@@ -15,14 +14,14 @@
 
 .header {
 	position: fixed;
-	height: headerHeight;
-	background: green__color;
-	box-shadow: headerShadow;
+	height: $headerHeight;
+	background: $color-green;
+	box-shadow: $headerShadow;
 	width: 100%;
 }
 
 .container {
-	padding-top: headerHeight;
+	padding-top: $headerHeight;
 }
 
 

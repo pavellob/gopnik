@@ -1,7 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-import Paper from 'material-ui/Paper';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 import styles from './Step.css';

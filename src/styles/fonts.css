@@ -1,20 +1,17 @@
-@value font_color: rgba(0, 0, 0, 0.87);
-@value font_color--opacity: rgba(0, 0, 0, 0.54);
-
 .title {
 	font-size: 28px;
 	font-weight: normal;
-	color: font_color;
+	color: $font_color;
 	display: block;
 }
 
 .text {
 	font-size: 14px;
-	color: font_color--opacity;
+	color: $font_color--opacity;
 }
 
 .control{
 	font-size: 16px;
-	color: font_color--opacity;
+	color: $font_color--opacity;
 }
 

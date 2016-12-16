@@ -1,15 +1,13 @@
-@value colors "../styles/colors.css";
-@value yellow as yellow__color from colors;
 @value phone, tablet, desktop, not_phone from "../styles/breakpoints.css";
 
-@value topContainerHeight 184px;
+$topContainerHeight: 184px;
 
 .main_container {
 }
 
 .top_block {
-	background: yellow__color;	
-	height: topContainerHeight;
+	background: $color-yellow;	
+	height: $topContainerHeight;
 	display: flex;
   align-items: flex-end;
   justify-content: center;

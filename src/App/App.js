@@ -7,9 +7,6 @@ import Test from '../Test/Test';
 import LawResult from '../Result/LawResult';
 import DeviceRecomendation from '../Result/DeviceRecomendation';
 
-import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import styles from './App.css';
 import data from '../test_data';
 

@@ -48,6 +48,9 @@ module.exports = {
   postcss: [ 
     values 
   ],
+  sassLoader: {
+    data: '@import "' + path.resolve(__dirname, './src/_theme.scss') + '";'
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
   ],

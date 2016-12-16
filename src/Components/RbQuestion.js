@@ -1,5 +1,5 @@
 import React from 'react';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import { RadioGroup, RadioButton } from 'react-toolbox/lib/radio';
 
 import styles from './RbQuestion.css';
 
@@ -10,37 +10,24 @@ class RbQuestion extends React.Component {
 		this.state = {result: null}
 	}
 
-	returnResult(e, val) {
+	returnResult(val) {
 		this.setState({result: val});
 		this.props.setResult(val);
 	};
 
 	render() {
+		let answers = this.props.answers.map( answer => {
+			return <RadioButton className={styles.control} key={answer.id} value={answer} label={answer.label}/>
+		});
 		return (
 			<div className={styles.container}>
 				<label className={styles.title}>{this.props.question}</label>
-				<RBGroup returnResult={this.returnResult} {...this.props}/>
+				<RadioGroup className={styles.control} value={this.state.result} name="RbQuestionGroup" onChange={this.returnResult}>
+			  	{answers}
+				</RadioGroup>
 			</div>
 		)	
 	}
 }
-
-class RBGroup extends React.Component {
-  render(){
-  	console.log(styles);
-  	const inputStyle = {color: 'rgba(0, 0, 0, 0.54)'};
-  	let answers = this.props.answers.map( answer => {
-			return <RadioButton key={answer.id} value={answer} label={answer.label} className={styles.control}/>
-		});
-    return (
-      <RadioButtonGroup style={inputStyle} name="RbQuestionGroup" onChange={this.props.returnResult}>
-			  {answers}
-			</RadioButtonGroup>
-    );
-  }
-}
-
-
-
 
 export default RbQuestion;
