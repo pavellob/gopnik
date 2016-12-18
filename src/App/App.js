@@ -21,7 +21,7 @@ class App extends React.Component {
 		}
 	}
 	
-	mount(){
+	componentDidMount(){
 		ReactDOM.render(<Test className={styles.test} finish={this.finishTest.bind(this)} {...this.props.testData}/>,  document.getElementById('root'))
   }
 
@@ -74,11 +74,7 @@ class App extends React.Component {
 			</div>
 		)
 	}
-	componentDidMount(){
-    console.log('mounted')
-    ReactDOM.render(<Welcome label="Начать"  start={this.mount.bind(this)}/>,  document.getElementById('root'))
-
-  }
+	
 }
 
 App.defaultProps = {testData: data.test, lawResults: data.result.lawResults, recomendations: data.result.recomendations};

@@ -1,7 +1,15 @@
 export default {
   test: {
-    startStepId: 1,
+    startStepId: 0,
     steps: [{
+      id: 0,
+        block: "StartScreen",
+        data: {
+          image: "static/assets/images/1.svg",
+          nextStepId: 1
+        }
+    },
+    {
       id: 1,
         block: "RbQuestion",
         data: {

@@ -18,21 +18,27 @@ import styles from './Test.css';
 class Test extends React.Component {
 	constructor(props) {
 		super(props);
+		console.log('props');
 		this.setNextStep = this.setNextStep.bind(this);
 		this.state = {
 			nextStepId: null,
 			answer: null,
-			stepId: props.startStepId
+			step: _.find(props.steps, {id: props.startStepId})
 		}
 	}
 
-	setNextStep(nextStepId, answer) {
-		this.setState({nextStepId, answer});
+	setNextStep(answer) {
+		this.setState({answer: answer});
 	}
 
 	next() {
-    	this.props.answers.push(this.state.answer);
-			this.setState({stepId: this.state.nextStepId})
+			if (this.state.answer) {
+    		this.props.answers.push(this.state.answer);
+			}
+			const newStepId = _.result(this.state.answer, 'nextStepId', _.result(this.state.step.data, 'nextStepId'));
+			const newStep = _.find(this.props.steps, {id: newStepId});
+			const newNextStepId = _.result(newStep.data, 'nextStepId');
+    	this.setState({step: newStep, nextStepId: newNextStepId});
 	}
 
 	isLastStep(step) {
@@ -45,28 +51,27 @@ class Test extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return nextState.stepId === nextState.nextStepId;
+		console.log(nextState.nextStepId, this.state.nextStepId);
+		return nextState.nextStepId !== this.state.nextStepId;
   }
 
   render(){
-  	const step = _.find(this.props.steps, {id: this.state.stepId});
-
-  	const blockName = _.result(step, 'block');
+  	console.log('rendr');
+  	const blockName = _.result(this.state.step, 'block');
   	let StepComponent = Components[blockName];
   	let Step = StepMixin(StepComponent)
-
     return (
     	<div className={styles.main_container}>
 	    	<div className={styles.top_block}>
 					<div className={styles.top_container}>
-						<img src={step.data.image} className={styles.img} />
+						<img src={this.state.step.data.image} className={styles.img} />
 					</div>
 	    	</div>
 				<div className={styles.card_block}>
 					<div className={styles.card_container}>
 						<Card>
-			    		<Step stepId={this.state.stepId} setNextStep={this.setNextStep} {...step.data}/>
-				    	<Actions className={styles.actions} isLastStep={this.isLastStep(step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
+			    		<Step setNextStep={this.setNextStep} {...this.state.step.data}/>
+				    	<Actions className={styles.actions} isLastStep={this.isLastStep(this.state.step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
 						</Card>
 					</div>
 				</div>
@@ -74,8 +79,12 @@ class Test extends React.Component {
     )
   }
   componentDidUpdate(){
-    this.setState({answer: null, nextStepId: null})
+  	console.log('did update')
+  	//const nextStepId = this.state.answers.nextStepId || this.state.step.nextStepId;
+    //this.setState(_.pick(this.state.answer, 'nextStepId', _.pick(this.state.step, 'nextStepId')));
   }
+
+  
   componentWillUnmount(){
   	console.log('will unmount')
   }

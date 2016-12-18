@@ -11,29 +11,34 @@ let StepMixin = InnerComponent => class extends React.Component {
  constructor(props){
 		super(props);
 		console.log(props);
-		this.setResult = this.setResult.bind(this);
+		this.stepDone = this.stepDone.bind(this);
 		this.state = {
 			//result: null,
 			nextStepId: -1
 		}
 	}
-  setResult(result) {
-		const nextStepId = result.nextStepId || this.props.nextStepId;
-		console.log("Ответ:", result, "; Дальше идем на шаг", nextStepId);
-		this.props.setNextStep(nextStepId, result);
+
+  stepDone(result) {
+		console.log('stepDone');
+		this.props.setNextStep(result);
 	}
 
 	render() {
+		const inner = <InnerComponent {...this.state} {..._.omit(this.props, 'style')} nextStep={this.stepDone}/>;
+		//this.props.needAnswer = inner.props.needAnswer;
 		return (
 			<div className={styles.content}>
-				<InnerComponent {...this.state} {..._.omit(this.props, 'style')} setResult={this.setResult}/>
+				{inner}
 			</div>
 		)
 	}
   componentDidMount(){
-    console.log('step mounted')
+    console.log('step mounted');
   }
 }
+
+StepMixin.defaultProps = {needAnswer: false};
+
 
 
 export default StepMixin;
