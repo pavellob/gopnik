@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "deploy": "webpack && gh-pages -d build"
+    "deploy": "webpack && gh-pages -d endpoint"
   },
   "author": "pavellob",
   "license": "ISC",
