@@ -11,15 +11,6 @@ $topContainerHeight: 184px;
 	display: flex;
   align-items: flex-end;
   justify-content: center;
-  @media phone {
-		
-	}
-  @media tablet {
-		padding-left: 40px;
-	}
-	@media desktop {
-		padding-left: 56px;
-	}
 }
 
 .top_container {
@@ -27,30 +18,28 @@ $topContainerHeight: 184px;
 	justify-content: flex-end;
 	@media phone {
 		flex-grow: 1;
-		padding-right: 64px;
 	}
 
 	@media tablet {
 		background: url('/static/assets/images/back.svg') left no-repeat;
 		margin-bottom: 40px;
 		flex-grow: 1;
-		padding-right: 64px;
 	}
 	@media desktop {
 		background: url('/static/assets/images/back.svg') left no-repeat;
 		margin-bottom: 40px;
 		width: 944px;
-		padding-right: 80px;
-
 	}
 }
 
 .img {
 	@media phone {
 		height: 160px;
+		padding-right: 64px;
 	}
 	@media not_phone {
 		height: 120px;
+		padding-right: 40px;
 	}
 }
 .card_block {

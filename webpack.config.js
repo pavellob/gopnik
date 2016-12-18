@@ -6,7 +6,7 @@ var devServer = {
   inline: true,
   port: 3333,
   host: '127.0.0.1',
-  contentBase: path.resolve(__dirname, './build'),
+  contentBase: path.resolve(__dirname, './endpoint'),
   publicPath: '/static/',
 };
 
@@ -20,7 +20,7 @@ module.exports = {
     ]
   },
   output: {
-    path: path.resolve(__dirname, './build/static'),
+    path: path.resolve(__dirname, './endpoint/static'),
     filename: 'index.js',
     publicPath: devServer.publicPath
   },
