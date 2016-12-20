@@ -28,6 +28,7 @@ class RbQuestion extends React.Component {
 		return (
 			<div className={styles.container}>
 				<label className={styles.title}>{this.props.question}</label>
+				<div className={styles.helpText} dangerouslySetInnerHTML={{__html: this.props.text}}/>
 				<RadioGroup className={styles.control} value={this.state.answer} name="RbQuestionGroup" onChange={this.complete}>
 			  	{answers}
 				</RadioGroup>

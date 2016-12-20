@@ -3,12 +3,21 @@
 	font-weight: normal;
 	color: $font_color;
 	display: block;
+	line-height: normal;
 }
 
 .text {
 	font-size: 14px;
 	color: $font_color--opacity;
+  line-height: 1.43;
 }
+
+.impText {
+	composes: text;
+	font-weight: 500;
+  color: $font_color;
+}
+
 
 .control{
 	font-size: 16px;

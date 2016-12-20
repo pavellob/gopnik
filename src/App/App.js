@@ -58,16 +58,15 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className={styles.main}>
 				<div className={styles.header}> 
-
+					<a className={styles.logo} href="/"></a>
 				</div>
-				<div className={styles.container}>
-					<div id="root" className={styles.main}> 
-					</div>
+				<div id="root" className={styles.container}> 
 				</div>
 
 				<div className={styles.footer}>
+					<span>2016 © Разработано компанией «Дримкас» <a href='https://dreamkas.ru/polzovatelskoe-soglashenie/' target='_blank'>Пользовательское соглашение</a></span>
 				</div>
 			</div>
 		)

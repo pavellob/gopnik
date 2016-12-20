@@ -7,6 +7,15 @@
 	margin: 8px 0 24px 0;
 }
 
+.helpText{
+	composes: text from fonts;
+	padding-bottom: 24px;
+	ul {
+		padding-left: 16px;
+		margin: 0;
+	}
+}
+
 .control {
 	composes: control from fonts;
 }

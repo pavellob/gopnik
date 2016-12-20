@@ -14,6 +14,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Есть касса? А если найду?",
+          text: '<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>',
           image: "static/assets/images/1.svg",
           answers: [{
             id: 1,

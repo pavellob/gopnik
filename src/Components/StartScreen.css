@@ -1,0 +1,14 @@
+@value fonts: "../styles/fonts.css";
+
+.title {
+	composes: title from fonts;
+	margin: 16px 0;
+}
+
+.text {
+	composes: text from fonts;
+	padding-top: 8px;
+}
+.importantText {
+  composes: impText from fonts;
+}
