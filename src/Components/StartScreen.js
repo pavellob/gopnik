@@ -5,9 +5,13 @@ import styles from './StartScreen.css';
 class StartScreen extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {isComplete : !this.props.needAnswer};
+		//console.log('props is: ', props);
+		this.state = {isComplete: !props.needAnswer}
 	}
 
+	componentWillUnmount(){
+		//console.log('I am unmount and my state is: ', this.state);
+	}
 	render() {
 		return (
 			<div className={styles.container}>
@@ -22,7 +26,12 @@ class StartScreen extends React.Component {
 			</div>
 		)	
 	}
+
+	componentDidMount() {
+		this.props.resolve(this.state);
+	}
 }
+
 
 StartScreen.defaultProps = {needAnswer: false};
 

@@ -18,27 +18,41 @@ import styles from './Test.css';
 class Test extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log('props');
-		this.setNextStep = this.setNextStep.bind(this);
+		this.resolveStep = this.resolveStep.bind(this);
 		this.state = {
 			nextStepId: null,
 			answer: null,
-			step: _.find(props.steps, {id: props.startStepId})
+			step: this.getStep(props.startStepId),
+			stepComplete: false,
+			transaction: false,
 		}
 	}
 
-	setNextStep(answer) {
-		this.setState({answer: answer});
+	getStep(stepId) {
+		return _.find(this.props.steps, {id: stepId});
+	}
+
+	resolveStep(result) {
+		console.log('resolveStep:', result);
+		const newState = {stepComplete: result.isComplete};
+		if (result.isComplete && result.answer) {
+			_.assign(newState, {answer: result.answer});
+		}
+		this.setState(newState);
 	}
 
 	next() {
-			if (this.state.answer) {
-    		this.props.answers.push(this.state.answer);
+			console.log('next press:')
+			if(this.state.stepComplete) {
+
+				if (this.state.answer) {
+	    		this.props.answers.push(this.state.answer);
+				}
+				const newStepId = _.result(this.state.answer, 'nextStepId', _.result(this.state.step.data, 'nextStepId'));
+				const newStep = this.getStep(newStepId);
+				const newNextStepId = _.result(newStep.data, 'nextStepId');
+	    	this.setState({step: newStep, nextStepId: newNextStepId, transaction: true});
 			}
-			const newStepId = _.result(this.state.answer, 'nextStepId', _.result(this.state.step.data, 'nextStepId'));
-			const newStep = _.find(this.props.steps, {id: newStepId});
-			const newNextStepId = _.result(newStep.data, 'nextStepId');
-    	this.setState({step: newStep, nextStepId: newNextStepId});
 	}
 
 	isLastStep(step) {
@@ -46,17 +60,17 @@ class Test extends React.Component {
 	}
 
 	finishTest(){
-    this.props.answers.push(this.state.answer);
-		this.props.finish(this.props.answers);
+		if(this.state.stepComplete){
+	    this.props.answers.push(this.state.answer);
+			this.props.finish(this.props.answers);
+		}
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		console.log(nextState.nextStepId, this.state.nextStepId);
-		return nextState.nextStepId !== this.state.nextStepId;
+		return nextState.stepComplete && nextState.transaction;
   }
 
   render(){
-  	console.log('rendr');
   	const blockName = _.result(this.state.step, 'block');
   	let StepComponent = Components[blockName];
   	let Step = StepMixin(StepComponent)
@@ -70,7 +84,7 @@ class Test extends React.Component {
 				<div className={styles.card_block}>
 					<div className={styles.card_container}>
 						<Card>
-			    		<Step setNextStep={this.setNextStep} {...this.state.step.data}/>
+			    		<Step resolveStep={this.resolveStep} {...this.state.step.data}/>
 				    	<Actions className={styles.actions} isLastStep={this.isLastStep(this.state.step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
 						</Card>
 					</div>
@@ -79,9 +93,7 @@ class Test extends React.Component {
     )
   }
   componentDidUpdate(){
-  	console.log('did update')
-  	//const nextStepId = this.state.answers.nextStepId || this.state.step.nextStepId;
-    //this.setState(_.pick(this.state.answer, 'nextStepId', _.pick(this.state.step, 'nextStepId')));
+  	this.setState({transaction: false, stepComplete: false});
   }
 
   

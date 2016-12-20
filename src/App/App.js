@@ -27,8 +27,6 @@ class App extends React.Component {
 
   finishTest(answers){
 		const result = this.calculateResult(answers);
-		console.log(answers);
-		console.log(result);
     ReactDOM.unmountComponentAtNode(document.getElementById('root'))
     const Result = () => {
   		return (

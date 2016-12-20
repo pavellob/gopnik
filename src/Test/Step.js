@@ -10,22 +10,11 @@ import styles from './Step.css';
 let StepMixin = InnerComponent => class extends React.Component {
  constructor(props){
 		super(props);
-		console.log(props);
-		this.stepDone = this.stepDone.bind(this);
-		this.state = {
-			//result: null,
-			nextStepId: -1
-		}
-	}
-
-  stepDone(result) {
-		console.log('stepDone');
-		this.props.setNextStep(result);
+		//console.log('step props:', props);
 	}
 
 	render() {
-		const inner = <InnerComponent {...this.state} {..._.omit(this.props, 'style')} nextStep={this.stepDone}/>;
-		//this.props.needAnswer = inner.props.needAnswer;
+		const inner = <InnerComponent {...this.props} resolve={this.props.resolveStep}/>;
 		return (
 			<div className={styles.content}>
 				{inner}
@@ -36,10 +25,6 @@ let StepMixin = InnerComponent => class extends React.Component {
     console.log('step mounted');
   }
 }
-
-StepMixin.defaultProps = {needAnswer: false};
-
-
 
 export default StepMixin;
 

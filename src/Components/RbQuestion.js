@@ -6,17 +6,19 @@ import styles from './RbQuestion.css';
 class RbQuestion extends React.Component {
 	constructor(props) {
 		super(props);
+		//console.log(props);
 		this.complete = this.complete.bind(this);
 		this.state = {
-			result: null,
+			answer: null,
 			isComplete : !this.props.needAnswer
 		};
 		
 	}
 
 	complete(val) {
-		this.setState({result: val, isComplete: true});
-		this.props.nextStep(val);
+		const newState = {answer: val, isComplete: true};
+		this.setState(newState);
+		this.props.resolve(newState);
 	};
 
 	render() {
@@ -26,11 +28,15 @@ class RbQuestion extends React.Component {
 		return (
 			<div className={styles.container}>
 				<label className={styles.title}>{this.props.question}</label>
-				<RadioGroup className={styles.control} value={this.state.result} name="RbQuestionGroup" onChange={this.complete}>
+				<RadioGroup className={styles.control} value={this.state.answer} name="RbQuestionGroup" onChange={this.complete}>
 			  	{answers}
 				</RadioGroup>
 			</div>
 		)	
+	}
+
+	componentDidMount() {
+		this.props.resolve(this.state);
 	}
 }
 
