@@ -25,10 +25,11 @@ class RbQuestion extends React.Component {
 		let answers = this.props.answers.map( answer => {
 			return <RadioButton className={styles.control} key={answer.id} value={answer} label={answer.label}/>
 		});
+		let helpText = this.props.text ? <div className={styles.helpText} dangerouslySetInnerHTML={{__html: this.props.text}}/> : null;
 		return (
 			<div className={styles.container}>
 				<label className={styles.title}>{this.props.question}</label>
-				<div className={styles.helpText} dangerouslySetInnerHTML={{__html: this.props.text}}/>
+				{helpText}
 				<RadioGroup className={styles.control} value={this.state.answer} name="RbQuestionGroup" onChange={this.complete}>
 			  	{answers}
 				</RadioGroup>

@@ -1,3 +1,4 @@
+
 :root {
 	--unit: $unit;
 
@@ -17,8 +18,8 @@
 
 
   //radio
-  --radio-field-margin-bottom: calc(1.5 * var(--unit));
-  --radio-button-size: 20px;
+  --radio-field-margin-bottom: 20px;
+  --radio-button-size: 16px;
   --radio-inner-margin: calc(var(--radio-button-size) / 4);
   --radio-inner-color: var(--color-primary);
   --radio-focus-color: color(var(--color-black) a(10%));

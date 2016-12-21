@@ -1,3 +1,9 @@
+@import '/node_modules/react-toolbox/lib/radio/theme.css';
+
+.radio, .text {
+  vertical-align: middle !important;
+}
+
 
 $color-primary: #fff;
 $unit: 10px;
