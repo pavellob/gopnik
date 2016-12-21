@@ -13,15 +13,14 @@ export default {
       id: 1,
         block: "RbQuestion",
         data: {
-          question: "Есть касса? А если найду?",
-          text: '<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>',
+          question: "У вас уже есть касса?",
           image: "static/assets/images/1.svg",
           answers: [{
-            id: 1,
-            label: "Есть"
+            id: 11,
+            label: "Да"
           },
           {
-            id: 2,
+            id: 12,
             label: "Нет"
           }],
           nextStepId: 2
@@ -31,19 +30,17 @@ export default {
       id: 2,
         block: "RbQuestion",
         data: {
-          question: "Чем по жизни живешь?",
-          image: "static/assets/images/2.jpg",
-
+          question: "В какой вы работаете сфере?",
+          image: "static/assets/images/2.svg",
           answers: [{
-            id: 4,
-            label: "Торгую, еба",
-            nextStepId: 3
+            id: 21,
+            label: "Услуги населению",
+            nextStepId: 101
           },
           {
-            id: 5,
-            label: "Холуйствую (услуги населению)",
-            hint: "обостряешь",
-            nextStepId: 101//2018
+            id: 22,
+            label: "Торговля",
+            nextStepId: 3//2018
           }]
         }
     },
@@ -51,23 +48,27 @@ export default {
       id: 3,
         block: "RbQuestion",
         data: {
-          question: "Чем банчишь?",
-          image: "static/assets/images/3.jpg",
-
+          question: "Расскажите про ассортимент",
+          image: "static/assets/images/3.svg",
           answers: [{
-            id: 7,
-            label: "Бухло, сиги, соли, спайсы",
+            id: 31,
+            label: "Продовольственный, есть акцизные товары",
             nextStepId: 101//2017
           },
           {
-            id: 8,
-            label: "Хлебом и молочком, все ровно",
-            nextStepId: 4
+            id: 32,
+            label: "Непродовольственные товары, в том числе акцизные",
+            nextStepId: 101//2017
           },
           {
-            id: 9,
-            label: "Всякой ебалой",
-            nextStepId: 101//2042
+            id: 33,
+            label: "Продукты и нет акцизных товаров",
+            nextStepId: 5
+          },
+          {
+            id: 34,
+            label: "Непродовольственные товары, без акциз",
+            nextStepId: 4
           }]
         }
     },
@@ -75,34 +76,39 @@ export default {
       id: 4,
         block: "RbQuestion",
         data: {
-          question: "Это как так?",
-          image: "static/assets/images/4.jpg",
+          question: "Хорошо, давайте разбираться. Есть ли что-то из списка:",
+          text: "<ul> <li>Одежда</li> <li>Ковры</li> <li>Кожа или изделия из кожи</li> <li>Древесина или изделия из дерева</li> <li>Химические вещества</li> <li>Резиновые и пластмассовые изделия</li> <li>Минеральные неметаллические продукты </li> <li>Компьютеры и электронное, оптическое оборудование</li> <li>Электрическое оборудование</li> <li>Машины и оборудование, не включенные в другие группировки</li> <li>Средства автотранспортные, прицепы и полуприцепы</li> <li>Средства транспортные и оборудование, прочие</li> <li>Мебель</li> <li>Инструменты музыкальные</li> <li>Приспособления ортопедические</li> <li>Спортивные товары</li> </ul> ",
+           /*"
+          <ul>
+<li>Одежда</li>
+<li>Ковры</li>
+<li>Кожа или изделия из кожи</li>
+<li>Древесина или изделия из дерева</li>
+<li>Химические вещества</li>
+<li>Резиновые и пластмассовые изделия</li>
+<li>Минеральные неметаллические продукты </li>
+<li>Компьютеры и электронное, оптическое оборудование</li>
+<li>Электрическое оборудование</li>
+<li>Машины и оборудование, не включенные в другие группировки</li>
+<li>Средства автотранспортные, прицепы и полуприцепы</li>
+<li>Средства транспортные и оборудование, прочие</li>
+<li>Мебель</li>
+<li>Инструменты музыкальные</li>
+<li>Приспособления ортопедические</li>
+<li>Спортивные товары</li>
+          </ul>
+"*/
+          image: "static/assets/images/4.svg",
           answers: [{
-            id: 10,
-            label: "Через интернет эксплорер, еба!",
-            nextStepId: 101//2018
+            id: 41,
+            label: "Да",
+            nextStepId: 101//2042
           },
           {
-            id: 11,
-            label: "Через магаз",
-            nextStepId: 5
+            id: 42,
+            label: "Нет",
+            nextStepId: 101//-
           },
-          {
-            id: 12,
-            label: "На рынке, под крышей",
-            nextStepId: 5
-          },
-          {
-            id: 13,
-            label: "Тошниловка у меня",
-            nextStepId: 5
-          },
-          {
-            id: 14,
-            label: "В школке у меня точка, под директором.",
-            nextStepId: 101//2000
-
-          }
           ]
         }
     },
@@ -110,26 +116,77 @@ export default {
       id: 5,
       block: "RbQuestion",
       data: {
-        question: "Фискалам чо отстегиваешь?",
-        image: "static/assets/images/5.jpg",
+        question: "В каком формате работаете?",
+        image: "static/assets/images/5.svg",
         answers: [{
-          id: 15,
+          id: 51,
+          label: "Один или несколько магазинов",
+          nextStepId: 7
+        },
+        {
+          id: 52,
+          label: "Интернет-магазин",
+          nextStepId: 101//2018
+        },
+        {
+          id: 53,
+          label: "Крытый рынок или ярмарка",
+          nextStepId: 101//2018
+        },
+        {
+          id: 54,
+          label: "Предприятие общественного питания",
+          nextStepId: 6
+        }]
+      }
+    },
+    {
+      id: 6,
+      block: "RbQuestion",
+      data: {
+        question: "Работаете ли вы с ВУЗами, колледжами или школами?",
+        image: "static/assets/images/6.svg",
+        answers: [{
+          id: 61,
+          label: "Да, работаю, но как отдельный предприниматель или юрлицо",
+          nextStepId: 7
+        },
+        {
+          id: 62,
+          label: "Работаю, но столовая или кафе — подразделение образовательного учреждения",
+          nextStepId: 101//-
+        },
+        {
+          id: 63,
+          label: "Нет, не работаю",
+          nextStepId: 7
+        }]
+      }
+    },
+    {
+      id: 7,
+      block: "RbQuestion",
+      data: {
+        question: "На какой системе налогообложения работаете?",
+        image: "static/assets/images/7.svg",
+        answers: [{
+          id: 71,
           label: "ПСН",
           nextStepId: 101//2018
         },
         {
-          id: 16,
+          id: 72,
           label: "ЕНВД",
           nextStepId: 101//2018
         },
         {
-          id: 17,
+          id: 73,
           label: "ОСНО",
           nextStepId: 101//2017
         },
         {
-          id: 18,
-          label: "упрощенка",
+          id: 74,
+          label: "УСН",
           nextStepId: 101//2017
         }]
       }
@@ -138,23 +195,23 @@ export default {
       id: 101,
       block: "RbQuestion",
       data: {
-        question: "Сколько чеков можешь за день выбить?",
-        image: "static/assets/images/6.jpg",
+        question: "Сколько печатаете чеков за день?",
+        image: "static/assets/images/8.svg",
         answers: [
         {
-          id: 19,
+          id: 1011,
           label: "до 10"
         },
         {
-          id: 20,
+          id: 1012,
           label: "от 10 до 20"
         },
         {
-          id: 21,
+          id: 1013,
           label: "от 20 до 30"
         },
         {
-          id: 22,
+          id: 1014,
           label: "от 30"
         } 
         ],
@@ -165,15 +222,15 @@ export default {
       id: 102,
       block: "RbQuestion",
       data: {
-        question: "Товароучетка есть? А если найду?",
-        image: "static/assets/images/7.jpg",
+        question: "Есть ли товароучётная система?",
+        image: "static/assets/images/9.svg",
         answers: [
         {
-          id: 23,
-          label: "Есть"
+          id: 1021,
+          label: "Да"
         },
         {
-          id: 24,
+          id: 1022,
           label: "Нет"
         } 
         ]
