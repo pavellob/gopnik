@@ -4,11 +4,6 @@ import _ from 'lodash';
 import Components from '../Components/Components'
 import StepMixin from './Step';
 
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Paper from 'material-ui/Paper';
-
 import {Button} from 'react-toolbox/lib/button';
 import { Card } from 'react-toolbox/lib/card';
 

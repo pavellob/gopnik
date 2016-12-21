@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
-import Welcome from '../Welcome/Welcome';
 import Test from '../Test/Test';
-import LawResult from '../Result/LawResult';
-import DeviceRecomendation from '../Result/DeviceRecomendation';
+import MainResult from '../Result/MainResult';
 
 import styles from './App.css';
 import data from '../test_data';
@@ -31,12 +28,10 @@ class App extends React.Component {
     const Result = () => {
   		return (
   			<div>
-  				<LawResult {...result.lawResult}/>
-  				<DeviceRecomendation {...result.recomendation}/>
+  				<MainResult {...result}/>
   			</div>
   		)
     }
-
     ReactDOM.render(<Result />,  document.getElementById('root'))
 	}
 

@@ -1,0 +1,63 @@
+@value phone, tablet, desktop, not_phone from "../styles/breakpoints.css";
+
+$topContainerHeight: 184px;
+
+.main_container {
+}
+
+.top_block {
+	background: $color-yellow;	
+	height: $topContainerHeight;
+	display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.top_container {
+	display: flex;
+	justify-content: flex-end;
+	@media phone {
+		flex-grow: 1;
+	}
+
+	@media tablet {
+		background: url('/static/assets/images/back_phone.svg') left no-repeat;
+		margin-bottom: 40px;
+		flex-grow: 1;
+	}
+	@media desktop {
+		background: url('/static/assets/images/back.svg') left no-repeat;
+		margin-bottom: 40px;
+		width: 944px;
+	}
+}
+
+.img {
+	@media phone {
+		height: 160px;
+		padding-right: 64px;
+	}
+	@media not_phone {
+		height: 120px;
+		padding-right: 40px;
+	}
+}
+.card_block {
+	display: flex;
+	justify-content: center;
+}
+
+.card_container {
+	@media phone {
+		flex-grow: 1;
+	}
+	@media tablet {
+		padding: 0 24px;
+		flex-grow: 1;	
+		margin-top: -40px;
+	}
+	@media desktop {
+		width: 944px;
+		margin-top: -40px;
+	}
+}

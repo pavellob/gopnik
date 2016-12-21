@@ -14,7 +14,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "У вас уже есть касса?",
-          image: "static/assets/images/1.svg",
+          image: "static/assets/images/2.svg",
           answers: [{
             id: 11,
             label: "Да"
@@ -31,16 +31,16 @@ export default {
         block: "RbQuestion",
         data: {
           question: "В какой вы работаете сфере?",
-          image: "static/assets/images/2.svg",
+          image: "static/assets/images/3.svg",
           answers: [{
             id: 21,
             label: "Услуги населению",
-            nextStepId: 101
+            nextStepId: 101//2018
           },
           {
             id: 22,
             label: "Торговля",
-            nextStepId: 3//2018
+            nextStepId: 3
           }]
         }
     },
@@ -49,7 +49,7 @@ export default {
         block: "RbQuestion",
         data: {
           question: "Расскажите про ассортимент",
-          image: "static/assets/images/3.svg",
+          image: "static/assets/images/4.svg",
           answers: [{
             id: 31,
             label: "Продовольственный, есть акцизные товары",
@@ -98,16 +98,16 @@ export default {
 <li>Спортивные товары</li>
           </ul>
 "*/
-          image: "static/assets/images/4.svg",
+          image: "static/assets/images/5.svg",
           answers: [{
-            id: 41,
+            id: 42,
             label: "Да",
             nextStepId: 101//2042
           },
           {
-            id: 42,
+            id: 41,
             label: "Нет",
-            nextStepId: 101//-
+            nextStepId: 7//-
           },
           ]
         }
@@ -117,7 +117,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "В каком формате работаете?",
-        image: "static/assets/images/5.svg",
+        image: "static/assets/images/6.svg",
         answers: [{
           id: 51,
           label: "Один или несколько магазинов",
@@ -131,7 +131,7 @@ export default {
         {
           id: 53,
           label: "Крытый рынок или ярмарка",
-          nextStepId: 101//2018
+          nextStepId: 7
         },
         {
           id: 54,
@@ -145,7 +145,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "Работаете ли вы с ВУЗами, колледжами или школами?",
-        image: "static/assets/images/6.svg",
+        image: "static/assets/images/7.svg",
         answers: [{
           id: 61,
           label: "Да, работаю, но как отдельный предприниматель или юрлицо",
@@ -168,7 +168,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "На какой системе налогообложения работаете?",
-        image: "static/assets/images/7.svg",
+        image: "static/assets/images/8.svg",
         answers: [{
           id: 71,
           label: "ПСН",
@@ -196,7 +196,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "Сколько печатаете чеков за день?",
-        image: "static/assets/images/8.svg",
+        image: "static/assets/images/9.svg",
         answers: [
         {
           id: 1011,
@@ -223,7 +223,7 @@ export default {
       block: "RbQuestion",
       data: {
         question: "Есть ли товароучётная система?",
-        image: "static/assets/images/9.svg",
+        image: "static/assets/images/10.svg",
         answers: [
         {
           id: 1021,
@@ -239,83 +239,71 @@ export default {
   },
   result: {
     lawResults: [{
-      bindings: [[14]],
+      bindings: [[62]],
       data: {
-        label: "касса не нужна",
-        text: "вообще не парься"
+        label: "Вам не нужна касса",
+        text: "<p>По новому закону вам не нужна онлайн-касса. Но вы можете использовать кассу для удобства учёта.</p>",
+        image: "static/assets/images/o4.svg"
       }
     },
     {
-      bindings: [[5],[10],[15],[16]],
+      bindings: [[21],[52],[71],[72]],
       data: {
-        label: "1 июля 2018",
-        text: "вообще не парься"
+        label: "Есть время выбрать",
+        text: "<p>Предприятия услуг населению начинают передачу фискальных данных 1 июля 2018 года. У вас есть в запасе время, но затягивать не стоит. До 1 июля вам нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД</li><li>купить онлайн-кассу и зарегистрировать её в ФНС</li></ul>",
+        image: "static/assets/images/o3.svg"
       }
     },
     {
-      bindings: [[7], [17], [18]],
+      bindings: [[73], [74], [31], [32]],
       data: {
-        label: "1 июля 2017",
-        text: "вообще не парься"
+        label: "Вам нужно перейти на новые правила 1 июля 2017 года",
+        text: "<p>Вы должны начать передачу фискальных данных уже 1 июля 2017 года. Времени не так много, нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД</li><li>приобрести онлайн-кассу и зарегистрировать её в ФНС</li></ul>",
+        hint: "<p>Обратите внимание, если у вас заканчивается ЭКЛЗ, то с 1 февраля 2017 года вы не сможете зарегистрировать кассу без фискального накопителя.</p>",
+        image: "static/assets/images/o2.svg"
       }
     },
     {
-      bindings: [[9]],
+      bindings: [[42]],
       data: {
-        label: "касса нужна, но вообще ХЗ",
-        text: "вообще не парься"
+        label: "Скорее всего вам придётся купить кассу",
+        text: "<p>Но это пока неточно. Минфин подготовил Постановление с перечнем товаров, при продаже которых обязательно использование ККТ. Сейчас документ проходит публичные обсуждения и антикоррупционную экспертизу. Если документ примут, то вам придётся начать использовать ККТ с 1 июля 2018 года. До этого момента нужно будет приобрести онлайн-кассу и заключить договор с ОФД. Чтобы быть в курсе, подпишитесь на карточку закона на <a href='http://regulation.gov.ru/projects#npa=46191' target='_blank'>портале regulation.gov.ru</a>.</p>",
+        image: "static/assets/images/o1.svg"
       }
     }],
+    hints: [
+      {
+        bindings: [[1021]],
+        text: "ККТ работает со всеми популярными системами товароучёта."
+      },
+      {
+        bindings: [[1022]],
+        text: "Данные о продажах и товарах можно выгружать из ККТ в таблицы Excel."
+      },
+    ],
     recomendations: [{
-        bindings: [[5, 19, 23], [5, 20, 23]],
+        bindings: [[1011], [1012]],
         data: {
           label: "Viki Micro с ККТ Viki Print 57",
-          text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
+          text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.</p>",
           image: "static/assets/images/kassa-viki-micro-egais.jpg",
           link: "https://dreamkas.ru/kassy-viki/viki-micro/"
         }
       },
       {
-        bindings: [[5, 19, 24], [5, 20, 24]],
-        data: {
-          label: "Viki Micro с ККТ Viki Print 57",
-          text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
-          image: "static/assets/images/kassa-viki-micro-egais.jpg",
-          link: "https://dreamkas.ru/kassy-viki/viki-micro/"
-        }
-      },
-      {
-        bindings: [[5, 21, 23]],
+        bindings: [[1013]],
         data: {
           label: "ККТ Viki Micro",
-          text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
+          text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.</p>",
           image: "static/assets/images/kassa-dlja-alkogolja.jpg",
           link: "https://dreamkas.ru/kassy-viki/viki-mini/"
         }
       },
       {
-        bindings: [[5, 21, 24]],
-        data: {
-          label: "ККТ Viki Micro",
-          text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
-          image: "static/assets/images/kassa-dlja-alkogolja.jpg",
-          link: "https://dreamkas.ru/kassy-viki/viki-mini/"
-        }
-      },
-      {
-        bindings: [[5, 22, 23]],
+        bindings: [[1014]],
         data: {
           label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
-          text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.<br/> ККТ работает со всеми популярными системами товароучёта.</p>",
-          image: "static/assets/images/kassa-viki-classic.jpg",
-          link: "https://dreamkas.ru/kassy-viki/viki-classic/"
-        }
-      },
-      {
-        bindings: [[5, 22, 24]],
-        data: {
-          label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
-          text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.<br/> Данные о продажах и товарах можно выгружать в таблицы Excel.</p>",
+          text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.</p>",
           image: "static/assets/images/kassa-viki-classic.jpg",
           link: "https://dreamkas.ru/kassy-viki/viki-classic/"
         }
