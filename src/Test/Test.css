@@ -1,4 +1,4 @@
-@value phone, tablet, desktop, not_phone from "../styles/breakpoints.css";
+@value phone, tablet, desktop, notphone from "../styles/breakpoints.css";
 
 $topContainerHeight: 184px;
 
@@ -37,7 +37,7 @@ $topContainerHeight: 184px;
 		height: 160px;
 		padding-right: 64px;
 	}
-	@media not_phone {
+	@media notphone {
 		height: 120px;
 		padding-right: 40px;
 	}

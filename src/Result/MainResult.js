@@ -43,16 +43,22 @@ class MainResult extends React.Component {
 							</div>
 							<div className={styles.law_text} dangerouslySetInnerHTML={{__html: this.props.lawResult.text}}/>
 							<div className={styles.recomendation}>
-								<div className={styles.recomendation_text} dangerouslySetInnerHTML={{__html: this.props.recomendation.text}}/>
 								<div className={styles.recomendation_img} >
 									<img src={this.props.recomendation.image}/>
 								</div>
-								{actions()}
+								<div className={styles.recomendation_content}>
+									<div className={styles.recomendation_text} dangerouslySetInnerHTML={{__html: this.props.recomendation.text}}/>
+									{actions()}
+								</div>
 							</div>
 							<div className={styles.hints}>
 								{hints()}
 								{lawHint}
 							</div>
+						</Card>
+						<Card className={styles.to_site}>
+							<Button label="На сайт" primary />
+
 						</Card>
 					</div>
 				</div>

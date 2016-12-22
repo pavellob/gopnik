@@ -68,7 +68,8 @@ class Test extends React.Component {
   render(){
   	const blockName = _.result(this.state.step, 'block');
   	let StepComponent = Components[blockName];
-  	let Step = StepMixin(StepComponent)
+  	let Step = StepMixin(StepComponent);
+  	let isFirst = (this.state.step.id === this.props.startStepId);
     return (
     	<div className={styles.main_container}>
 	    	<div className={styles.top_block}>
@@ -80,7 +81,7 @@ class Test extends React.Component {
 					<div className={styles.card_container}>
 						<Card>
 			    		<Step resolveStep={this.resolveStep} {...this.state.step.data}/>
-				    	<Actions className={styles.actions} isLastStep={this.isLastStep(this.state.step)} next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
+				    	<Actions className={styles.actions} isLastStep={this.isLastStep(this.state.step)} isFirst = {isFirst}  next={this.next.bind(this)} finish={this.finishTest.bind(this)} />
 						</Card>
 					</div>
 				</div>
@@ -107,8 +108,11 @@ class Actions extends React.Component {
 				<Button label="Завершить" onClick={this.props.finish} primary raised/>
 			)
 		} else {
+			console.log(this.props);
+			let lbl =  this.props.isFirst ? "Начать тест" : "Дальше";
+
 			return (
-				<Button label="Дальше" primary={true} onClick={this.props.next} primary raised/>
+				<Button label={lbl} primary={true} onClick={this.props.next} primary raised/>
 			)
 		}
 	}

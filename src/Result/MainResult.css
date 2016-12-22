@@ -1,4 +1,4 @@
-@value phone, tablet, desktop, not_phone, not_desktop from "../styles/breakpoints.css";
+@value phone, tablet, desktop, notphone, notdesktop from "../styles/breakpoints.css";
 @value fonts: "../styles/fonts.css";
 
 $topContainerHeight: 184px;
@@ -13,15 +13,15 @@ $topContainerHeight: 184px;
 
 .top_container {
 	composes: top_container from '../Test/Test.css';
-	@media not_desktop {
+	@media notdesktop {
 		background: none;
 		justify-content: center;
 	}
 }
 
 .img {
-	@media not_desktop {
-		height: 120px;
+	@media notdesktop {
+		height: 115px;
 	}
 	@media desktop {
 		height: 80px;
@@ -61,14 +61,13 @@ $topContainerHeight: 184px;
       margin-bottom: 8px;
     }
   }
-
 }
 
 .recomendation {
 	padding: 16px;
 	display: flex;
 	background-color: #e4e9eb;
-	@media not_desktop {
+	@media notdesktop {
 		flex-direction: column;
 	}
 	@media desktop {
@@ -76,41 +75,43 @@ $topContainerHeight: 184px;
 		flex-wrap: wrap;
 	}
 }
-.recomendation_img {
-	@media phone {
-		justify-content: center;
-    display: flex;
-		order: 1;
-	}
-	@media not_phone {
+
+.recomendation_content {
+	@media notdesktop {		
 		order: 2;
-		width: 40%;
-		display: flex;
-    justify-content: center;
-
-	}
-
-}
-.recomendation_text {
-	font-size: 16px;
-  opacity: $font_color;
-	@media phone {
 		padding-top: 16px;
-		order: 2;
 	}
-	@media not_phone {
+	@media desktop {
 		order: 1;
 		width: 60%;
 		display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
 	}
+}
+.recomendation_img {
+	justify-content: center;
+  display: flex;
+  @media notdesktop {		
+		order: 1;
+	}
+	@media desktop {
+		order: 2;
+		width: 40%;
+
+	}
+}
+.recomendation_text {
+	font-size: 16px;
+  color: $font_color;
 }
 .actions {
 	display: flex;
-	justify-content: flex-end;
+	justify-content: flex-start;
 	padding-top: 16px;
-	order: 3;
-	
+	button {
+		margin-right: 8px;
+	}
 }
 
 .hints {
@@ -124,9 +125,20 @@ $topContainerHeight: 184px;
       margin-bottom: 8px;
     }
   }
-
 }
 
 .law_hint {
 	composes: text from fonts;
+}
+
+.to_site {
+	display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: 16px;
+ 
+  padding: 16px 0;
+  button {
+  	margin-right: 24px;
+  }
 }
