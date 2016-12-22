@@ -7,12 +7,31 @@ import styles from './MainResult.css';
 
 
 class MainResult extends React.Component {
+	constructor(){
+		super();
+		this.root = location.protocol + '//' + location.host;
+	}
+
+	toProduct() {
+		const to = this.root + this.props.recomendation.link;
+		location = to;
+	}
+
+	bayProduct() {
+		const to = this.root + this.props.recomendation.link + 'kupit';
+		location = to;
+	}
+
+	goHome() {
+		const root = location.protocol + '//' + location.host;
+		location = root;
+	}
 
 	render() {
 		const actions = () => {
 			return (<div className={styles.actions}> 
-					<Button label="Подробнее" primary />
-					<Button label="Заказать" primary raised/>
+					<Button label="Подробнее" primary onClick={this.toProduct.bind(this)}/>
+					<Button label="Заказать" primary raised onClick={this.bayProduct.bind(this)}/>
 				</div>
 			)
 		}
@@ -57,7 +76,7 @@ class MainResult extends React.Component {
 							</div>
 						</Card>
 						<Card className={styles.to_site}>
-							<Button label="На сайт" primary />
+							<Button label="На сайт" primary onClick={this.goHome.bind(this)}/>
 
 						</Card>
 					</div>

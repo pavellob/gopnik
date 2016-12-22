@@ -289,36 +289,36 @@ export default {
         bindings: [[42]],
         data: {
           label: "Viki Micro с ККТ Viki Print 57",
-          text: "<span>А пока присмотритесь к <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'>ККТ из линеек Viki и Viki Print</a>. ККТ полностью соответствуют требованиям нового закона и удобны в использовании.</span>",
+          text: "<span>А пока присмотритесь к <a href='https://dreamkas.ru/kassy-viki/viki-micro/'>ККТ из линеек Viki и Viki Print</a>. ККТ полностью соответствуют требованиям нового закона и удобны в использовании.</span>",
           image: "/static/assets/images/b4.png",
-          link: "https://dreamkas.ru/kassy-viki/viki-micro/"
+          link: "/kassy-viki/viki-micro/"
         }
       },
       {
         bindings: [[1011], [1012]],
         data: {
           label: "Viki Micro с ККТ Viki Print 57",
-          text: "<span>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.</span>",
+          text: "<span>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/''> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.</span>",
           image: "/static/assets/images/b2.png",
-          link: "https://dreamkas.ru/kassy-viki/viki-micro/"
+          link: "/kassy-viki/viki-micro/"
         }
       },
       {
         bindings: [[1013]],
         data: {
           label: "ККТ Viki Micro",
-          text: "<span>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.</span>",
+          text: "<span>Обратите внимание на <a href='https://dreamkas.ru/kassy-viki/viki-micro/'>ККТ Viki Micro</a> — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.</span>",
           image: "/static/assets/images/b3.png",
-          link: "https://dreamkas.ru/kassy-viki/viki-mini/"
+          link: "/kassy-viki/viki-micro/"
         }
       },
       {
         bindings: [[1014]],
         data: {
           label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
-          text: "<span>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.</span>",
+          text: "<span>Надежный вариант для работы с большими нагрузками — флагманский моноблок <a href='https://dreamkas.ru/kassy-viki/viki-classic/'>Viki Classic и ККТ Viki Print 80 Plus<a>. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.</span>",
           image: "/static/assets/images/b1.png",
-          link: "https://dreamkas.ru/kassy-viki/viki-classic/"
+          link: "/kassy-viki/viki-classic/"
         }
       }]
     

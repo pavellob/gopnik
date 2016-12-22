@@ -36,6 +36,7 @@ class App extends React.Component {
 	}
 
 	calculateResult(answers) {
+		console.log("dfdsfsdfsdfsdfsd");
 		const anwsIds = _.map(answers, 'id');
 		const hs =  _.map(_.filter(this.props.hints, hint => {
 				return anwsIds.includes(hint.binding);
