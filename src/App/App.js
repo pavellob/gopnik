@@ -37,6 +37,10 @@ class App extends React.Component {
 
 	calculateResult(answers) {
 		const anwsIds = _.map(answers, 'id');
+		const hs =  _.map(_.filter(this.props.hints, hint => {
+				return anwsIds.includes(hint.binding);
+			}), 'text');
+		console.log(hs)
 		return {
 			lawResult: _.result(_.find(this.props.lawResults, r => {
 				return _.some(r.bindings, bind => {
@@ -47,8 +51,12 @@ class App extends React.Component {
 				return _.some(r.bindings, bind => {
 					return _.every(bind, b => anwsIds.includes(b));
 				})
-			}), 'data')
+			}), 'data'),
+			hints: _.map(_.filter(this.props.hints, hint => {
+				return anwsIds.includes(hint.binding);
+			}), 'text')
 		}
+
 	}
 
 	render() {
@@ -69,7 +77,7 @@ class App extends React.Component {
 	
 }
 
-App.defaultProps = {testData: data.test, lawResults: data.result.lawResults, recomendations: data.result.recomendations};
+App.defaultProps = {testData: data.test, lawResults: data.result.lawResults, recomendations: data.result.recomendations, hints: data.result.hints};
 
 
 export default App

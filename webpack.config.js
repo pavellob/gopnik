@@ -6,7 +6,7 @@ var devServer = {
   inline: true,
   port: 3333,
   host: '127.0.0.1',
-  contentBase: path.resolve(__dirname, './endpoint'),
+  contentBase: path.resolve(__dirname, './endpoint/'),
   publicPath: '/static/',
 };
 

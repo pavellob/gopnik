@@ -1,4 +1,5 @@
-@value phone, tablet, desktop, not_phone from "../styles/breakpoints.css";
+@value phone, tablet, desktop, not_phone, not_desktop from "../styles/breakpoints.css";
+@value fonts: "../styles/fonts.css";
 
 $topContainerHeight: 184px;
 
@@ -6,58 +7,126 @@ $topContainerHeight: 184px;
 }
 
 .top_block {
-	background: $color-yellow;	
-	height: $topContainerHeight;
-	display: flex;
-  align-items: flex-end;
-  justify-content: center;
+	composes: top_block from '../Test/Test.css';
+  align-items: center;
 }
 
 .top_container {
-	display: flex;
-	justify-content: flex-end;
-	@media phone {
-		flex-grow: 1;
-	}
-
-	@media tablet {
-		background: url('/static/assets/images/back_phone.svg') left no-repeat;
-		margin-bottom: 40px;
-		flex-grow: 1;
-	}
-	@media desktop {
-		background: url('/static/assets/images/back.svg') left no-repeat;
-		margin-bottom: 40px;
-		width: 944px;
+	composes: top_container from '../Test/Test.css';
+	@media not_desktop {
+		background: none;
+		justify-content: center;
 	}
 }
 
 .img {
-	@media phone {
-		height: 160px;
-		padding-right: 64px;
-	}
-	@media not_phone {
+	@media not_desktop {
 		height: 120px;
-		padding-right: 40px;
+	}
+	@media desktop {
+		height: 80px;
 	}
 }
 .card_block {
-	display: flex;
-	justify-content: center;
+	composes: card_block from '../Test/Test.css';
 }
 
 .card_container {
-	@media phone {
-		flex-grow: 1;
-	}
-	@media tablet {
-		padding: 0 24px;
-		flex-grow: 1;	
-		margin-top: -40px;
+	composes: card_container from '../Test/Test.css';
+}
+.header_block {
+	padding: 16px;
+}
+.card_title {
+  font-size: 20px;
+  color: $font_color--opacity;
+	text-transform: uppercase;
+	display: block;
+}
+
+.law_result {
+	composes: title from fonts;
+	display: block;
+	padding-top: 16px;
+}
+
+.law_text {
+	composes: text from fonts;
+	border-top: solid 1px rgba(0, 0, 0, 0.12);
+	padding: 24px 16px;
+	ul {
+    padding-left: 16px;
+    margin-top: 0;
+    li {
+      margin-bottom: 8px;
+    }
+  }
+
+}
+
+.recomendation {
+	padding: 16px;
+	display: flex;
+	background-color: #e4e9eb;
+	@media not_desktop {
+		flex-direction: column;
 	}
 	@media desktop {
-		width: 944px;
-		margin-top: -40px;
+		flex-direction: row;
+		flex-wrap: wrap;
 	}
+}
+.recomendation_img {
+	@media phone {
+		justify-content: center;
+    display: flex;
+		order: 1;
+	}
+	@media not_phone {
+		order: 2;
+		width: 40%;
+		display: flex;
+    justify-content: center;
+
+	}
+
+}
+.recomendation_text {
+	font-size: 16px;
+  opacity: $font_color;
+	@media phone {
+		padding-top: 16px;
+		order: 2;
+	}
+	@media not_phone {
+		order: 1;
+		width: 60%;
+		display: flex;
+    align-items: center;
+	}
+}
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	padding-top: 16px;
+	order: 3;
+	
+}
+
+.hints {
+	padding: 16px;
+}
+.main_hints {
+	ul {
+    padding-left: 16px;
+    margin-top: 0;
+    li {
+      margin-bottom: 8px;
+    }
+  }
+
+}
+
+.law_hint {
+	composes: text from fonts;
 }

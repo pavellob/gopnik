@@ -21,9 +21,9 @@ $topContainerHeight: 184px;
 	}
 
 	@media tablet {
-		background: url('/static/assets/images/back.svg') left no-repeat;
-		margin-bottom: 40px;
+		background: url('/static/assets/images/back@t.svg') left no-repeat;
 		flex-grow: 1;
+		margin: 0 40px 40px 40px;
 	}
 	@media desktop {
 		background: url('/static/assets/images/back.svg') left no-repeat;

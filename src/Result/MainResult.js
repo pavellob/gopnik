@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card } from 'react-toolbox/lib/card';
+import {Button} from 'react-toolbox/lib/button';
+
 
 import styles from './MainResult.css';
 
@@ -7,18 +9,24 @@ import styles from './MainResult.css';
 class MainResult extends React.Component {
 
 	render() {
-		const Answer = (props) => {
-			return <h1>{props.data}</h1>
-		}
-		var result = <Answer data={this.props.lawResult.label} />;
-		const recomendation = (<div>
-				<h1>{this.props.recomendation.label}</h1>
-				<div>
-					<img src={this.props.recomendation.image}/>
-					<div dangerouslySetInnerHTML={{__html: this.props.recomendation.text}}/>
+		const actions = () => {
+			return (<div className={styles.actions}> 
+					<Button label="Подробнее" primary />
+					<Button label="Заказать" primary raised/>
 				</div>
-			</div>
-		);
+			)
+		}
+
+		const hints = () => {
+			if(!_.isEmpty(this.props.hints)){
+				const hts = _.map(this.props.hints, (hint, $index) => {
+					return (<li key={$index}>{hint}</li>)
+				})
+				return (<div className={styles.main_hints}><ul>{hts}</ul></div>)
+			}
+		}
+		const lawHint = this.props.lawResult.hint ? <p className={styles.law_hint}>{this.props.lawResult.hint}</p> : null;
+
 		return(
 			<div className={styles.main_container}>
 	    	<div className={styles.top_block}>
@@ -29,8 +37,22 @@ class MainResult extends React.Component {
 				<div className={styles.card_block}>
 					<div className={styles.card_container}>
 						<Card>
-							{result}
-							{recomendation}
+							<div className={styles.header_block}>
+								<label className={styles.card_title}>Результат</label>
+								<label className={styles.law_result}>{this.props.lawResult.label}</label>
+							</div>
+							<div className={styles.law_text} dangerouslySetInnerHTML={{__html: this.props.lawResult.text}}/>
+							<div className={styles.recomendation}>
+								<div className={styles.recomendation_text} dangerouslySetInnerHTML={{__html: this.props.recomendation.text}}/>
+								<div className={styles.recomendation_img} >
+									<img src={this.props.recomendation.image}/>
+								</div>
+								{actions()}
+							</div>
+							<div className={styles.hints}>
+								{hints()}
+								{lawHint}
+							</div>
 						</Card>
 					</div>
 				</div>
