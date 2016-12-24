@@ -1,17 +1,22 @@
-//@import '/node_modules/react-toolbox/lib/radio/theme.css';
+@import 'node_modules/react-toolbox/lib/_colors.scss';
 
 .radio, .text {
   vertical-align: middle !important;
   white-space: normal !important;
   box-sizing: border-box;
 }
-
-
-$color-primary: #fff;
-$unit: 10px;
 $color-green: rgb(67,160,71);
 $color-yellow: rgb(255,213,79);
 
 $font_color: rgba(0, 0, 0, 0.87);
 $font_color--opacity: rgba(0, 0, 0, 0.54);
 
+
+$color-primary: $palette-blue-500;
+$color-primary-dark: $palette-blue-700;
+
+$radio-text-color: $font_color--opacity;
+$radio-field-margin-bottom: 16px;
+$radio-text-font-size: 16px;
+$radio-button-size: 20px;
+$unit: 10px;

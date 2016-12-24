@@ -43,10 +43,19 @@ module.exports = {
           'postcss-loader',
         ],
       },
+      {
+        test: /\.scss$/,
+        loaders:[
+          'style-loader',
+          'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]',
+          'sass-loader',
+          'postcss-loader',
+        ],
+      },
     ]
   },
   postcss: [ 
-    values 
+    values
   ],
   sassLoader: {
     data: '@import "' + path.resolve(__dirname, './src/_theme.scss') + '";'
