@@ -6,7 +6,7 @@ export default {
         block: "StartScreen",
         data: {
           image: "/static/assets/images/1.svg",
-          nextStepId: 1
+          nextStepId: 2
         }
     },
     {
@@ -102,12 +102,12 @@ export default {
           answers: [{
             id: 42,
             label: "Да",
-            nextStepId: 101//2042
+            nextStepId: 8//2042
           },
           {
             id: 41,
             label: "Нет",
-            nextStepId: 7//-
+            nextStepId: 9//-
           },
           ]
         }
@@ -126,17 +126,27 @@ export default {
         {
           id: 52,
           label: "Интернет-магазин",
-          nextStepId: 101//2018
+          nextStepId: 7
         },
         {
           id: 53,
-          label: "Крытый рынок или ярмарка",
+          label: "Крытый рынок",
           nextStepId: 7
         },
         {
           id: 54,
           label: "Предприятие общественного питания",
           nextStepId: 6
+        },
+        {
+          id: 55,
+          label: "Рынок без помещения и в развал, разносная торговля",
+          nextStepId: 101//-
+        },
+        {
+          id: 56,
+          label: "Мороженое на улице или безалкогольные напитки в розлив",
+          nextStepId: 101//-
         }]
       }
     },
@@ -144,7 +154,7 @@ export default {
       id: 6,
       block: "RbQuestion",
       data: {
-        question: "Работаете ли вы с ВУЗами, колледжами или школами?",
+        question: "Работаете ли вы с образовательными учреждениями?",
         image: "/static/assets/images/7.svg",
         answers: [{
           id: 61,
@@ -159,6 +169,52 @@ export default {
         {
           id: 63,
           label: "Нет, не работаю",
+          nextStepId: 7
+        }]
+      }
+    },
+    {
+      id: 8,
+      block: "RbQuestion",
+      data: {
+        question: "В каком формате работаете?",
+        image: "/static/assets/images/6.svg",
+        answers: [{
+          id: 81,
+          label: "Один или несколько магазинов",
+          nextStepId: 7
+        },
+        {
+          id: 82,
+          label: "Интернет-магазин",
+          nextStepId: 7
+        },
+        {
+          id: 83,
+          label: "Крытый рынок",
+          nextStepId: 7
+        },
+        {
+          id: 85,
+          label: "Рынок без помещения и в развал, разносная торговля",
+          nextStepId: 101//-
+        }]
+      }
+    },
+    {
+      id: 9,
+      block: "RbQuestion",
+      data: {
+        question: "Продаёте ли вы почтовые марки или предметы религиозного культа?",
+        image: "/static/assets/images/8.svg",
+        answers: [{
+          id: 91,
+          label: "Да",
+          nextStepId: 101//-
+        },
+        {
+          id: 92,
+          label: "Нет",
           nextStepId: 7
         }]
       }
@@ -195,7 +251,7 @@ export default {
       id: 101,
       block: "RbQuestion",
       data: {
-        question: "Сколько печатаете чеков за день?",
+        question: "Сколько покупателей обслуживаете за день?",
         image: "/static/assets/images/9.svg",
         answers: [
         {
@@ -239,7 +295,7 @@ export default {
   },
   result: {
     lawResults: [{
-      bindings: [[62]],
+      bindings: [[62], [55], [56], [91]],
       data: {
         label: "Вам не нужна касса",
         text: "<span>По новому закону вам не нужна онлайн-касса. Но вы можете использовать кассу для удобства учёта.</span>",
@@ -247,7 +303,7 @@ export default {
       }
     },
     {
-      bindings: [[21],[52],[71],[72]],
+      bindings: [[21],[71],[72]],
       data: {
         label: "Есть время выбрать",
         text: "<span>Предприятия услуг населению начинают передачу фискальных данных 1 июля 2018 года. У вас есть в запасе время, но затягивать не стоит. До 1 июля вам нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД</li><li>купить онлайн-кассу и зарегистрировать её в ФНС</li></uspan>",
@@ -264,7 +320,7 @@ export default {
       }
     },
     {
-      bindings: [[42]],
+      bindings: [[42, 85]],
       data: {
         label: "Скорее всего вам придётся купить кассу",
         text: "<span>Но это пока неточно. Минфин подготовил Постановление с перечнем товаров, при продаже которых обязательно использование ККТ. Сейчас документ проходит публичные обсуждения и антикоррупционную экспертизу. Если документ примут, то вам придётся начать использовать ККТ с 1 июля 2018 года. До этого момента нужно будет приобрести онлайн-кассу и заключить договор с ОФД. Чтобы быть в курсе, подпишитесь на карточку закона на <a href='http://regulation.gov.ru/projects#npa=46191' target='_blank'>портале regulation.gov.ru</a>.</span>",
@@ -285,15 +341,15 @@ export default {
         text: "Если у вас уже есть касса Viki, то новая касса не нужна, достаточно приобрести комплект доработки."
       },
     ],
-    recomendations: [{
-        bindings: [[42]],
+    recomendations: [/*{
+        bindings: [[42, 55]],
         data: {
           label: "Viki Micro с ККТ Viki Print 57",
           text: "<span>А пока присмотритесь к <a href='https://dreamkas.ru/kassy-viki/viki-micro/'>ККТ из линеек Viki и Viki Print</a>. ККТ полностью соответствуют требованиям нового закона и удобны в использовании.</span>",
           image: "/static/assets/images/b4.png",
           link: "/kassy-viki/viki-micro/"
         }
-      },
+      },*/
       {
         bindings: [[1011], [1012]],
         data: {
