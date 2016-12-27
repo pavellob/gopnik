@@ -15,20 +15,31 @@ $topContainerHeight: 184px;
 
 .top_container {
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
 	@media phone {
 		flex-grow: 1;
+		justify-content: flex-end;
 	}
 
 	@media tablet {
-		background: url('/static/assets/images/back@t.svg') left no-repeat;
 		flex-grow: 1;
 		margin: 0 40px 40px 40px;
 	}
 	@media desktop {
-		background: url('/static/assets/images/back.svg') left no-repeat;
 		margin-bottom: 40px;
 		width: 944px;
+	}
+}
+
+.b_img {
+	@media phone {
+		display: none;
+	}
+	@media tablet {
+		width: 500px;
+	}
+	@media desktop {
+		width: 600px;
 	}
 }
 

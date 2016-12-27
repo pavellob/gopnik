@@ -27,6 +27,14 @@ $topContainerHeight: 184px;
 		height: 80px;
 	}
 }
+
+.b_img {
+	composes: b_img from '../Test/Test.css';
+	@media tablet {
+		display: none;
+	}
+
+}
 .card_block {
 	composes: card_block from '../Test/Test.css';
 }

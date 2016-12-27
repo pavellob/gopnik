@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "667665149ccc17e45f1f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ab6ce3c5b881797b271c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -30584,17 +30584,15 @@
 				_reactDom2.default.unmountComponentAtNode(document.getElementById('root'));
 				console.log(answers);
 
-				/* fetch('http://localhost:8080/users', {
-	    	credentials: 'include',
-	    method: 'POST',
-	    headers: {
-	      'Content-Type': 'application/json'
-	    },
-	    body: JSON.stringify({
-	      name: 'Hubot',
-	      login: 'hubot',
-	    })
-	   })*/
+				var req = { test: answers, result: _.result(result, 'lawResult.label'), recomendation: _.result(result, 'recomendation.label') };
+
+				fetch('/api/testresults/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(req)
+				});
 				var Result = function Result() {
 					return _react2.default.createElement(
 						'div',
@@ -30642,7 +30640,11 @@
 					_react2.default.createElement(
 						'div',
 						{ className: _App2.default.header },
-						_react2.default.createElement('a', { className: _App2.default.logo, href: '/?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz' })
+						_react2.default.createElement(
+							'a',
+							{ className: _App2.default.logo, href: '/?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz' },
+							_react2.default.createElement('img', { src: 'static/assets/images/logo.svg' })
+						)
 					),
 					_react2.default.createElement('div', { id: 'root', className: _App2.default.container }),
 					_react2.default.createElement(
@@ -30763,7 +30765,9 @@
 				if (this.state.stepComplete) {
 
 					if (this.state.answer) {
-						this.props.answers.push(this.state.answer);
+						var answ = _lodash2.default.pick(this.state.step.data, 'ix');
+						answ = _lodash2.default.merge(answ, { answer: _lodash2.default.result(this.state.answer, 'label') }, _lodash2.default.pick(this.state.answer, 'id'));
+						this.props.answers.push(answ);
 					}
 					var newStepId = _lodash2.default.result(this.state.answer, 'nextStepId', _lodash2.default.result(this.state.step.data, 'nextStepId'));
 					var newStep = this.getStep(newStepId);
@@ -30780,8 +30784,10 @@
 			key: 'finishTest',
 			value: function finishTest() {
 				if (this.state.stepComplete) {
-					console.log(this.state.step);
-					this.props.answers.push(this.state.answer);
+					var answ = _lodash2.default.pick(this.state.step.data, 'ix');
+					answ = _lodash2.default.merge(answ, { answer: _lodash2.default.result(this.state.answer, 'label') }, _lodash2.default.pick(this.state.answer, 'id'));
+
+					this.props.answers.push(answ);
 					this.props.finish(this.props.answers);
 				}
 			}
@@ -30806,6 +30812,7 @@
 						_react2.default.createElement(
 							'div',
 							{ className: _Test2.default.top_container },
+							_react2.default.createElement('img', { src: 'static/assets/images/back.svg', className: _Test2.default.b_img }),
 							_react2.default.createElement('img', { src: this.state.step.data.image, className: _Test2.default.img })
 						)
 					),
@@ -51905,7 +51912,7 @@
 	exports.i(__webpack_require__(299), undefined);
 
 	// module
-	exports.push([module.id, ".Test_radio_BklPD, .Test_text_2OS6Q {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.Test_top_block_2qdF_ {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.Test_top_container_1V2yo {\n  display: flex;\n  justify-content: flex-end; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back@t.svg\") left no-repeat;\n      flex-grow: 1;\n      margin: 0 40px 40px 40px; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back.svg\") left no-repeat;\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_img_3mDz4 {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(299).locals["notphone"] + " {\n  .Test_img_3mDz4 {\n    height: 120px;\n    padding-right: 40px; } }\n\n.Test_card_block_3xgZU {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_card_container_IgvPj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(299).locals["tablet"] + " {\n  .Test_card_container_IgvPj {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .Test_card_container_IgvPj {\n    width: 944px;\n    margin-top: -40px; } }\n\n.Test_actions_1Baim {\n  border-top: 1px solid rgba(0, 0, 0, 0.12);\n  display: flex;\n  justify-content: flex-end;\n  padding: 16px; }\n", ""]);
+	exports.push([module.id, ".Test_radio_BklPD, .Test_text_2OS6Q {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.Test_top_block_2qdF_ {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.Test_top_container_1V2yo {\n  display: flex;\n  justify-content: space-between; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1;\n      justify-content: flex-end; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1;\n      margin: 0 40px 40px 40px; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .Test_top_container_1V2yo {\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_b_img_9Omh1 {\n    display: none; } }\n\n@media " + __webpack_require__(299).locals["tablet"] + " {\n  .Test_b_img_9Omh1 {\n    width: 500px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .Test_b_img_9Omh1 {\n    width: 600px; } }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_img_3mDz4 {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(299).locals["notphone"] + " {\n  .Test_img_3mDz4 {\n    height: 120px;\n    padding-right: 40px; } }\n\n.Test_card_block_3xgZU {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_card_container_IgvPj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(299).locals["tablet"] + " {\n  .Test_card_container_IgvPj {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .Test_card_container_IgvPj {\n    width: 944px;\n    margin-top: -40px; } }\n\n.Test_actions_1Baim {\n  border-top: 1px solid rgba(0, 0, 0, 0.12);\n  display: flex;\n  justify-content: flex-end;\n  padding: 16px; }\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -51917,6 +51924,7 @@
 		"text": "Test_text_2OS6Q",
 		"top_block": "Test_top_block_2qdF_",
 		"top_container": "Test_top_container_1V2yo",
+		"b_img": "Test_b_img_9Omh1",
 		"img": "Test_img_3mDz4",
 		"card_block": "Test_card_block_3xgZU",
 		"card_container": "Test_card_container_IgvPj",
@@ -52032,6 +52040,7 @@
 						_react2.default.createElement(
 							'div',
 							{ className: _MainResult2.default.top_container },
+							_react2.default.createElement('img', { src: 'static/assets/images/back.svg', className: _MainResult2.default.b_img }),
 							_react2.default.createElement('img', { src: this.props.lawResult.image, className: _MainResult2.default.img })
 						)
 					),
@@ -52173,7 +52182,7 @@
 	exports.i(__webpack_require__(299), undefined);
 
 	// module
-	exports.push([module.id, ".MainResult_radio_37U7D, .MainResult_text_2MFj3 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.MainResult_top_block_2hgb7 {\n  align-items: center; }\n\n.MainResult_top_container_JSQCe { }\n  @media " + __webpack_require__(299).locals["notdesktop"] + " {\n    .MainResult_top_container_JSQCe {\n      background: none;\n      justify-content: center; } }\n\n@media " + __webpack_require__(299).locals["notdesktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 115px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 80px; } }\n\n.MainResult_card_block_Z6GKk { }\n\n.MainResult_card_container_1zkS1 { }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 16px; } }\n\n@media " + __webpack_require__(299).locals["notphone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 32px 32px 16px; } }\n\n.MainResult_card_title_2TP7X {\n  font-size: 20px;\n  color: rgba(0, 0, 0, 0.54);\n  text-transform: uppercase;\n  display: block; }\n\n.MainResult_law_result_16rkc {\n  display: block;\n  padding-top: 16px; }\n\n.MainResult_law_text_3SvDa {\n  border-top: solid 1px rgba(0, 0, 0, 0.12); }\n  .MainResult_law_text_3SvDa ul {\n    padding-left: 16px;\n    margin-top: 0; }\n    .MainResult_law_text_3SvDa ul li {\n      margin-bottom: 8px; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 16px; } }\n  @media " + __webpack_require__(299).locals["notphone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 24px 32px; } }\n\n.MainResult_recomendation_2oJzM {\n  font-weight: 300;\n  display: flex;\n  background-color: #e4e9eb; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px 16px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: row;\n      flex-wrap: wrap; } }\n\n@media " + __webpack_require__(299).locals["notdesktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 2;\n    padding-top: 32px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 1;\n    width: 60%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between; } }\n\n.MainResult_recomendation_img_1scjZ {\n  justify-content: center;\n  display: flex; }\n  @media " + __webpack_require__(299).locals["notdesktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 1; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 2;\n      width: 40%; } }\n\n.MainResult_recomendation_text_21rqL {\n  font-size: 16px;\n  color: rgba(0, 0, 0, 0.87); }\n\n.MainResult_actions_1wJj_ {\n  display: flex;\n  justify-content: flex-start;\n  padding-top: 16px; }\n  .MainResult_actions_1wJj_ button {\n    margin-right: 8px; }\n\n.MainResult_hints_2wFDV {\n  padding: 16px; }\n\n.MainResult_main_hints_30-4_ {\n  padding-top: 16px;\n  font-size: 16px; }\n\n.MainResult_law_hint_3Hsg_ { }\n\n.MainResult_to_site_Rzemt {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  margin-top: 16px;\n  padding: 16px 0; }\n  .MainResult_to_site_Rzemt button {\n    margin-right: 24px; }\n\n.MainResult_share_block_IA6aH {\n  padding: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n.MainResult_share_2PWJ9 {\n  display: flex;\n  align-items: center;\n  color: rgba(0, 0, 0, 0.54);\n  font-size: 16px; }\n\n.MainResult_social_shares_25MjR {\n  height: 32px;\n  display: flex;\n  align-items: center; }\n\n.MainResult_icon_15APe {\n  padding-left: 16px;\n  width: 32px; }\n", ""]);
+	exports.push([module.id, ".MainResult_radio_37U7D, .MainResult_text_2MFj3 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.MainResult_top_block_2hgb7 {\n  align-items: center; }\n\n.MainResult_top_container_JSQCe { }\n  @media " + __webpack_require__(299).locals["notdesktop"] + " {\n    .MainResult_top_container_JSQCe {\n      background: none;\n      justify-content: center; } }\n\n@media " + __webpack_require__(299).locals["notdesktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 115px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 80px; } }\n\n.MainResult_b_img_2EbyV { }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .MainResult_b_img_2EbyV {\n      display: none; } }\n\n.MainResult_card_block_Z6GKk { }\n\n.MainResult_card_container_1zkS1 { }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 16px; } }\n\n@media " + __webpack_require__(299).locals["notphone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 32px 32px 16px; } }\n\n.MainResult_card_title_2TP7X {\n  font-size: 20px;\n  color: rgba(0, 0, 0, 0.54);\n  text-transform: uppercase;\n  display: block; }\n\n.MainResult_law_result_16rkc {\n  display: block;\n  padding-top: 16px; }\n\n.MainResult_law_text_3SvDa {\n  border-top: solid 1px rgba(0, 0, 0, 0.12); }\n  .MainResult_law_text_3SvDa ul {\n    padding-left: 16px;\n    margin-top: 0; }\n    .MainResult_law_text_3SvDa ul li {\n      margin-bottom: 8px; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 16px; } }\n  @media " + __webpack_require__(299).locals["notphone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 24px 32px; } }\n\n.MainResult_recomendation_2oJzM {\n  font-weight: 300;\n  display: flex;\n  background-color: #e4e9eb; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px 16px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: row;\n      flex-wrap: wrap; } }\n\n@media " + __webpack_require__(299).locals["notdesktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 2;\n    padding-top: 32px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 1;\n    width: 60%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between; } }\n\n.MainResult_recomendation_img_1scjZ {\n  justify-content: center;\n  display: flex; }\n  @media " + __webpack_require__(299).locals["notdesktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 1; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 2;\n      width: 40%; } }\n\n.MainResult_recomendation_text_21rqL {\n  font-size: 16px;\n  color: rgba(0, 0, 0, 0.87); }\n\n.MainResult_actions_1wJj_ {\n  display: flex;\n  justify-content: flex-start;\n  padding-top: 16px; }\n  .MainResult_actions_1wJj_ button {\n    margin-right: 8px; }\n\n.MainResult_hints_2wFDV {\n  padding: 16px; }\n\n.MainResult_main_hints_30-4_ {\n  padding-top: 16px;\n  font-size: 16px; }\n\n.MainResult_law_hint_3Hsg_ { }\n\n.MainResult_to_site_Rzemt {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  margin-top: 16px;\n  padding: 16px 0; }\n  .MainResult_to_site_Rzemt button {\n    margin-right: 24px; }\n\n.MainResult_share_block_IA6aH {\n  padding: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n.MainResult_share_2PWJ9 {\n  display: flex;\n  align-items: center;\n  color: rgba(0, 0, 0, 0.54);\n  font-size: 16px; }\n\n.MainResult_social_shares_25MjR {\n  height: 32px;\n  display: flex;\n  align-items: center; }\n\n.MainResult_icon_15APe {\n  padding-left: 16px;\n  width: 32px; }\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -52188,6 +52197,7 @@
 		"top_block": "MainResult_top_block_2hgb7 " + __webpack_require__(325).locals["top_block"] + "",
 		"top_container": "MainResult_top_container_JSQCe " + __webpack_require__(325).locals["top_container"] + "",
 		"img": "MainResult_img_3rkkp",
+		"b_img": "MainResult_b_img_2EbyV " + __webpack_require__(325).locals["b_img"] + "",
 		"card_block": "MainResult_card_block_Z6GKk " + __webpack_require__(325).locals["card_block"] + "",
 		"card_container": "MainResult_card_container_1zkS1 " + __webpack_require__(325).locals["card_container"] + "",
 		"header_block": "MainResult_header_block_24pg8",
@@ -52218,7 +52228,7 @@
 	exports.i(__webpack_require__(299), undefined);
 
 	// module
-	exports.push([module.id, ".Test_radio_BklPD, .Test_text_2OS6Q {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n.Test_top_block_2qdF_ {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.Test_top_container_1V2yo {\n  display: flex;\n  justify-content: flex-end; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back@t.svg\") left no-repeat;\n      flex-grow: 1;\n      margin: 0 40px 40px 40px; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back.svg\") left no-repeat;\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_img_3mDz4 {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(299).locals["notphone"] + " {\n  .Test_img_3mDz4 {\n    height: 120px;\n    padding-right: 40px; } }\n\n.Test_card_block_3xgZU {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_card_container_IgvPj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(299).locals["tablet"] + " {\n  .Test_card_container_IgvPj {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .Test_card_container_IgvPj {\n    width: 944px;\n    margin-top: -40px; } }\n\n.Test_actions_1Baim {\n  border-top: 1px solid rgba(0, 0, 0, 0.12);\n  display: flex;\n  justify-content: flex-end;\n  padding: 16px; }\n", ""]);
+	exports.push([module.id, ".Test_radio_BklPD, .Test_text_2OS6Q {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n.Test_top_block_2qdF_ {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.Test_top_container_1V2yo {\n  display: flex;\n  justify-content: space-between; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1;\n      justify-content: flex-end; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1;\n      margin: 0 40px 40px 40px; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .Test_top_container_1V2yo {\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_b_img_9Omh1 {\n    display: none; } }\n\n@media " + __webpack_require__(299).locals["tablet"] + " {\n  .Test_b_img_9Omh1 {\n    width: 500px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .Test_b_img_9Omh1 {\n    width: 600px; } }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_img_3mDz4 {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(299).locals["notphone"] + " {\n  .Test_img_3mDz4 {\n    height: 120px;\n    padding-right: 40px; } }\n\n.Test_card_block_3xgZU {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .Test_card_container_IgvPj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(299).locals["tablet"] + " {\n  .Test_card_container_IgvPj {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .Test_card_container_IgvPj {\n    width: 944px;\n    margin-top: -40px; } }\n\n.Test_actions_1Baim {\n  border-top: 1px solid rgba(0, 0, 0, 0.12);\n  display: flex;\n  justify-content: flex-end;\n  padding: 16px; }\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -52230,6 +52240,7 @@
 		"text": "Test_text_2OS6Q",
 		"top_block": "Test_top_block_2qdF_",
 		"top_container": "Test_top_container_1V2yo",
+		"b_img": "Test_b_img_9Omh1",
 		"img": "Test_img_3mDz4",
 		"card_block": "Test_card_block_3xgZU",
 		"card_container": "Test_card_container_IgvPj",
@@ -52271,7 +52282,7 @@
 	exports.i(__webpack_require__(299), undefined);
 
 	// module
-	exports.push([module.id, ".App_radio_2o0X9, .App_text_2B0-5 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.App_main_2rFI5 {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  width: 100%; }\n\n.App_header_3h75s {\n  position: fixed;\n  height: 60px;\n  background: #43a047;\n  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);\n  width: 100%;\n  display: flex;\n  align-items: center; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .App_header_3h75s {\n      padding-left: 16px; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .App_header_3h75s {\n      padding-left: 24px; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .App_header_3h75s {\n      padding-left: 40px; } }\n\n.App_logo_jooaG {\n  display: block;\n  width: 164px;\n  height: 40px;\n  background-image: url(\"/static/assets/images/logo.svg\");\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: contain; }\n\n.App_container_220Kg {\n  padding-top: 60px;\n  display: flex;\n  flex-direction: column;\n  flex-grow: 1; }\n\n.App_footer_2uEZI {\n  background: #404040;\n  height: 60px;\n  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.5);\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  .App_footer_2uEZI span {\n    padding: 0 16px;\n    font-size: 12px;\n    color: #ffffff;\n    opacity: 0.87; }\n    .App_footer_2uEZI span a {\n      text-decoration: none;\n      color: inherit; }\n", ""]);
+	exports.push([module.id, ".App_radio_2o0X9, .App_text_2B0-5 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.App_main_2rFI5 {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  width: 100%; }\n\n.App_header_3h75s {\n  position: fixed;\n  height: 60px;\n  background: #43a047;\n  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);\n  width: 100%;\n  display: flex;\n  align-items: center; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .App_header_3h75s {\n      padding-left: 16px; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .App_header_3h75s {\n      padding-left: 24px; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .App_header_3h75s {\n      padding-left: 40px; } }\n\n.App_logo_jooaG {\n  display: block;\n  width: 164px;\n  height: 40px;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: contain; }\n\n.App_container_220Kg {\n  padding-top: 60px;\n  display: flex;\n  flex-direction: column;\n  flex-grow: 1; }\n\n.App_footer_2uEZI {\n  background: #404040;\n  height: 60px;\n  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.5);\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  .App_footer_2uEZI span {\n    padding: 0 16px;\n    font-size: 12px;\n    color: #ffffff;\n    opacity: 0.87; }\n    .App_footer_2uEZI span a {\n      text-decoration: none;\n      color: inherit; }\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -52304,7 +52315,7 @@
 	      block: "StartScreen",
 	      data: {
 	        ix: 1,
-	        image: "/static/assets/images/1.svg",
+	        image: "static/assets/images/1.svg",
 	        nextStepId: 2
 	      }
 	    }, {
@@ -52313,7 +52324,7 @@
 	      data: {
 	        ix: 2,
 	        question: "У вас уже есть касса?",
-	        image: "/static/assets/images/2.svg",
+	        image: "static/assets/images/2.svg",
 	        answers: [{
 	          id: 11,
 	          label: "Да"
@@ -52329,7 +52340,7 @@
 	      data: {
 	        ix: 3,
 	        question: "В какой вы работаете сфере?",
-	        image: "/static/assets/images/3.svg",
+	        image: "static/assets/images/3.svg",
 	        answers: [{
 	          id: 21,
 	          label: "Услуги населению",
@@ -52346,7 +52357,7 @@
 	      data: {
 	        ix: 4,
 	        question: "Расскажите про ассортимент",
-	        image: "/static/assets/images/4.svg",
+	        image: "static/assets/images/4.svg",
 	        answers: [{
 	          id: 31,
 	          label: "Продовольственный, есть акцизные товары",
@@ -52372,7 +52383,7 @@
 	        ix: 5,
 	        question: "Хорошо, давайте разбираться. Есть ли что-то из списка:",
 	        text: "<ul> <li>Одежда</li> <li>Ковры</li> <li>Кожа или изделия из кожи</li> <li>Древесина или изделия из дерева</li> <li>Химические вещества</li> <li>Резиновые и пластмассовые изделия</li> <li>Минеральные неметаллические продукты </li> <li>Компьютеры и электронное, оптическое оборудование</li> <li>Электрическое оборудование</li> <li>Машины и оборудование, не включенные в другие группировки</li> <li>Средства автотранспортные, прицепы и полуприцепы</li> <li>Средства транспортные и оборудование, прочие</li> <li>Мебель</li> <li>Инструменты музыкальные</li> <li>Приспособления ортопедические</li> <li>Спортивные товары</li> </ul> ",
-	        image: "/static/assets/images/5.svg",
+	        image: "static/assets/images/5.svg",
 	        answers: [{
 	          id: 42,
 	          label: "Да",
@@ -52389,7 +52400,7 @@
 	      data: {
 	        ix: 6,
 	        question: "В каком формате работаете?",
-	        image: "/static/assets/images/6.svg",
+	        image: "static/assets/images/6.svg",
 	        answers: [{
 	          id: 51,
 	          label: "Один или несколько магазинов",
@@ -52422,7 +52433,7 @@
 	      data: {
 	        ix: 7,
 	        question: "Работаете ли вы с образовательными учреждениями?",
-	        image: "/static/assets/images/7.svg",
+	        image: "static/assets/images/7.svg",
 	        answers: [{
 	          id: 61,
 	          label: "Да, как отдельный предприниматель или юрлицо",
@@ -52443,7 +52454,7 @@
 	      data: {
 	        ix: 8,
 	        question: "В каком формате работаете?",
-	        image: "/static/assets/images/6.svg",
+	        image: "static/assets/images/6.svg",
 	        answers: [{
 	          id: 81,
 	          label: "Один или несколько магазинов",
@@ -52468,7 +52479,7 @@
 	      data: {
 	        ix: 9,
 	        question: "Продаёте ли вы почтовые марки или предметы религиозного культа?",
-	        image: "/static/assets/images/8.svg",
+	        image: "static/assets/images/8.svg",
 	        answers: [{
 	          id: 91,
 	          label: "Да",
@@ -52485,7 +52496,7 @@
 	      data: {
 	        ix: 10,
 	        question: "На какой системе налогообложения работаете?",
-	        image: "/static/assets/images/8.svg",
+	        image: "static/assets/images/8.svg",
 	        answers: [{
 	          id: 71,
 	          label: "ПСН",
@@ -52510,7 +52521,7 @@
 	      data: {
 	        ix: 11,
 	        question: "Сколько покупателей обслуживаете за день?",
-	        image: "/static/assets/images/9.svg",
+	        image: "static/assets/images/9.svg",
 	        answers: [{
 	          id: 1011,
 	          label: "до 10"
@@ -52532,7 +52543,7 @@
 	      data: {
 	        ix: 12,
 	        question: "Есть ли товароучётная система?",
-	        image: "/static/assets/images/10.svg",
+	        image: "static/assets/images/10.svg",
 	        answers: [{
 	          id: 1021,
 	          label: "Да"
