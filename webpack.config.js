@@ -8,6 +8,9 @@ var devServer = {
   host: '127.0.0.1',
   contentBase: path.resolve(__dirname, './endpoint/'),
   publicPath: '/static/',
+  proxy: {
+    '/api': 'http://localhost:8080'
+  }
 };
 
 module.exports = {

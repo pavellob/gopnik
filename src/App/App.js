@@ -25,18 +25,15 @@ class App extends React.Component {
   finishTest(answers){
 		const result = this.calculateResult(answers);
     ReactDOM.unmountComponentAtNode(document.getElementById('root'))
-    
-   /* fetch('http://localhost:8080/users', {
-    	credentials: 'include',
+    console.log(answers);
+
+   fetch('/api/testresults/', {
 		  method: 'POST',
 		  headers: {
 		    'Content-Type': 'application/json'
 		  },
-		  body: JSON.stringify({
-		    name: 'Hubot',
-		    login: 'hubot',
-		  })
-		})*/
+		  body: answers
+		})
     const Result = () => {
   		return (
   			<div>

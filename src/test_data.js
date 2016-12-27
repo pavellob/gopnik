@@ -5,7 +5,8 @@ export default {
       id: 0,
         block: "StartScreen",
         data: {
-          image: "static/assets/images/1.svg",
+          ix: 1,
+          image: "/static/assets/images/1.svg",
           nextStepId: 2
         }
     },
@@ -13,8 +14,9 @@ export default {
       id: 1,
         block: "RbQuestion",
         data: {
+          ix: 2,
           question: "У вас уже есть касса?",
-          image: "static/assets/images/2.svg",
+          image: "/static/assets/images/2.svg",
           answers: [{
             id: 11,
             label: "Да"
@@ -30,8 +32,9 @@ export default {
       id: 2,
         block: "RbQuestion",
         data: {
+          ix: 3,
           question: "В какой вы работаете сфере?",
-          image: "static/assets/images/3.svg",
+          image: "/static/assets/images/3.svg",
           answers: [{
             id: 21,
             label: "Услуги населению",
@@ -48,11 +51,12 @@ export default {
       id: 3,
         block: "RbQuestion",
         data: {
+          ix: 4,
           question: "Расскажите про ассортимент",
-          image: "static/assets/images/4.svg",
+          image: "/static/assets/images/4.svg",
           answers: [{
             id: 31,
-            label: "Продовольственный, есть акцизные товары или любой алкоголь",
+            label: "Продовольственный, есть акцизные товары",
             nextStepId: 101//2017
           },
           {
@@ -76,9 +80,10 @@ export default {
       id: 4,
         block: "RbQuestion",
         data: {
+          ix: 5,
           question: "Хорошо, давайте разбираться. Есть ли что-то из списка:",
           text: "<ul> <li>Одежда</li> <li>Ковры</li> <li>Кожа или изделия из кожи</li> <li>Древесина или изделия из дерева</li> <li>Химические вещества</li> <li>Резиновые и пластмассовые изделия</li> <li>Минеральные неметаллические продукты </li> <li>Компьютеры и электронное, оптическое оборудование</li> <li>Электрическое оборудование</li> <li>Машины и оборудование, не включенные в другие группировки</li> <li>Средства автотранспортные, прицепы и полуприцепы</li> <li>Средства транспортные и оборудование, прочие</li> <li>Мебель</li> <li>Инструменты музыкальные</li> <li>Приспособления ортопедические</li> <li>Спортивные товары</li> </ul> ",
-          image: "static/assets/images/5.svg",
+          image: "/static/assets/images/5.svg",
           answers: [{
             id: 42,
             label: "Да",
@@ -96,8 +101,9 @@ export default {
       id: 5,
       block: "RbQuestion",
       data: {
+        ix: 6,
         question: "В каком формате работаете?",
-        image: "static/assets/images/6.svg",
+        image: "/static/assets/images/6.svg",
         answers: [{
           id: 51,
           label: "Один или несколько магазинов",
@@ -134,8 +140,9 @@ export default {
       id: 6,
       block: "RbQuestion",
       data: {
+        ix: 7,
         question: "Работаете ли вы с образовательными учреждениями?",
-        image: "static/assets/images/7.svg",
+        image: "/static/assets/images/7.svg",
         answers: [{
           id: 61,
           label: "Да, как отдельный предприниматель или юрлицо",
@@ -157,8 +164,9 @@ export default {
       id: 8,
       block: "RbQuestion",
       data: {
+        ix: 8,
         question: "В каком формате работаете?",
-        image: "static/assets/images/6.svg",
+        image: "/static/assets/images/6.svg",
         answers: [{
           id: 81,
           label: "Один или несколько магазинов",
@@ -185,8 +193,9 @@ export default {
       id: 9,
       block: "RbQuestion",
       data: {
+        ix: 9,
         question: "Продаёте ли вы почтовые марки или предметы религиозного культа?",
-        image: "static/assets/images/8.svg",
+        image: "/static/assets/images/8.svg",
         answers: [{
           id: 91,
           label: "Да",
@@ -203,8 +212,9 @@ export default {
       id: 7,
       block: "RbQuestion",
       data: {
+        ix: 10,
         question: "На какой системе налогообложения работаете?",
-        image: "static/assets/images/8.svg",
+        image: "/static/assets/images/8.svg",
         answers: [{
           id: 71,
           label: "ПСН",
@@ -231,8 +241,9 @@ export default {
       id: 101,
       block: "RbQuestion",
       data: {
+        ix: 11,
         question: "Сколько покупателей обслуживаете за день?",
-        image: "static/assets/images/9.svg",
+        image: "/static/assets/images/9.svg",
         answers: [
         {
           id: 1011,
@@ -258,8 +269,9 @@ export default {
       id: 102,
       block: "RbQuestion",
       data: {
+        ix: 12,
         question: "Есть ли товароучётная система?",
-        image: "static/assets/images/10.svg",
+        image: "/static/assets/images/10.svg",
         answers: [
         {
           id: 1021,

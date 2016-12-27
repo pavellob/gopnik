@@ -41,7 +41,9 @@ class Test extends React.Component {
 			if(this.state.stepComplete) {
 
 				if (this.state.answer) {
-	    		this.props.answers.push(this.state.answer);
+					let answ = _.pick(this.state.step.data, 'ix');
+					answ = _.merge(answ, {answer: _.result(this.state.answer, 'label')}, _.pick(this.state.answer, 'id'));
+	    		this.props.answers.push(answ);
 				}
 				const newStepId = _.result(this.state.answer, 'nextStepId', _.result(this.state.step.data, 'nextStepId'));
 				const newStep = this.getStep(newStepId);
@@ -56,7 +58,10 @@ class Test extends React.Component {
 
 	finishTest(){
 		if(this.state.stepComplete){
-	    this.props.answers.push(this.state.answer);
+			let answ = _.pick(this.state.step.data, 'ix');
+			answ = _.merge(answ, {answer: _.result(this.state.answer, 'label')}, _.pick(this.state.answer, 'id'));
+
+	    this.props.answers.push(answ);
 			this.props.finish(this.props.answers);
 		}
 	}
