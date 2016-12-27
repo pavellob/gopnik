@@ -109,7 +109,7 @@ class Actions extends React.Component {
 			)
 		} else {
 			console.log(this.props);
-			let lbl =  this.props.isFirst ? "Начать тест" : "Дальше";
+			let lbl =  this.props.isFirst ? "Поехали" : "Дальше";
 
 			return (
 				<Button label={lbl} primary={true} onClick={this.props.next} primary raised/>

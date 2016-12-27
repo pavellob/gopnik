@@ -4,7 +4,7 @@
 }
 .title {
 	composes: title from fonts;
-	margin: 16px 0 24px 0;
+	margin-bottom: 24px;
 }
 
 .helpText{

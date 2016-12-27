@@ -1,3 +1,5 @@
+@value phone, tablet, desktop, notphone from "../styles/breakpoints.css";
+
 .container {
 	display: flex;
 	flex-direction: column;
@@ -7,5 +9,10 @@
 }
 
 .content {
-	padding: 8px 16px;
+	@media phone {
+		padding: 16px;
+	}
+	@media notphone {
+		padding: 32px
+	}
 }

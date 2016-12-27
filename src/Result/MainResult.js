@@ -14,24 +14,24 @@ class MainResult extends React.Component {
 
 	toProduct() {
 		const to = this.root + this.props.recomendation.link;
-		location = to;
+		location = to + '?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz';
 	}
 
 	bayProduct() {
 		const to = this.root + this.props.recomendation.link + 'kupit';
-		location = to;
+		location = to + '?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz';
 	}
 
 	goHome() {
 		const root = location.protocol + '//' + location.host;
-		location = root;
+		location = root + '?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz';
 	}
 
 	render() {
 		const actions = () => {
 			return (<div className={styles.actions}> 
-					<Button label="Подробнее" primary onClick={this.toProduct.bind(this)}/>
 					<Button label="Заказать" primary raised onClick={this.bayProduct.bind(this)}/>
+					<Button label="Подробнее" primary onClick={this.toProduct.bind(this)}/>
 				</div>
 			)
 		}
