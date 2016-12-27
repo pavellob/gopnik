@@ -61,8 +61,6 @@ class MainResult extends React.Component {
 								<label className={styles.law_result}>{this.props.lawResult.label}</label>
 							</div>
 							<div className={styles.law_text} dangerouslySetInnerHTML={{__html: this.props.lawResult.text}}/>
-							<div className={styles.hints}>
-							</div>
 							<div className={styles.recomendation}>
 								<div className={styles.recomendation_img} >
 									<img src={this.props.recomendation.image}/>

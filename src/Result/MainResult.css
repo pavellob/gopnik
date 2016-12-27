@@ -64,7 +64,7 @@ $topContainerHeight: 184px;
 }
 
 .recomendation {
-	padding: 16px;
+	padding: 32px 16px 16px;
 	display: flex;
 	background-color: #e4e9eb;
 	@media notdesktop {
@@ -79,7 +79,7 @@ $topContainerHeight: 184px;
 .recomendation_content {
 	@media notdesktop {		
 		order: 2;
-		padding-top: 16px;
+		padding-top: 32px;
 	}
 	@media desktop {
 		order: 1;
@@ -118,13 +118,8 @@ $topContainerHeight: 184px;
 	padding: 16px;
 }
 .main_hints {
-	ul {
-    padding-left: 16px;
-    margin-top: 0;
-    li {
-      margin-bottom: 8px;
-    }
-  }
+	padding-top: 16px;
+	font-size: 16px;
 }
 
 .law_hint {
