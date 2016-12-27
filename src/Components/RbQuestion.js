@@ -23,6 +23,9 @@ class RbQuestion extends React.Component {
 
 	render() {
 		let answers = this.props.answers.map( answer => {
+/*			if(_.isUndefined(answer.only) || (answer.only) {
+
+			}*/
 			return <RadioButton className={styles.control} key={answer.id} value={answer} label={answer.label}/>
 		});
 		let helpText = this.props.text ? <div className={styles.helpText} dangerouslySetInnerHTML={{__html: this.props.text}}/> : null;

@@ -39,9 +39,9 @@ class MainResult extends React.Component {
 		const hints = () => {
 			if(!_.isEmpty(this.props.hints)){
 				const hts = _.map(this.props.hints, (hint, $index) => {
-					return (<li key={$index}>{hint}</li>)
+					return (<p key={$index}>{hint}</p>)
 				})
-				return (<div className={styles.main_hints}><ul>{hts}</ul></div>)
+				return (<div className={styles.main_hints}>{hts}</div>)
 			}
 		}
 		const lawHint = this.props.lawResult.hint ? <p className={styles.law_hint}>{this.props.lawResult.hint}</p> : null;
@@ -61,23 +61,18 @@ class MainResult extends React.Component {
 								<label className={styles.law_result}>{this.props.lawResult.label}</label>
 							</div>
 							<div className={styles.law_text} dangerouslySetInnerHTML={{__html: this.props.lawResult.text}}/>
+							<div className={styles.hints}>
+							</div>
 							<div className={styles.recomendation}>
 								<div className={styles.recomendation_img} >
 									<img src={this.props.recomendation.image}/>
 								</div>
 								<div className={styles.recomendation_content}>
 									<div className={styles.recomendation_text} dangerouslySetInnerHTML={{__html: this.props.recomendation.text}}/>
+									{hints()}
 									{actions()}
 								</div>
 							</div>
-							<div className={styles.hints}>
-								{hints()}
-								{lawHint}
-							</div>
-						</Card>
-						<Card className={styles.to_site}>
-							<Button label="На сайт" primary onClick={this.goHome.bind(this)}/>
-
 						</Card>
 					</div>
 				</div>

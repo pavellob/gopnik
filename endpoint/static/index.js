@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "bff6dfa46ad18b9037fe"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "0e86c3a0230d486c7b76"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -3373,7 +3373,7 @@
 	  // NB: In an Electron preload script, document will be defined but not fully
 	  // initialized. Since we know we're in Chrome, we'll just detect this case
 	  // explicitly
-	  if (typeof window !== 'undefined' && 'process' in window && window.process.type === 'renderer') {
+	  if (typeof window !== 'undefined' && typeof window.process !== 'undefined' && window.process.type === 'renderer') {
 	    return true;
 	  }
 
@@ -3384,9 +3384,9 @@
 	    (typeof window !== 'undefined' && window.console && (console.firebug || (console.exception && console.table))) ||
 	    // is firefox >= v31?
 	    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-	    (navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+	    (navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
 	    // double check webkit in userAgent just in case we are in a worker
-	    (navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+	    (navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
 	}
 
 	/**
@@ -3428,7 +3428,7 @@
 	  // figure out the correct index to insert the CSS into
 	  var index = 0;
 	  var lastC = 0;
-	  args[0].replace(/%[a-z%]/g, function(match) {
+	  args[0].replace(/%[a-zA-Z%]/g, function(match) {
 	    if ('%%' === match) return;
 	    index++;
 	    if ('%c' === match) {
@@ -3481,7 +3481,6 @@
 	 */
 
 	function load() {
-	  var r;
 	  try {
 	    return exports.storage.debug;
 	  } catch(e) {}
@@ -3513,6 +3512,11 @@
 	  try {
 	    return window.localStorage;
 	  } catch (e) {}
+	}
+
+	/** Attach to Window*/
+	if (typeof window !== 'undefined') {
+	  window.debug = exports;
 	}
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
@@ -3633,7 +3637,7 @@
 	    // apply env-specific formatting (colors, etc.)
 	    exports.formatArgs.call(self, args);
 
-	    var logFn = enabled.log || exports.log || console.log.bind(console);
+	    var logFn = debug.log || exports.log || console.log.bind(console);
 	    logFn.apply(self, args);
 	  }
 
@@ -8400,7 +8404,7 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _index = __webpack_require__(325);
+	var _index = __webpack_require__(327);
 
 	var _index2 = _interopRequireDefault(_index);
 
@@ -8996,12 +9000,18 @@
 	 * will remain to ensure logic does not differ in production.
 	 */
 
-	function invariant(condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
+	var validateFormat = function validateFormat(format) {};
+
+	if (process.env.NODE_ENV !== 'production') {
+	  validateFormat = function validateFormat(format) {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
 	    }
-	  }
+	  };
+	}
+
+	function invariant(condition, format, a, b, c, d, e, f) {
+	  validateFormat(format);
 
 	  if (!condition) {
 	    var error;
@@ -30061,15 +30071,15 @@
 
 	var _Test2 = _interopRequireDefault(_Test);
 
-	var _MainResult = __webpack_require__(319);
+	var _MainResult = __webpack_require__(320);
 
 	var _MainResult2 = _interopRequireDefault(_MainResult);
 
-	var _App = __webpack_require__(322);
+	var _App = __webpack_require__(324);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _test_data = __webpack_require__(324);
+	var _test_data = __webpack_require__(326);
 
 	var _test_data2 = _interopRequireDefault(_test_data);
 
@@ -30119,7 +30129,12 @@
 		}, {
 			key: 'calculateResult',
 			value: function calculateResult(answers) {
+				console.log("dfdsfsdfsdfsdfsd");
 				var anwsIds = _.map(answers, 'id');
+				var hs = _.map(_.filter(this.props.hints, function (hint) {
+					return anwsIds.includes(hint.binding);
+				}), 'text');
+				console.log(hs);
 				return {
 					lawResult: _.result(_.find(this.props.lawResults, function (r) {
 						return _.some(r.bindings, function (bind) {
@@ -30134,7 +30149,10 @@
 								return anwsIds.includes(b);
 							});
 						});
-					}), 'data')
+					}), 'data'),
+					hints: _.map(_.filter(this.props.hints, function (hint) {
+						return anwsIds.includes(hint.binding);
+					}), 'text')
 				};
 			}
 		}, {
@@ -30170,7 +30188,7 @@
 		return App;
 	}(_react2.default.Component);
 
-	App.defaultProps = { testData: _test_data2.default.test, lawResults: _test_data2.default.result.lawResults, recomendations: _test_data2.default.result.recomendations };
+	App.defaultProps = { testData: _test_data2.default.test, lawResults: _test_data2.default.result.lawResults, recomendations: _test_data2.default.result.recomendations, hints: _test_data2.default.result.hints };
 
 	exports.default = App;
 
@@ -30204,15 +30222,15 @@
 
 	var _Components2 = _interopRequireDefault(_Components);
 
-	var _Step = __webpack_require__(294);
+	var _Step = __webpack_require__(295);
 
 	var _Step2 = _interopRequireDefault(_Step);
 
-	var _button = __webpack_require__(297);
+	var _button = __webpack_require__(298);
 
-	var _card = __webpack_require__(304);
+	var _card = __webpack_require__(305);
 
-	var _Test = __webpack_require__(316);
+	var _Test = __webpack_require__(317);
 
 	var _Test2 = _interopRequireDefault(_Test);
 
@@ -30299,6 +30317,7 @@
 				var blockName = _lodash2.default.result(this.state.step, 'block');
 				var StepComponent = _Components2.default[blockName];
 				var Step = (0, _Step2.default)(StepComponent);
+				var isFirst = this.state.step.id === this.props.startStepId;
 				return _react2.default.createElement(
 					'div',
 					{ className: _Test2.default.main_container },
@@ -30321,7 +30340,7 @@
 								_card.Card,
 								null,
 								_react2.default.createElement(Step, _extends({ resolveStep: this.resolveStep }, this.state.step.data)),
-								_react2.default.createElement(Actions, { className: _Test2.default.actions, isLastStep: this.isLastStep(this.state.step), next: this.next.bind(this), finish: this.finishTest.bind(this) })
+								_react2.default.createElement(Actions, { className: _Test2.default.actions, isLastStep: this.isLastStep(this.state.step), isFirst: isFirst, next: this.next.bind(this), finish: this.finishTest.bind(this) })
 							)
 						)
 					)
@@ -30361,7 +30380,10 @@
 				} else {
 					var _React$createElement;
 
-					return _react2.default.createElement(_button.Button, (_React$createElement = { label: '\u0414\u0430\u043B\u044C\u0448\u0435', primary: true, onClick: this.props.next }, _defineProperty(_React$createElement, 'primary', true), _defineProperty(_React$createElement, 'raised', true), _React$createElement));
+					console.log(this.props);
+					var lbl = this.props.isFirst ? "Начать тест" : "Дальше";
+
+					return _react2.default.createElement(_button.Button, (_React$createElement = { label: lbl, primary: true, onClick: this.props.next }, _defineProperty(_React$createElement, 'primary', true), _defineProperty(_React$createElement, 'raised', true), _React$createElement));
 				}
 			}
 		}, {
@@ -30399,7 +30421,7 @@
 	  var undefined;
 
 	  /** Used as the semantic version number. */
-	  var VERSION = '4.17.2';
+	  var VERSION = '4.17.3';
 
 	  /** Used as the size to enable large array optimizations. */
 	  var LARGE_ARRAY_SIZE = 200;
@@ -31954,9 +31976,9 @@
 	     * Shortcut fusion is an optimization to merge iteratee calls; this avoids
 	     * the creation of intermediate arrays and can greatly reduce the number of
 	     * iteratee executions. Sections of a chain sequence qualify for shortcut
-	     * fusion if the section is applied to an array of at least `200` elements
-	     * and any iteratees accept only one argument. The heuristic for whether a
-	     * section qualifies for shortcut fusion is subject to change.
+	     * fusion if the section is applied to an array and iteratees accept only
+	     * one argument. The heuristic for whether a section qualifies for shortcut
+	     * fusion is subject to change.
 	     *
 	     * Chaining is supported in custom builds as long as the `_#value` method is
 	     * directly or indirectly included in the build.
@@ -32115,8 +32137,8 @@
 
 	    /**
 	     * By default, the template delimiters used by lodash are like those in
-	     * embedded Ruby (ERB). Change the following template settings to use
-	     * alternative delimiters.
+	     * embedded Ruby (ERB) as well as ES2015 template strings. Change the
+	     * following template settings to use alternative delimiters.
 	     *
 	     * @static
 	     * @memberOf _
@@ -32263,8 +32285,7 @@
 	          resIndex = 0,
 	          takeCount = nativeMin(length, this.__takeCount__);
 
-	      if (!isArr || arrLength < LARGE_ARRAY_SIZE ||
-	          (arrLength == length && takeCount == length)) {
+	      if (!isArr || (!isRight && arrLength == length && takeCount == length)) {
 	        return baseWrapperValue(array, this.__actions__);
 	      }
 	      var result = [];
@@ -32378,7 +32399,7 @@
 	     */
 	    function hashHas(key) {
 	      var data = this.__data__;
-	      return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
+	      return nativeCreate ? (data[key] !== undefined) : hasOwnProperty.call(data, key);
 	    }
 
 	    /**
@@ -32849,24 +32870,6 @@
 	     */
 	    function arrayShuffle(array) {
 	      return shuffleSelf(copyArray(array));
-	    }
-
-	    /**
-	     * Used by `_.defaults` to customize its `_.assignIn` use.
-	     *
-	     * @private
-	     * @param {*} objValue The destination value.
-	     * @param {*} srcValue The source value.
-	     * @param {string} key The key of the property to assign.
-	     * @param {Object} object The parent object of `objValue`.
-	     * @returns {*} Returns the value to assign.
-	     */
-	    function assignInDefaults(objValue, srcValue, key, object) {
-	      if (objValue === undefined ||
-	          (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) {
-	        return srcValue;
-	      }
-	      return objValue;
 	    }
 
 	    /**
@@ -33481,8 +33484,7 @@
 	      if (value == null) {
 	        return value === undefined ? undefinedTag : nullTag;
 	      }
-	      value = Object(value);
-	      return (symToStringTag && symToStringTag in value)
+	      return (symToStringTag && symToStringTag in Object(value))
 	        ? getRawTag(value)
 	        : objectToString(value);
 	    }
@@ -33686,7 +33688,7 @@
 	      if (value === other) {
 	        return true;
 	      }
-	      if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
+	      if (value == null || other == null || (!isObjectLike(value) && !isObjectLike(other))) {
 	        return value !== value && other !== other;
 	      }
 	      return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
@@ -33709,17 +33711,12 @@
 	    function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
 	      var objIsArr = isArray(object),
 	          othIsArr = isArray(other),
-	          objTag = arrayTag,
-	          othTag = arrayTag;
+	          objTag = objIsArr ? arrayTag : getTag(object),
+	          othTag = othIsArr ? arrayTag : getTag(other);
 
-	      if (!objIsArr) {
-	        objTag = getTag(object);
-	        objTag = objTag == argsTag ? objectTag : objTag;
-	      }
-	      if (!othIsArr) {
-	        othTag = getTag(other);
-	        othTag = othTag == argsTag ? objectTag : othTag;
-	      }
+	      objTag = objTag == argsTag ? objectTag : objTag;
+	      othTag = othTag == argsTag ? objectTag : othTag;
+
 	      var objIsObj = objTag == objectTag,
 	          othIsObj = othTag == objectTag,
 	          isSameTag = objTag == othTag;
@@ -34167,7 +34164,6 @@
 	     * @returns {Object} Returns the new object.
 	     */
 	    function basePick(object, paths) {
-	      object = Object(object);
 	      return basePickBy(object, paths, function(value, path) {
 	        return hasIn(object, path);
 	      });
@@ -35560,8 +35556,7 @@
 	          var args = arguments,
 	              value = args[0];
 
-	          if (wrapper && args.length == 1 &&
-	              isArray(value) && value.length >= LARGE_ARRAY_SIZE) {
+	          if (wrapper && args.length == 1 && isArray(value)) {
 	            return wrapper.plant(value).value();
 	          }
 	          var index = 0,
@@ -35868,7 +35863,7 @@
 	      var func = Math[methodName];
 	      return function(number, precision) {
 	        number = toNumber(number);
-	        precision = nativeMin(toInteger(precision), 292);
+	        precision = precision == null ? 0 : nativeMin(toInteger(precision), 292);
 	        if (precision) {
 	          // Shift with exponential notation to avoid floating-point issues.
 	          // See [MDN](https://mdn.io/round#Examples) for more details.
@@ -35973,7 +35968,7 @@
 	      thisArg = newData[2];
 	      partials = newData[3];
 	      holders = newData[4];
-	      arity = newData[9] = newData[9] == null
+	      arity = newData[9] = newData[9] === undefined
 	        ? (isBindKey ? 0 : func.length)
 	        : nativeMax(newData[9] - length, 0);
 
@@ -35991,6 +35986,63 @@
 	      }
 	      var setter = data ? baseSetData : setData;
 	      return setWrapToString(setter(result, newData), func, bitmask);
+	    }
+
+	    /**
+	     * Used by `_.defaults` to customize its `_.assignIn` use to assign properties
+	     * of source objects to the destination object for all destination properties
+	     * that resolve to `undefined`.
+	     *
+	     * @private
+	     * @param {*} objValue The destination value.
+	     * @param {*} srcValue The source value.
+	     * @param {string} key The key of the property to assign.
+	     * @param {Object} object The parent object of `objValue`.
+	     * @returns {*} Returns the value to assign.
+	     */
+	    function customDefaultsAssignIn(objValue, srcValue, key, object) {
+	      if (objValue === undefined ||
+	          (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) {
+	        return srcValue;
+	      }
+	      return objValue;
+	    }
+
+	    /**
+	     * Used by `_.defaultsDeep` to customize its `_.merge` use to merge source
+	     * objects into destination objects that are passed thru.
+	     *
+	     * @private
+	     * @param {*} objValue The destination value.
+	     * @param {*} srcValue The source value.
+	     * @param {string} key The key of the property to merge.
+	     * @param {Object} object The parent object of `objValue`.
+	     * @param {Object} source The parent object of `srcValue`.
+	     * @param {Object} [stack] Tracks traversed source values and their merged
+	     *  counterparts.
+	     * @returns {*} Returns the value to assign.
+	     */
+	    function customDefaultsMerge(objValue, srcValue, key, object, source, stack) {
+	      if (isObject(objValue) && isObject(srcValue)) {
+	        // Recursively merge objects and arrays (susceptible to call stack limits).
+	        stack.set(srcValue, objValue);
+	        baseMerge(objValue, srcValue, undefined, customDefaultsMerge, stack);
+	        stack['delete'](srcValue);
+	      }
+	      return objValue;
+	    }
+
+	    /**
+	     * Used by `_.omit` to customize its `_.cloneDeep` use to only clone plain
+	     * objects.
+	     *
+	     * @private
+	     * @param {*} value The value to inspect.
+	     * @param {string} key The key of the property to inspect.
+	     * @returns {*} Returns the uncloned value or `undefined` to defer cloning to `_.cloneDeep`.
+	     */
+	    function customOmitClone(value, key) {
+	      return (key !== undefined && isPlainObject(value)) ? undefined : value;
 	    }
 
 	    /**
@@ -36164,9 +36216,9 @@
 	     */
 	    function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
 	      var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
-	          objProps = keys(object),
+	          objProps = getAllKeys(object),
 	          objLength = objProps.length,
-	          othProps = keys(other),
+	          othProps = getAllKeys(other),
 	          othLength = othProps.length;
 
 	      if (objLength != othLength && !isPartial) {
@@ -36404,7 +36456,15 @@
 	     * @param {Object} object The object to query.
 	     * @returns {Array} Returns the array of symbols.
 	     */
-	    var getSymbols = nativeGetSymbols ? overArg(nativeGetSymbols, Object) : stubArray;
+	    var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
+	      if (object == null) {
+	        return [];
+	      }
+	      object = Object(object);
+	      return arrayFilter(nativeGetSymbols(object), function(symbol) {
+	        return propertyIsEnumerable.call(object, symbol);
+	      });
+	    };
 
 	    /**
 	     * Creates an array of the own and inherited enumerable symbols of `object`.
@@ -36888,29 +36948,6 @@
 	      data[1] = newBitmask;
 
 	      return data;
-	    }
-
-	    /**
-	     * Used by `_.defaultsDeep` to customize its `_.merge` use.
-	     *
-	     * @private
-	     * @param {*} objValue The destination value.
-	     * @param {*} srcValue The source value.
-	     * @param {string} key The key of the property to merge.
-	     * @param {Object} object The parent object of `objValue`.
-	     * @param {Object} source The parent object of `srcValue`.
-	     * @param {Object} [stack] Tracks traversed source values and their merged
-	     *  counterparts.
-	     * @returns {*} Returns the value to assign.
-	     */
-	    function mergeDefaults(objValue, srcValue, key, object, source, stack) {
-	      if (isObject(objValue) && isObject(srcValue)) {
-	        // Recursively merge objects and arrays (susceptible to call stack limits).
-	        stack.set(srcValue, objValue);
-	        baseMerge(objValue, srcValue, undefined, mergeDefaults, stack);
-	        stack['delete'](srcValue);
-	      }
-	      return objValue;
 	    }
 
 	    /**
@@ -38655,7 +38692,7 @@
 	     *
 	     * var users = [
 	     *   { 'user': 'barney',  'active': false },
-	     *   { 'user': 'fred',    'active': false},
+	     *   { 'user': 'fred',    'active': false },
 	     *   { 'user': 'pebbles', 'active': true }
 	     * ];
 	     *
@@ -41224,7 +41261,7 @@
 	      if (typeof func != 'function') {
 	        throw new TypeError(FUNC_ERROR_TEXT);
 	      }
-	      start = start === undefined ? 0 : nativeMax(toInteger(start), 0);
+	      start = start == null ? 0 : nativeMax(toInteger(start), 0);
 	      return baseRest(function(args) {
 	        var array = args[start],
 	            otherArgs = castSlice(args, 0, start);
@@ -41894,7 +41931,7 @@
 	     * date objects, error objects, maps, numbers, `Object` objects, regexes,
 	     * sets, strings, symbols, and typed arrays. `Object` objects are compared
 	     * by their own, not inherited, enumerable properties. Functions and DOM
-	     * nodes are **not** supported.
+	     * nodes are compared by strict equality, i.e. `===`.
 	     *
 	     * @static
 	     * @memberOf _
@@ -42914,7 +42951,9 @@
 	     * // => 3
 	     */
 	    function toSafeInteger(value) {
-	      return baseClamp(toInteger(value), -MAX_SAFE_INTEGER, MAX_SAFE_INTEGER);
+	      return value
+	        ? baseClamp(toInteger(value), -MAX_SAFE_INTEGER, MAX_SAFE_INTEGER)
+	        : (value === 0 ? value : 0);
 	    }
 
 	    /**
@@ -43168,7 +43207,7 @@
 	     * // => { 'a': 1, 'b': 2 }
 	     */
 	    var defaults = baseRest(function(args) {
-	      args.push(undefined, assignInDefaults);
+	      args.push(undefined, customDefaultsAssignIn);
 	      return apply(assignInWith, undefined, args);
 	    });
 
@@ -43192,7 +43231,7 @@
 	     * // => { 'a': { 'b': 2, 'c': 3 } }
 	     */
 	    var defaultsDeep = baseRest(function(args) {
-	      args.push(undefined, mergeDefaults);
+	      args.push(undefined, customDefaultsMerge);
 	      return apply(mergeWith, undefined, args);
 	    });
 
@@ -43854,7 +43893,7 @@
 	      });
 	      copyObject(object, getAllKeysIn(object), result);
 	      if (isDeep) {
-	        result = baseClone(result, CLONE_DEEP_FLAG | CLONE_FLAT_FLAG | CLONE_SYMBOLS_FLAG);
+	        result = baseClone(result, CLONE_DEEP_FLAG | CLONE_FLAT_FLAG | CLONE_SYMBOLS_FLAG, customOmitClone);
 	      }
 	      var length = paths.length;
 	      while (length--) {
@@ -45003,7 +45042,10 @@
 	     */
 	    function startsWith(string, target, position) {
 	      string = toString(string);
-	      position = baseClamp(toInteger(position), 0, string.length);
+	      position = position == null
+	        ? 0
+	        : baseClamp(toInteger(position), 0, string.length);
+
 	      target = baseToString(target);
 	      return string.slice(position, position + target.length) == target;
 	    }
@@ -45122,9 +45164,9 @@
 	        options = undefined;
 	      }
 	      string = toString(string);
-	      options = assignInWith({}, options, settings, assignInDefaults);
+	      options = assignInWith({}, options, settings, customDefaultsAssignIn);
 
-	      var imports = assignInWith({}, options.imports, settings.imports, assignInDefaults),
+	      var imports = assignInWith({}, options.imports, settings.imports, customDefaultsAssignIn),
 	          importsKeys = keys(imports),
 	          importsValues = baseValues(imports, importsKeys);
 
@@ -47208,14 +47250,13 @@
 	    // Add `LazyWrapper` methods for `_.drop` and `_.take` variants.
 	    arrayEach(['drop', 'take'], function(methodName, index) {
 	      LazyWrapper.prototype[methodName] = function(n) {
-	        var filtered = this.__filtered__;
-	        if (filtered && !index) {
-	          return new LazyWrapper(this);
-	        }
 	        n = n === undefined ? 1 : nativeMax(toInteger(n), 0);
 
-	        var result = this.clone();
-	        if (filtered) {
+	        var result = (this.__filtered__ && !index)
+	          ? new LazyWrapper(this)
+	          : this.clone();
+
+	        if (result.__filtered__) {
 	          result.__takeCount__ = nativeMin(n, result.__takeCount__);
 	        } else {
 	          result.__views__.push({
@@ -47467,11 +47508,11 @@
 
 	var _RbQuestion2 = _interopRequireDefault(_RbQuestion);
 
-	var _StaticText = __webpack_require__(290);
+	var _StaticText = __webpack_require__(291);
 
 	var _StaticText2 = _interopRequireDefault(_StaticText);
 
-	var _StartScreen = __webpack_require__(291);
+	var _StartScreen = __webpack_require__(292);
 
 	var _StartScreen2 = _interopRequireDefault(_StartScreen);
 
@@ -47501,7 +47542,7 @@
 
 	var _radio = __webpack_require__(264);
 
-	var _RbQuestion = __webpack_require__(287);
+	var _RbQuestion = __webpack_require__(288);
 
 	var _RbQuestion2 = _interopRequireDefault(_RbQuestion);
 
@@ -47542,6 +47583,9 @@
 			key: 'render',
 			value: function render() {
 				var answers = this.props.answers.map(function (answer) {
+					/*			if(_.isUndefined(answer.only) || (answer.only) {
+	    
+	    			}*/
 					return _react2.default.createElement(_radio.RadioButton, { className: _RbQuestion2.default.control, key: answer.id, value: answer, label: answer.label });
 				});
 				var helpText = this.props.text ? _react2.default.createElement('div', { className: _RbQuestion2.default.helpText, dangerouslySetInnerHTML: { __html: this.props.text } }) : null;
@@ -47594,15 +47638,15 @@
 
 	var _ripple2 = _interopRequireDefault(_ripple);
 
-	var _Radio = __webpack_require__(281);
+	var _Radio = __webpack_require__(282);
 
 	var _Radio2 = _interopRequireDefault(_Radio);
 
-	var _RadioButton = __webpack_require__(282);
+	var _RadioButton = __webpack_require__(283);
 
-	var _RadioGroup = __webpack_require__(283);
+	var _RadioGroup = __webpack_require__(284);
 
-	var _theme = __webpack_require__(285);
+	var _theme = __webpack_require__(286);
 
 	var _theme2 = _interopRequireDefault(_theme);
 
@@ -47622,9 +47666,7 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	exports.__esModule = true;
 
 	var _ThemeProvider = __webpack_require__(266);
 
@@ -47658,12 +47700,8 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	exports.__esModule = true;
 	exports.default = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _class, _temp;
 
@@ -47687,24 +47725,20 @@
 	  function ThemeProvider() {
 	    _classCallCheck(this, ThemeProvider);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ThemeProvider).apply(this, arguments));
+	    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
 	  }
 
-	  _createClass(ThemeProvider, [{
-	    key: 'getChildContext',
-	    value: function getChildContext() {
-	      return {
-	        themr: {
-	          theme: this.props.theme
-	        }
-	      };
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react.Children.only(this.props.children);
-	    }
-	  }]);
+	  ThemeProvider.prototype.getChildContext = function getChildContext() {
+	    return {
+	      themr: {
+	        theme: this.props.theme
+	      }
+	    };
+	  };
+
+	  ThemeProvider.prototype.render = function render() {
+	    return _react.Children.only(this.props.children);
+	  };
 
 	  return ThemeProvider;
 	}(_react.Component), _class.propTypes = {
@@ -47723,9 +47757,7 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	exports.__esModule = true;
 
 	var _react = __webpack_require__(77);
 
@@ -47739,15 +47771,11 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	exports.__esModule = true;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	exports.themeable = themeable;
 
@@ -47762,8 +47790,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -47801,14 +47827,13 @@
 	 */
 
 	exports.default = function (componentName, localTheme) {
-	  var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 	  return function (ThemedComponent) {
 	    var _class, _temp;
 
-	    var _DEFAULT_OPTIONS$opti = _extends({}, DEFAULT_OPTIONS, options);
-
-	    var optionComposeTheme = _DEFAULT_OPTIONS$opti.composeTheme;
-	    var optionWithRef = _DEFAULT_OPTIONS$opti.withRef;
+	    var _DEFAULT_OPTIONS$opti = _extends({}, DEFAULT_OPTIONS, options),
+	        optionComposeTheme = _DEFAULT_OPTIONS$opti.composeTheme,
+	        optionWithRef = _DEFAULT_OPTIONS$opti.withRef;
 
 	    validateComposeOption(optionComposeTheme);
 
@@ -47830,99 +47855,89 @@
 	      _inherits(Themed, _Component);
 
 	      function Themed() {
-	        var _Object$getPrototypeO;
-
 	        _classCallCheck(this, Themed);
 
 	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	          args[_key] = arguments[_key];
 	        }
 
-	        var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Themed)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+	        var _this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args)));
 
 	        _this.theme_ = _this.calcTheme(_this.props);
 	        return _this;
 	      }
 
-	      _createClass(Themed, [{
-	        key: 'getWrappedInstance',
-	        value: function getWrappedInstance() {
-	          (0, _invariant2.default)(optionWithRef, 'To access the wrapped instance, you need to specify ' + '{ withRef: true } as the third argument of the themr() call.');
+	      Themed.prototype.getWrappedInstance = function getWrappedInstance() {
+	        (0, _invariant2.default)(optionWithRef, 'To access the wrapped instance, you need to specify ' + '{ withRef: true } as the third argument of the themr() call.');
 
-	          return this.refs.wrappedInstance;
-	        }
-	      }, {
-	        key: 'getNamespacedTheme',
-	        value: function getNamespacedTheme(props) {
-	          var themeNamespace = props.themeNamespace;
-	          var theme = props.theme;
+	        return this.refs.wrappedInstance;
+	      };
 
-	          if (!themeNamespace) return theme;
-	          if (themeNamespace && !theme) throw new Error('Invalid themeNamespace use in react-css-themr. ' + 'themeNamespace prop should be used only with theme prop.');
+	      Themed.prototype.getNamespacedTheme = function getNamespacedTheme(props) {
+	        var themeNamespace = props.themeNamespace,
+	            theme = props.theme;
 
-	          return Object.keys(theme).filter(function (key) {
-	            return key.startsWith(themeNamespace);
-	          }).reduce(function (result, key) {
-	            return _extends({}, result, _defineProperty({}, removeNamespace(key, themeNamespace), theme[key]));
-	          }, {});
-	        }
-	      }, {
-	        key: 'getThemeNotComposed',
-	        value: function getThemeNotComposed(props) {
-	          if (props.theme) return this.getNamespacedTheme(props);
-	          if (config.localTheme) return config.localTheme;
-	          return this.getContextTheme();
-	        }
-	      }, {
-	        key: 'getContextTheme',
-	        value: function getContextTheme() {
-	          return this.context.themr ? this.context.themr.theme[config.componentName] : {};
-	        }
-	      }, {
-	        key: 'getTheme',
-	        value: function getTheme(props) {
-	          return props.composeTheme === COMPOSE_SOFTLY ? _extends({}, this.getContextTheme(), config.localTheme, this.getNamespacedTheme(props)) : themeable(themeable(this.getContextTheme(), config.localTheme), this.getNamespacedTheme(props));
-	        }
-	      }, {
-	        key: 'calcTheme',
-	        value: function calcTheme(props) {
-	          var composeTheme = props.composeTheme;
+	        if (!themeNamespace) return theme;
+	        if (themeNamespace && !theme) throw new Error('Invalid themeNamespace use in react-css-themr. ' + 'themeNamespace prop should be used only with theme prop.');
 
-	          return composeTheme ? this.getTheme(props) : this.getThemeNotComposed(props);
-	        }
-	      }, {
-	        key: 'componentWillReceiveProps',
-	        value: function componentWillReceiveProps(nextProps) {
-	          if (nextProps.composeTheme !== this.props.composeTheme || nextProps.theme !== this.props.theme || nextProps.themeNamespace !== this.props.themeNamespace) {
-	            this.theme_ = this.calcTheme(nextProps);
-	          }
-	        }
-	      }, {
-	        key: 'render',
-	        value: function render() {
-	          var renderedElement = void 0;
-	          //exclude themr-only props
-	          //noinspection JSUnusedLocalSymbols
-	          var _props = this.props;
-	          var composeTheme = _props.composeTheme;
-	          var themeNamespace = _props.themeNamespace;
+	        return Object.keys(theme).filter(function (key) {
+	          return key.startsWith(themeNamespace);
+	        }).reduce(function (result, key) {
+	          var _extends2;
 
-	          var props = _objectWithoutProperties(_props, ['composeTheme', 'themeNamespace']); //eslint-disable-line no-unused-vars
+	          return _extends({}, result, (_extends2 = {}, _extends2[removeNamespace(key, themeNamespace)] = theme[key], _extends2));
+	        }, {});
+	      };
 
-	          if (optionWithRef) {
-	            renderedElement = _react2.default.createElement(ThemedComponent, _extends({}, props, {
-	              ref: 'wrappedInstance',
-	              theme: this.theme_
-	            }));
-	          } else {
-	            renderedElement = _react2.default.createElement(ThemedComponent, _extends({}, props, {
-	              theme: this.theme_
-	            }));
-	          }
+	      Themed.prototype.getThemeNotComposed = function getThemeNotComposed(props) {
+	        if (props.theme) return this.getNamespacedTheme(props);
+	        if (config.localTheme) return config.localTheme;
+	        return this.getContextTheme();
+	      };
 
-	          return renderedElement;
+	      Themed.prototype.getContextTheme = function getContextTheme() {
+	        return this.context.themr ? this.context.themr.theme[config.componentName] : {};
+	      };
+
+	      Themed.prototype.getTheme = function getTheme(props) {
+	        return props.composeTheme === COMPOSE_SOFTLY ? _extends({}, this.getContextTheme(), config.localTheme, this.getNamespacedTheme(props)) : themeable(themeable(this.getContextTheme(), config.localTheme), this.getNamespacedTheme(props));
+	      };
+
+	      Themed.prototype.calcTheme = function calcTheme(props) {
+	        var composeTheme = props.composeTheme;
+
+	        return composeTheme ? this.getTheme(props) : this.getThemeNotComposed(props);
+	      };
+
+	      Themed.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        if (nextProps.composeTheme !== this.props.composeTheme || nextProps.theme !== this.props.theme || nextProps.themeNamespace !== this.props.themeNamespace) {
+	          this.theme_ = this.calcTheme(nextProps);
 	        }
-	      }]);
+	      };
+
+	      Themed.prototype.render = function render() {
+	        var renderedElement = void 0;
+	        //exclude themr-only props
+	        //noinspection JSUnusedLocalSymbols
+
+	        var _props = this.props,
+	            composeTheme = _props.composeTheme,
+	            themeNamespace = _props.themeNamespace,
+	            props = _objectWithoutProperties(_props, ['composeTheme', 'themeNamespace']); //eslint-disable-line no-unused-vars
+
+	        if (optionWithRef) {
+	          renderedElement = _react2.default.createElement(ThemedComponent, _extends({}, props, {
+	            ref: 'wrappedInstance',
+	            theme: this.theme_
+	          }));
+	        } else {
+	          renderedElement = _react2.default.createElement(ThemedComponent, _extends({}, props, {
+	            theme: this.theme_
+	          }));
+	        }
+
+	        return renderedElement;
+	      };
 
 	      return Themed;
 	    }(_react.Component), _class.displayName = 'Themed' + ThemedComponent.name, _class.contextTypes = {
@@ -47951,7 +47966,7 @@
 
 
 	function themeable() {
-	  var original = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	  var original = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	  var mixin = arguments[1];
 
 	  //don't merge if no mixin is passed
@@ -47962,6 +47977,8 @@
 
 	  //merging reducer
 	  function (result, key) {
+	    var _extends3;
+
 	    var originalValue = original[key];
 	    var mixinValue = mixin[key];
 
@@ -47976,7 +47993,7 @@
 	      newValue = originalValue ? originalValue + ' ' + mixinValue : mixinValue;
 	    }
 
-	    return _extends({}, result, _defineProperty({}, key, newValue));
+	    return _extends({}, result, (_extends3 = {}, _extends3[key] = newValue, _extends3));
 	  },
 
 	  //use original theme as an acc
@@ -48082,7 +48099,6 @@
 	var CHECKBOX = exports.CHECKBOX = 'RTCheckbox';
 	var DATE_PICKER = exports.DATE_PICKER = 'RTDatePicker';
 	var DIALOG = exports.DIALOG = 'RTDialog';
-	var DRAWER = exports.DRAWER = 'RTDrawer';
 	var DROPDOWN = exports.DROPDOWN = 'RTDropdown';
 	var INPUT = exports.INPUT = 'RTInput';
 	var LAYOUT = exports.LAYOUT = 'RTLayout';
@@ -48118,7 +48134,7 @@
 
 	var _Ripple2 = _interopRequireDefault(_Ripple);
 
-	var _theme = __webpack_require__(277);
+	var _theme = __webpack_require__(278);
 
 	var _theme2 = _interopRequireDefault(_theme);
 
@@ -48154,19 +48170,23 @@
 
 	var _classnames3 = _interopRequireDefault(_classnames2);
 
+	var _immutabilityHelper = __webpack_require__(274);
+
+	var _immutabilityHelper2 = _interopRequireDefault(_immutabilityHelper);
+
 	var _reactCssThemr = __webpack_require__(265);
 
 	var _identifiers = __webpack_require__(270);
 
-	var _events = __webpack_require__(274);
+	var _events = __webpack_require__(275);
 
 	var _events2 = _interopRequireDefault(_events);
 
-	var _prefixer = __webpack_require__(275);
+	var _prefixer = __webpack_require__(276);
 
 	var _prefixer2 = _interopRequireDefault(_prefixer);
 
-	var _utils = __webpack_require__(276);
+	var _utils = __webpack_require__(277);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
@@ -48308,10 +48328,9 @@
 	              var endRipple = _this3.addRippleDeactivateEventListener(isTouch, key);
 	              var initialState = { active: false, restarting: true, top: top, left: left, width: width, endRipple: endRipple };
 	              var runningState = { active: true, restarting: false };
-	              var ripples = _extends({}, _this3.state.ripples, _defineProperty({}, key, initialState));
-	              _this3.setState({ ripples: ripples }, function () {
+	              _this3.setState((0, _immutabilityHelper2.default)(_this3.state, { ripples: _defineProperty({}, key, { $set: initialState }) }), function () {
 	                _this3.refs[key].offsetWidth; //eslint-disable-line no-unused-expressions
-	                _this3.setState({ ripples: _extends({}, _this3.state.ripples, _defineProperty({}, key, Object.assign({}, _this3.state.ripples[key], runningState))) });
+	                _this3.setState((0, _immutabilityHelper2.default)(_this3.state, { ripples: _defineProperty({}, key, { $merge: runningState }) }));
 	              });
 	            })();
 	          }
@@ -48425,7 +48444,7 @@
 	          var self = this;
 	          return function endRipple() {
 	            document.removeEventListener(eventType, endRipple);
-	            self.setState({ ripples: _extends({}, self.state.ripples, _defineProperty({}, rippleKey, Object.assign({}, self.state.ripples[rippleKey], { active: false }))) });
+	            self.setState({ ripples: (0, _immutabilityHelper2.default)(self.state.ripples, _defineProperty({}, rippleKey, { $merge: { active: false } })) });
 	          };
 	        }
 	      }, {
@@ -48573,6 +48592,181 @@
 
 /***/ },
 /* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var invariant = __webpack_require__(269);
+
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var splice = Array.prototype.splice;
+
+	function assign(target, source) {
+	  for (var key in source) {
+	    if (hasOwnProperty.call(source, key)) {
+	      target[key] = source[key];
+	    }
+	  }
+	  return target;
+	}
+
+	function copy(object) {
+	  if (object instanceof Array) {
+	    return object.slice();
+	  } else if (object && typeof object === 'object') {
+	    return assign(new object.constructor(), object);
+	  } else {
+	    return object;
+	  }
+	}
+
+
+	function newContext() {
+	  var commands = assign({}, defaultCommands);
+	  update.extend = function(directive, fn) {
+	    commands[directive] = fn;
+	  }
+
+	  return update;
+
+	  function update(object, spec) {
+	    invariant(
+	      typeof spec === 'object',
+	      'update(): You provided a key path to update() that did not contain one ' +
+	      'of %s. Did you forget to include {%s: ...}?',
+	      Object.keys(commands).join(', '),
+	      '$set'
+	    );
+
+	    var newObject = object;
+	    for (var key in spec) {
+	      if (hasOwnProperty.call(commands, key)) {
+	        return commands[key](spec[key], newObject, spec, object);
+	      }
+	    }
+	    for (var key in spec) {
+	      var nextValueForKey = update(object[key], spec[key]);
+	      if (nextValueForKey === object[key]) {
+	        continue;
+	      }
+	      if (newObject === object) {
+	        newObject = copy(object);
+	      }
+	      newObject[key] = nextValueForKey;
+	    }
+	    return newObject;
+	  }
+
+	}
+
+	var defaultCommands = {
+	  $push: function(value, original, spec) {
+	    invariantPushAndUnshift(original, spec, '$push');
+	    return original.concat(value);
+	  },
+	  $unshift: function(value, original, spec) {
+	    invariantPushAndUnshift(original, spec, '$unshift');
+	    return value.concat(original);
+	  },
+	  $splice: function(value, newObject, spec, object) {
+	    var originalValue = newObject === object ? copy(object) : newObject;
+	    invariantSplices(originalValue, spec);
+	    value.forEach(function(args) {
+	      invariantSplice(args);
+	      splice.apply(originalValue, args);
+	    });
+	    return originalValue;
+	  },
+	  $set: function(value, original, spec) {
+	    invariantSet(spec);
+	    return value;
+	  },
+	  $merge: function(value, newObject, spec, object) {
+	    var originalValue = newObject === object ? copy(object) : newObject;
+	    invariantMerge(originalValue, value);
+	    Object.keys(value).forEach(function(key) {
+	      originalValue[key] = value[key];
+	    });
+	    return originalValue;
+	  },
+	  $apply: function(value, original) {
+	    invariantApply(value);
+	    return value(original);
+	  }
+	};
+
+
+
+	module.exports = newContext();
+	module.exports.newContext = newContext;
+
+
+	// invariants
+
+	function invariantPushAndUnshift(value, spec, command) {
+	  invariant(
+	    Array.isArray(value),
+	    'update(): expected target of %s to be an array; got %s.',
+	    command,
+	    value
+	  );
+	  var specValue = spec[command];
+	  invariant(
+	    Array.isArray(specValue),
+	    'update(): expected spec of %s to be an array; got %s. ' +
+	    'Did you forget to wrap your parameter in an array?',
+	    command,
+	    specValue
+	  );
+	}
+
+	function invariantSplices(value, spec) {
+	  invariant(
+	    Array.isArray(value),
+	    'Expected $splice target to be an array; got %s',
+	    value
+	  );
+	  invariantSplice(spec['$splice']);
+	}
+
+	function invariantSplice(value) {
+	  invariant(
+	    Array.isArray(value),
+	    'update(): expected spec of $splice to be an array of arrays; got %s. ' +
+	    'Did you forget to wrap your parameters in an array?',
+	    value
+	  );
+	}
+
+	function invariantApply(fn) {
+	  invariant(
+	    typeof fn === 'function',
+	    'update(): expected spec of $apply to be a function; got %s.',
+	    fn
+	  );
+	}
+
+	function invariantSet(spec) {
+	  invariant(
+	    Object.keys(spec).length === 1,
+	    'Cannot have more than one key in an object with $set'
+	  );
+	}
+
+	function invariantMerge(target, specValue) {
+	  invariant(
+	    specValue && typeof specValue === 'object',
+	    'update(): $merge expects a spec of type \'object\'; got %s',
+	    specValue
+	  );
+	  invariant(
+	    target && typeof target === 'object',
+	    'update(): $merge expects a target of type \'object\'; got %s',
+	    target
+	  );
+	}
+
+
+/***/ },
+/* 275 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48646,7 +48840,7 @@
 	}
 
 /***/ },
-/* 275 */
+/* 276 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48698,7 +48892,7 @@
 	exports.default = prefixer;
 
 /***/ },
-/* 276 */
+/* 277 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48776,23 +48970,23 @@
 	};
 
 /***/ },
-/* 277 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(278);
+	var content = __webpack_require__(279);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(278, function() {
-				var newContent = __webpack_require__(278);
+			module.hot.accept(279, function() {
+				var newContent = __webpack_require__(279);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -48802,28 +48996,28 @@
 	}
 
 /***/ },
-/* 278 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
+
 
 	// module
-	exports.push([module.id, ".theme_radio_1nE8S, .theme_text_2VOlv {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n:root {\n  --color-divider: var(--palette-grey-200);\n  --color-background: var(--color-white);\n  --color-text: var(--palette-grey-900);\n  --color-text-secondary: var(--palette-grey-600);\n  --color-primary: var(--palette-indigo-500);\n  --color-primary-dark: var(--palette-indigo-700);\n  --color-accent: var(--palette-pink-a200);\n  --color-accent-dark: var(--palette-pink-700);\n  --color-primary-contrast: var(--color-dark-contrast);\n  --color-accent-contrast: var(--color-dark-contrast);\n  --unit: 1rem;\n  --preferred-font: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n  --font-size: calc(1.6 * var(--unit));\n  --font-size-tiny: calc(1.2 * var(--unit));\n  --font-size-small: calc(1.4 * var(--unit));\n  --font-size-normal: var(--font-size);\n  --font-size-big: calc(1.8 * var(--unit));\n  --font-weight-thin: 300;\n  --font-weight-normal: 400;\n  --font-weight-semi-bold: 500;\n  --font-weight-bold: 700;\n  --shadow-2p: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  --shadow-3p: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12);\n  --shadow-4p: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);\n  --shadow-6p: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);\n  --shadow-8p: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);\n  --shadow-16p: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);\n  --shadow-key-umbra-opacity: 0.2;\n  --shadow-key-penumbra-opacity: 0.14;\n  --shadow-ambient-shadow-opacity: 0.12;\n  --zdepth-shadow-1: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);\n  --zdepth-shadow-2: 0 3px 10px rgba(0, 0, 0, 0.16), 0 3px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-3: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-4: 0 14px 45px rgba(0, 0, 0, 0.25), 0 10px 18px rgba(0, 0, 0, 0.22);\n  --zdepth-shadow-5: 0 19px 60px rgba(0, 0, 0, 0.3), 0 15px 20px rgba(0, 0, 0, 0.22);\n  --animation-duration: 0.35s;\n  --animation-delay: calc(var(--animation-duration) / 5);\n  --animation-curve-fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1);\n  --animation-curve-linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1);\n  --animation-curve-fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1);\n  --animation-curve-default: var(--animation-curve-fast-out-slow-in);\n  --z-index-highest: 300;\n  --z-index-higher: 200;\n  --z-index-high: 100;\n  --z-index-normal: 1;\n  --z-index-low: -100;\n  --z-index-lower: -200; }\n\n:root {\n  --ripple-duration: 800ms;\n  --ripple-final-opacity: 0.3;\n  --ripple-size: calc(15 * var(--unit)); }\n\n.theme_rippleWrapper_2GBlU {\n  bottom: 0;\n  left: 0;\n  pointer-events: none;\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: var(--z-index-normal); }\n\n.theme_ripple_6cBaH {\n  background-color: currentColor;\n  border-radius: 50%;\n  left: 50%;\n  pointer-events: none;\n  position: absolute;\n  top: 50%;\n  transform-origin: 50% 50%;\n  transition-duration: var(--ripple-duration);\n  z-index: var(--z-index-high); }\n  .theme_ripple_6cBaH.theme_rippleRestarting_1oAjW {\n    opacity: var(--ripple-final-opacity);\n    transition-property: none; }\n  .theme_ripple_6cBaH.theme_rippleActive_1oBqc {\n    opacity: var(--ripple-final-opacity);\n    transition-property: transform; }\n  .theme_ripple_6cBaH:not(.theme_rippleActive_1oBqc):not(.theme_rippleRestarting_1oAjW) {\n    opacity: 0;\n    transition-property: opacity, transform; }\n", ""]);
+	exports.push([module.id, ".theme_radio_21N7h, .theme_text_Y_833 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.theme_ripple_2pkae {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  z-index: 100;\n  pointer-events: none;\n  background-color: currentColor;\n  border-radius: 50%;\n  transform-origin: 50% 50%; }\n\n.theme_rippleWrapper_32v6j {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 1;\n  pointer-events: none; }\n\n.theme_ripple_2pkae {\n  transition-duration: 800ms; }\n  .theme_ripple_2pkae.theme_rippleRestarting_7SCDF {\n    opacity: 0.3;\n    transition-property: none; }\n  .theme_ripple_2pkae.theme_rippleActive_2iWe6 {\n    opacity: 0.3;\n    transition-property: transform; }\n  .theme_ripple_2pkae:not(.theme_rippleActive_2iWe6):not(.theme_rippleRestarting_7SCDF) {\n    opacity: 0;\n    transition-property: opacity, transform; }\n", ""]);
 
 	// exports
 	exports.locals = {
-		"radio": "theme_radio_1nE8S",
-		"text": "theme_text_2VOlv",
-		"rippleWrapper": "theme_rippleWrapper_2GBlU",
-		"ripple": "theme_ripple_6cBaH",
-		"rippleRestarting": "theme_rippleRestarting_1oAjW",
-		"rippleActive": "theme_rippleActive_1oBqc"
+		"radio": "theme_radio_21N7h",
+		"text": "theme_text_Y_833",
+		"ripple": "theme_ripple_2pkae",
+		"rippleWrapper": "theme_rippleWrapper_32v6j",
+		"rippleRestarting": "theme_rippleRestarting_7SCDF",
+		"rippleActive": "theme_rippleActive_2iWe6"
 	};
 
 /***/ },
-/* 279 */
+/* 280 */
 /***/ function(module, exports) {
 
 	/*
@@ -48879,7 +49073,7 @@
 
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -49131,7 +49325,7 @@
 
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49181,7 +49375,7 @@
 	exports.default = factory;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49211,7 +49405,7 @@
 
 	var _Ripple2 = _interopRequireDefault(_Ripple);
 
-	var _Radio = __webpack_require__(281);
+	var _Radio = __webpack_require__(282);
 
 	var _Radio2 = _interopRequireDefault(_Radio);
 
@@ -49351,7 +49545,7 @@
 	exports.RadioButton = RadioButton;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49371,11 +49565,11 @@
 
 	var _identifiers = __webpack_require__(270);
 
-	var _RadioButton = __webpack_require__(282);
+	var _RadioButton = __webpack_require__(283);
 
 	var _RadioButton2 = _interopRequireDefault(_RadioButton);
 
-	var _react3 = __webpack_require__(284);
+	var _react3 = __webpack_require__(285);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49455,7 +49649,7 @@
 	exports.RadioGroup = RadioGroup;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -49469,23 +49663,23 @@
 	}
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(286);
+	var content = __webpack_require__(287);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(286, function() {
-				var newContent = __webpack_require__(286);
+			module.hot.accept(287, function() {
+				var newContent = __webpack_require__(287);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -49493,47 +49687,47 @@
 		// When the module is disposed, remove the <style> tags
 		module.hot.dispose(function() { update(); });
 	}
-
-/***/ },
-/* 286 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(279)();
-	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
-
-	// module
-	exports.push([module.id, ".theme_radio_3Kp9e, .theme_text_3vGvh {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n:root {\n  --palette-red-50: #ffebee;\n  --palette-red-100: #ffcdd2;\n  --palette-red-200: #ef9a9a;\n  --palette-red-300: #e57373;\n  --palette-red-400: #ef5350;\n  --palette-red-500: #f44336;\n  --palette-red-600: #e53935;\n  --palette-red-700: #d32f2f;\n  --palette-red-800: #c62828;\n  --palette-red-900: #b71c1c;\n  --palette-red-a100: #ff8a80;\n  --palette-red-a200: #ff5252;\n  --palette-red-a400: #ff1744;\n  --palette-red-a700: #d50000;\n  --palette-pink-50: #fce4ec;\n  --palette-pink-100: #f8bbd0;\n  --palette-pink-200: #f48fb1;\n  --palette-pink-300: #f06292;\n  --palette-pink-400: #ec407a;\n  --palette-pink-500: #e91e63;\n  --palette-pink-600: #d81b60;\n  --palette-pink-700: #c2185b;\n  --palette-pink-800: #ad1457;\n  --palette-pink-900: #880e4f;\n  --palette-pink-a100: #ff80ab;\n  --palette-pink-a200: #ff4081;\n  --palette-pink-a400: #f50057;\n  --palette-pink-a700: #c51162;\n  --palette-purple-50: #f3e5f5;\n  --palette-purple-100: #e1bee7;\n  --palette-purple-200: #ce93d8;\n  --palette-purple-300: #ba68c8;\n  --palette-purple-400: #ab47bc;\n  --palette-purple-500: #9c27b0;\n  --palette-purple-600: #8e24aa;\n  --palette-purple-700: #7b1fa2;\n  --palette-purple-800: #6a1b9a;\n  --palette-purple-900: #4a148c;\n  --palette-purple-a100: #ea80fc;\n  --palette-purple-a200: #e040fb;\n  --palette-purple-a400: #d500f9;\n  --palette-purple-a700: #aa00ff;\n  --palette-deep-purple-50: #ede7f6;\n  --palette-deep-purple-100: #d1c4e9;\n  --palette-deep-purple-200: #b39ddb;\n  --palette-deep-purple-300: #9575cd;\n  --palette-deep-purple-400: #7e57c2;\n  --palette-deep-purple-500: #673ab7;\n  --palette-deep-purple-600: #5e35b1;\n  --palette-deep-purple-700: #512da8;\n  --palette-deep-purple-800: #4527a0;\n  --palette-deep-purple-900: #311b92;\n  --palette-deep-purple-a100: #b388ff;\n  --palette-deep-purple-a200: #7c4dff;\n  --palette-deep-purple-a400: #651fff;\n  --palette-deep-purple-a700: #6200ea;\n  --palette-indigo-50: #e8eaf6;\n  --palette-indigo-100: #c5cae9;\n  --palette-indigo-200: #9fa8da;\n  --palette-indigo-300: #7986cb;\n  --palette-indigo-400: #5c6bc0;\n  --palette-indigo-500: #3f51b5;\n  --palette-indigo-600: #3949ab;\n  --palette-indigo-700: #303f9f;\n  --palette-indigo-800: #283593;\n  --palette-indigo-900: #1a237e;\n  --palette-indigo-a100: #8c9eff;\n  --palette-indigo-a200: #536dfe;\n  --palette-indigo-a400: #3d5afe;\n  --palette-indigo-a700: #304ffe;\n  --palette-blue-50: #e3f2fd;\n  --palette-blue-100: #bbdefb;\n  --palette-blue-200: #90caf9;\n  --palette-blue-300: #64b5f6;\n  --palette-blue-400: #42a5f5;\n  --palette-blue-500: #2196f3;\n  --palette-blue-600: #1e88e5;\n  --palette-blue-700: #1976d2;\n  --palette-blue-800: #1565c0;\n  --palette-blue-900: #0d47a1;\n  --palette-blue-a100: #82b1ff;\n  --palette-blue-a200: #448aff;\n  --palette-blue-a400: #2979ff;\n  --palette-blue-a700: #2962ff;\n  --palette-light-blue-50: #e1f5fe;\n  --palette-light-blue-100: #b3e5fc;\n  --palette-light-blue-200: #81d4fa;\n  --palette-light-blue-300: #4fc3f7;\n  --palette-light-blue-400: #29b6f6;\n  --palette-light-blue-500: #03a9f4;\n  --palette-light-blue-600: #039be5;\n  --palette-light-blue-700: #0288d1;\n  --palette-light-blue-800: #0277bd;\n  --palette-light-blue-900: #01579b;\n  --palette-light-blue-a100: #80d8ff;\n  --palette-light-blue-a200: #40c4ff;\n  --palette-light-blue-a400: #00b0ff;\n  --palette-light-blue-a700: #0091ea;\n  --palette-cyan-50: #e0f7fa;\n  --palette-cyan-100: #b2ebf2;\n  --palette-cyan-200: #80deea;\n  --palette-cyan-300: #4dd0e1;\n  --palette-cyan-400: #26c6da;\n  --palette-cyan-500: #00bcd4;\n  --palette-cyan-600: #00acc1;\n  --palette-cyan-700: #0097a7;\n  --palette-cyan-800: #00838f;\n  --palette-cyan-900: #006064;\n  --palette-cyan-a100: #84ffff;\n  --palette-cyan-a200: #18ffff;\n  --palette-cyan-a400: #00e5ff;\n  --palette-cyan-a700: #00b8d4;\n  --palette-teal-50: #e0f2f1;\n  --palette-teal-100: #b2dfdb;\n  --palette-teal-200: #80cbc4;\n  --palette-teal-300: #4db6ac;\n  --palette-teal-400: #26a69a;\n  --palette-teal-500: #009688;\n  --palette-teal-600: #00897b;\n  --palette-teal-700: #00796b;\n  --palette-teal-800: #00695c;\n  --palette-teal-900: #004d40;\n  --palette-teal-a100: #a7ffeb;\n  --palette-teal-a200: #64ffda;\n  --palette-teal-a400: #1de9b6;\n  --palette-teal-a700: #00bfa5;\n  --palette-green-50: #e8f5e9;\n  --palette-green-100: #c8e6c9;\n  --palette-green-200: #a5d6a7;\n  --palette-green-300: #81c784;\n  --palette-green-400: #66bb6a;\n  --palette-green-500: #4caf50;\n  --palette-green-600: #43a047;\n  --palette-green-700: #388e3c;\n  --palette-green-800: #2e7d32;\n  --palette-green-900: #1b5e20;\n  --palette-green-a100: #b9f6ca;\n  --palette-green-a200: #69f0ae;\n  --palette-green-a400: #00e676;\n  --palette-green-a700: #00c853;\n  --palette-light-green-50: #f1f8e9;\n  --palette-light-green-100: #dcedc8;\n  --palette-light-green-200: #c5e1a5;\n  --palette-light-green-300: #aed581;\n  --palette-light-green-400: #9ccc65;\n  --palette-light-green-500: #8bc34a;\n  --palette-light-green-600: #7cb342;\n  --palette-light-green-700: #689f38;\n  --palette-light-green-800: #558b2f;\n  --palette-light-green-900: #33691e;\n  --palette-light-green-a100: #ccff90;\n  --palette-light-green-a200: #b2ff59;\n  --palette-light-green-a400: #76ff03;\n  --palette-light-green-a700: #64dd17;\n  --palette-lime-50: #f9fbe7;\n  --palette-lime-100: #f0f4c3;\n  --palette-lime-200: #e6ee9c;\n  --palette-lime-300: #dce775;\n  --palette-lime-400: #d4e157;\n  --palette-lime-500: #cddc39;\n  --palette-lime-600: #c0ca33;\n  --palette-lime-700: #afb42b;\n  --palette-lime-800: #9e9d24;\n  --palette-lime-900: #827717;\n  --palette-lime-a100: #f4ff81;\n  --palette-lime-a200: #eeff41;\n  --palette-lime-a400: #c6ff00;\n  --palette-lime-a700: #aeea00;\n  --palette-yellow-50: #fffde7;\n  --palette-yellow-100: #fff9c4;\n  --palette-yellow-200: #fff59d;\n  --palette-yellow-300: #fff176;\n  --palette-yellow-400: #ffee58;\n  --palette-yellow-500: #ffeb3b;\n  --palette-yellow-600: #fdd835;\n  --palette-yellow-700: #fbc02d;\n  --palette-yellow-800: #f9a825;\n  --palette-yellow-900: #f57f17;\n  --palette-yellow-a100: #ffff8d;\n  --palette-yellow-a200: yellow;\n  --palette-yellow-a400: #ffea00;\n  --palette-yellow-a700: #ffd600;\n  --palette-amber-50: #fff8e1;\n  --palette-amber-100: #ffecb3;\n  --palette-amber-200: #ffe082;\n  --palette-amber-300: #ffd54f;\n  --palette-amber-400: #ffca28;\n  --palette-amber-500: #ffc107;\n  --palette-amber-600: #ffb300;\n  --palette-amber-700: #ffa000;\n  --palette-amber-800: #ff8f00;\n  --palette-amber-900: #ff6f00;\n  --palette-amber-a100: #ffe57f;\n  --palette-amber-a200: #ffd740;\n  --palette-amber-a400: #ffc400;\n  --palette-amber-a700: #ffab00;\n  --palette-orange-50: #fff3e0;\n  --palette-orange-100: #ffe0b2;\n  --palette-orange-200: #ffcc80;\n  --palette-orange-300: #ffb74d;\n  --palette-orange-400: #ffa726;\n  --palette-orange-500: #ff9800;\n  --palette-orange-600: #fb8c00;\n  --palette-orange-700: #f57c00;\n  --palette-orange-800: #ef6c00;\n  --palette-orange-900: #e65100;\n  --palette-orange-a100: #ffd180;\n  --palette-orange-a200: #ffab40;\n  --palette-orange-a400: #ff9100;\n  --palette-orange-a700: #ff6d00;\n  --palette-deep-orange-50: #fbe9e7;\n  --palette-deep-orange-100: #ffccbc;\n  --palette-deep-orange-200: #ffab91;\n  --palette-deep-orange-300: #ff8a65;\n  --palette-deep-orange-400: #ff7043;\n  --palette-deep-orange-500: #ff5722;\n  --palette-deep-orange-600: #f4511e;\n  --palette-deep-orange-700: #e64a19;\n  --palette-deep-orange-800: #d84315;\n  --palette-deep-orange-900: #bf360c;\n  --palette-deep-orange-a100: #ff9e80;\n  --palette-deep-orange-a200: #ff6e40;\n  --palette-deep-orange-a400: #ff3d00;\n  --palette-deep-orange-a700: #dd2c00;\n  --palette-brown-50: #efebe9;\n  --palette-brown-100: #d7ccc8;\n  --palette-brown-200: #bcaaa4;\n  --palette-brown-300: #a1887f;\n  --palette-brown-400: #8d6e63;\n  --palette-brown-500: #795548;\n  --palette-brown-600: #6d4c41;\n  --palette-brown-700: #5d4037;\n  --palette-brown-800: #4e342e;\n  --palette-brown-900: #3e2723;\n  --palette-grey-50: #fafafa;\n  --palette-grey-100: whitesmoke;\n  --palette-grey-200: #eeeeee;\n  --palette-grey-300: #e0e0e0;\n  --palette-grey-400: #bdbdbd;\n  --palette-grey-500: #9e9e9e;\n  --palette-grey-600: #757575;\n  --palette-grey-700: #616161;\n  --palette-grey-800: #424242;\n  --palette-grey-900: #212121;\n  --palette-blue-grey-50: #eceff1;\n  --palette-blue-grey-100: #cfd8dc;\n  --palette-blue-grey-200: #b0bec5;\n  --palette-blue-grey-300: #90a4ae;\n  --palette-blue-grey-400: #78909c;\n  --palette-blue-grey-500: #607d8b;\n  --palette-blue-grey-600: #546e7a;\n  --palette-blue-grey-700: #455a64;\n  --palette-blue-grey-800: #37474f;\n  --palette-blue-grey-900: #263238;\n  --color-black: black;\n  --color-white: white;\n  --color-dark-contrast: var(--color-white);\n  --color-light-contrast: var(--color-black); }\n\n:root {\n  --color-divider: var(--palette-grey-200);\n  --color-background: var(--color-white);\n  --color-text: var(--palette-grey-900);\n  --color-text-secondary: var(--palette-grey-600);\n  --color-primary: var(--palette-indigo-500);\n  --color-primary-dark: var(--palette-indigo-700);\n  --color-accent: var(--palette-pink-a200);\n  --color-accent-dark: var(--palette-pink-700);\n  --color-primary-contrast: var(--color-dark-contrast);\n  --color-accent-contrast: var(--color-dark-contrast);\n  --unit: 1rem;\n  --preferred-font: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n  --font-size: calc(1.6 * var(--unit));\n  --font-size-tiny: calc(1.2 * var(--unit));\n  --font-size-small: calc(1.4 * var(--unit));\n  --font-size-normal: var(--font-size);\n  --font-size-big: calc(1.8 * var(--unit));\n  --font-weight-thin: 300;\n  --font-weight-normal: 400;\n  --font-weight-semi-bold: 500;\n  --font-weight-bold: 700;\n  --shadow-2p: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  --shadow-3p: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12);\n  --shadow-4p: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);\n  --shadow-6p: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);\n  --shadow-8p: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);\n  --shadow-16p: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);\n  --shadow-key-umbra-opacity: 0.2;\n  --shadow-key-penumbra-opacity: 0.14;\n  --shadow-ambient-shadow-opacity: 0.12;\n  --zdepth-shadow-1: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);\n  --zdepth-shadow-2: 0 3px 10px rgba(0, 0, 0, 0.16), 0 3px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-3: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-4: 0 14px 45px rgba(0, 0, 0, 0.25), 0 10px 18px rgba(0, 0, 0, 0.22);\n  --zdepth-shadow-5: 0 19px 60px rgba(0, 0, 0, 0.3), 0 15px 20px rgba(0, 0, 0, 0.22);\n  --animation-duration: 0.35s;\n  --animation-delay: calc(var(--animation-duration) / 5);\n  --animation-curve-fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1);\n  --animation-curve-linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1);\n  --animation-curve-fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1);\n  --animation-curve-default: var(--animation-curve-fast-out-slow-in);\n  --z-index-highest: 300;\n  --z-index-higher: 200;\n  --z-index-high: 100;\n  --z-index-normal: 1;\n  --z-index-low: -100;\n  --z-index-lower: -200; }\n\n:root {\n  --radio-field-margin-bottom: calc(1.5 * var(--unit));\n  --radio-button-size: calc(2 * var(--unit));\n  --radio-inner-margin: calc(var(--radio-button-size) / 4);\n  --radio-inner-color: var(--color-primary);\n  --radio-focus-color: color(var(--color-black) a(10%));\n  --radio-checked-focus-color: color(var(--color-primary) a(26%));\n  --radio-text-color: var(--color-black);\n  --radio-disabled-color: color(var(--color-black) a(26%));\n  --radio-text-font-size: calc(1.4 * var(--unit)); }\n\n.theme_radio_3Kp9e {\n  border: calc(0.2 * var(--unit)) solid var(--radio-text-color);\n  border-radius: 50%;\n  cursor: pointer;\n  display: inline-block;\n  height: var(--radio-button-size);\n  position: relative;\n  vertical-align: top;\n  width: var(--radio-button-size); }\n  .theme_radio_3Kp9e::before {\n    background-color: var(--radio-inner-color);\n    border-radius: 50%;\n    content: '';\n    height: 100%;\n    left: 0;\n    position: absolute;\n    top: 0;\n    transform: scale(0);\n    transition: transform 0.2s var(--animation-curve-default);\n    width: 100%; }\n  .theme_radio_3Kp9e .theme_ripple_s4_91 {\n    background-color: var(--radio-inner-color);\n    opacity: 0.3;\n    transition-duration: 650ms; }\n\n.theme_radioChecked_3_f1v {\n  border: calc(0.2 * var(--unit)) solid var(--radio-inner-color); }\n  .theme_radioChecked_3_f1v::before {\n    transform: scale(0.65); }\n\n.theme_field_3dcLm {\n  display: block;\n  height: var(--radio-button-size);\n  margin-bottom: var(--radio-field-margin-bottom);\n  position: relative;\n  white-space: nowrap; }\n\n.theme_text_3vGvh {\n  color: var(--radio-text-color);\n  display: inline-block;\n  font-size: var(--radio-text-font-size);\n  line-height: var(--radio-button-size);\n  padding-left: var(--unit);\n  vertical-align: top;\n  white-space: nowrap; }\n\n.theme_input_H3EYx {\n  appearance: none;\n  border: 0;\n  height: 0;\n  margin: 0;\n  opacity: 0;\n  padding: 0;\n  position: absolute;\n  width: 0; }\n  .theme_input_H3EYx:focus ~ .theme_radio_3Kp9e {\n    box-shadow: 0 0 0 var(--unit) var(--radio-focus-color); }\n  .theme_input_H3EYx:focus ~ .theme_radioChecked_3_f1v {\n    box-shadow: 0 0 0 var(--unit) var(--radio-checked-focus-color); }\n\n.theme_disabled_2ycwZ { }\n  .theme_disabled_2ycwZ .theme_text_3vGvh {\n    color: var(--radio-disabled-color); }\n  .theme_disabled_2ycwZ .theme_radio_3Kp9e {\n    border-color: var(--radio-disabled-color);\n    cursor: auto; }\n  .theme_disabled_2ycwZ .theme_radioChecked_3_f1v {\n    border-color: var(--radio-disabled-color);\n    cursor: auto; }\n    .theme_disabled_2ycwZ .theme_radioChecked_3_f1v::before {\n      background-color: var(--radio-disabled-color); }\n", ""]);
-
-	// exports
-	exports.locals = {
-		"radio": "theme_radio_3Kp9e",
-		"text": "theme_text_3vGvh",
-		"ripple": "theme_ripple_s4_91",
-		"radioChecked": "theme_radioChecked_3_f1v theme_radio_3Kp9e",
-		"field": "theme_field_3dcLm",
-		"input": "theme_input_H3EYx",
-		"disabled": "theme_disabled_2ycwZ theme_field_3dcLm"
-	};
 
 /***/ },
 /* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
+	exports = module.exports = __webpack_require__(280)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".theme_radio_2CkpY, .theme_radioChecked_3v3fh, .theme_text_3sBlY {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.theme_radio_2CkpY, .theme_radioChecked_3v3fh {\n  position: relative;\n  display: inline-block;\n  width: 20px;\n  height: 20px;\n  vertical-align: top;\n  cursor: pointer;\n  border: 2px solid rgba(0, 0, 0, 0.87);\n  border-radius: 50%; }\n  .theme_radio_2CkpY:before, .theme_radioChecked_3v3fh:before {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    content: \"\";\n    background-color: #2196f3;\n    border-radius: 50%;\n    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);\n    transform: scale(0); }\n  .theme_radio_2CkpY .theme_ripple_wdiTB, .theme_radioChecked_3v3fh .theme_ripple_wdiTB {\n    background-color: #2196f3;\n    opacity: .3;\n    transition-duration: 650ms; }\n\n.theme_radioChecked_3v3fh {\n  border: 2px solid #2196f3; }\n  .theme_radioChecked_3v3fh:before {\n    transform: scale(0.65); }\n\n.theme_field_2xRTF, .theme_disabled_GWBhL {\n  position: relative;\n  display: block;\n  height: 20px;\n  margin-bottom: 16px;\n  white-space: nowrap;\n  vertical-align: middle; }\n\n.theme_text_3sBlY {\n  display: inline-block;\n  padding-left: 10px;\n  font-size: 16px;\n  line-height: 20px;\n  color: rgba(0, 0, 0, 0.87);\n  white-space: nowrap;\n  vertical-align: top; }\n\n.theme_input_2cB9q {\n  position: absolute;\n  width: 0;\n  height: 0;\n  padding: 0;\n  margin: 0;\n  border: 0;\n  opacity: 0;\n  appearance: none; }\n  .theme_input_2cB9q:focus ~ .theme_radio_2CkpY, .theme_input_2cB9q:focus ~ .theme_radioChecked_3v3fh {\n    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1); }\n  .theme_input_2cB9q:focus ~ .theme_radioChecked_3v3fh {\n    box-shadow: 0 0 0 10px rgba(33, 150, 243, 0.26); }\n\n.theme_disabled_GWBhL .theme_text_3sBlY {\n  color: rgba(0, 0, 0, 0.26); }\n\n.theme_disabled_GWBhL .theme_radio_2CkpY, .theme_disabled_GWBhL .theme_radioChecked_3v3fh {\n  cursor: auto;\n  border-color: rgba(0, 0, 0, 0.26); }\n\n.theme_disabled_GWBhL .theme_radioChecked_3v3fh {\n  cursor: auto;\n  border-color: rgba(0, 0, 0, 0.26); }\n  .theme_disabled_GWBhL .theme_radioChecked_3v3fh:before {\n    background-color: rgba(0, 0, 0, 0.26); }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"radio": "theme_radio_2CkpY",
+		"radioChecked": "theme_radioChecked_3v3fh",
+		"text": "theme_text_3sBlY",
+		"ripple": "theme_ripple_wdiTB",
+		"field": "theme_field_2xRTF",
+		"disabled": "theme_disabled_GWBhL",
+		"input": "theme_input_2cB9q"
+	};
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(288);
+	var content = __webpack_require__(289);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(288, function() {
-				var newContent = __webpack_require__(288);
+			module.hot.accept(289, function() {
+				var newContent = __webpack_require__(289);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -49543,37 +49737,36 @@
 	}
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
-	exports.i(__webpack_require__(289), undefined);
+	exports.i(__webpack_require__(290), undefined);
 
 	// module
-	exports.push([module.id, ".RbQuestion_radio_KQi6B, .RbQuestion_text_P1uS3 {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n.RbQuestion_title_2bhxv {\n  margin: 16px 0 24px 0; }\n\n.RbQuestion_helpText_1koLk {\n  padding-bottom: 24px; }\n  .RbQuestion_helpText_1koLk ul {\n    padding-left: 16px;\n    margin: 0; }\n\n.RbQuestion_control_3fXbT { }\n", ""]);
+	exports.push([module.id, ".RbQuestion_radio_KQi6B, .RbQuestion_text_P1uS3 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.RbQuestion_title_2bhxv {\n  margin: 16px 0 24px 0; }\n\n.RbQuestion_helpText_1koLk {\n  padding-bottom: 24px; }\n  .RbQuestion_helpText_1koLk ul {\n    padding-left: 16px;\n    margin: 0; }\n\n.RbQuestion_control_3fXbT { }\n", ""]);
 
 	// exports
 	exports.locals = {
 		"fonts": "\"../styles/fonts.css\"",
 		"radio": "RbQuestion_radio_KQi6B",
 		"text": "RbQuestion_text_P1uS3",
-		"title": "RbQuestion_title_2bhxv " + __webpack_require__(289).locals["title"] + "",
-		"helpText": "RbQuestion_helpText_1koLk " + __webpack_require__(289).locals["text"] + "",
-		"control": "RbQuestion_control_3fXbT " + __webpack_require__(289).locals["control"] + ""
+		"title": "RbQuestion_title_2bhxv " + __webpack_require__(290).locals["title"] + "",
+		"helpText": "RbQuestion_helpText_1koLk " + __webpack_require__(290).locals["text"] + "",
+		"control": "RbQuestion_control_3fXbT " + __webpack_require__(290).locals["control"] + ""
 	};
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
+
 
 	// module
-	exports.push([module.id, ".fonts_radio_1bg8g, .fonts_text_15efV {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n.fonts_title_1mIuF {\n  font-size: 28px;\n  font-weight: normal;\n  color: rgba(0, 0, 0, 0.87);\n  display: block;\n  line-height: normal; }\n\n.fonts_text_15efV {\n  font-size: 14px;\n  color: rgba(0, 0, 0, 0.54);\n  line-height: 1.43; }\n\n.fonts_impText_1BP2O {\n  font-weight: 500;\n  color: rgba(0, 0, 0, 0.87); }\n\n.fonts_control_3ff_1 {\n  font-size: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n", ""]);
+	exports.push([module.id, ".fonts_radio_1bg8g, .fonts_text_15efV {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.fonts_title_1mIuF {\n  font-size: 28px;\n  font-weight: normal;\n  color: rgba(0, 0, 0, 0.87);\n  display: block;\n  line-height: normal; }\n\n.fonts_text_15efV {\n  font-size: 14px;\n  color: rgba(0, 0, 0, 0.87);\n  line-height: 1.43; }\n\n.fonts_impText_1BP2O {\n  font-weight: 500;\n  color: rgba(0, 0, 0, 0.87); }\n\n.fonts_control_3ff_1 {\n  font-size: 16px;\n  color: rgba(0, 0, 0, 0.87); }\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -49585,7 +49778,7 @@
 	};
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49649,7 +49842,7 @@
 	exports.default = StaticText;
 
 /***/ },
-/* 291 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49664,7 +49857,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _StartScreen = __webpack_require__(292);
+	var _StartScreen = __webpack_require__(293);
 
 	var _StartScreen2 = _interopRequireDefault(_StartScreen);
 
@@ -49742,23 +49935,23 @@
 	exports.default = StartScreen;
 
 /***/ },
-/* 292 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(293);
+	var content = __webpack_require__(294);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(293, function() {
-				var newContent = __webpack_require__(293);
+			module.hot.accept(294, function() {
+				var newContent = __webpack_require__(294);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -49768,28 +49961,27 @@
 	}
 
 /***/ },
-/* 293 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
-	exports.i(__webpack_require__(289), undefined);
+	exports.i(__webpack_require__(290), undefined);
 
 	// module
-	exports.push([module.id, ".StartScreen_radio_3moea, .StartScreen_text_1PQiD {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n.StartScreen_title_1bJC7 {\n  margin: 16px 0; }\n\n.StartScreen_text_1PQiD {\n  padding-top: 8px; }\n\n.StartScreen_importantText_C_DdS { }\n", ""]);
+	exports.push([module.id, ".StartScreen_radio_3moea, .StartScreen_text_1PQiD {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.StartScreen_title_1bJC7 {\n  margin: 16px 0; }\n\n.StartScreen_text_1PQiD {\n  padding-top: 8px; }\n\n.StartScreen_importantText_C_DdS { }\n", ""]);
 
 	// exports
 	exports.locals = {
 		"fonts": "\"../styles/fonts.css\"",
 		"radio": "StartScreen_radio_3moea",
-		"text": "StartScreen_text_1PQiD " + __webpack_require__(289).locals["text"] + "",
-		"title": "StartScreen_title_1bJC7 " + __webpack_require__(289).locals["title"] + "",
-		"importantText": "StartScreen_importantText_C_DdS " + __webpack_require__(289).locals["impText"] + ""
+		"text": "StartScreen_text_1PQiD " + __webpack_require__(290).locals["text"] + "",
+		"title": "StartScreen_title_1bJC7 " + __webpack_require__(290).locals["title"] + "",
+		"importantText": "StartScreen_importantText_C_DdS " + __webpack_require__(290).locals["impText"] + ""
 	};
 
 /***/ },
-/* 294 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49810,7 +50002,7 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _Step = __webpack_require__(295);
+	var _Step = __webpack_require__(296);
 
 	var _Step2 = _interopRequireDefault(_Step);
 
@@ -49857,23 +50049,23 @@
 	exports.default = StepMixin;
 
 /***/ },
-/* 295 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(296);
+	var content = __webpack_require__(297);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(296, function() {
-				var newContent = __webpack_require__(296);
+			module.hot.accept(297, function() {
+				var newContent = __webpack_require__(297);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -49883,15 +50075,15 @@
 	}
 
 /***/ },
-/* 296 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
+
 
 	// module
-	exports.push([module.id, ".Step_radio_3KLDr, .Step_text_2lFyX {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n.Step_container_3MoQB {\n  display: flex;\n  flex-direction: column;\n  flex-shrink: 1;\n  flex-grow: 0; }\n\n.Step_content_2Uluj {\n  padding: 8px 16px; }\n", ""]);
+	exports.push([module.id, ".Step_radio_3KLDr, .Step_text_2lFyX {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.Step_container_3MoQB {\n  display: flex;\n  flex-direction: column;\n  flex-shrink: 1;\n  flex-grow: 0; }\n\n.Step_content_2Uluj {\n  padding: 8px 16px; }\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -49902,7 +50094,7 @@
 	};
 
 /***/ },
-/* 297 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49916,13 +50108,13 @@
 
 	var _reactCssThemr = __webpack_require__(265);
 
-	var _Button = __webpack_require__(298);
+	var _Button = __webpack_require__(299);
 
-	var _BrowseButton = __webpack_require__(300);
+	var _BrowseButton = __webpack_require__(301);
 
-	var _IconButton = __webpack_require__(301);
+	var _IconButton = __webpack_require__(302);
 
-	var _FontIcon = __webpack_require__(299);
+	var _FontIcon = __webpack_require__(300);
 
 	var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
@@ -49930,7 +50122,7 @@
 
 	var _ripple2 = _interopRequireDefault(_ripple);
 
-	var _theme = __webpack_require__(302);
+	var _theme = __webpack_require__(303);
 
 	var _theme2 = _interopRequireDefault(_theme);
 
@@ -49949,7 +50141,7 @@
 	exports.BrowseButton = ThemedBrowseButton;
 
 /***/ },
-/* 298 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49975,7 +50167,7 @@
 
 	var _identifiers = __webpack_require__(270);
 
-	var _FontIcon = __webpack_require__(299);
+	var _FontIcon = __webpack_require__(300);
 
 	var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
@@ -50121,7 +50313,7 @@
 	exports.Button = Button;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50176,7 +50368,7 @@
 	exports.FontIcon = FontIcon;
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50202,7 +50394,7 @@
 
 	var _identifiers = __webpack_require__(270);
 
-	var _FontIcon = __webpack_require__(299);
+	var _FontIcon = __webpack_require__(300);
 
 	var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
@@ -50349,7 +50541,7 @@
 	exports.BrowseButton = BrowseButton;
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50375,7 +50567,7 @@
 
 	var _identifiers = __webpack_require__(270);
 
-	var _FontIcon = __webpack_require__(299);
+	var _FontIcon = __webpack_require__(300);
 
 	var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
@@ -50492,23 +50684,23 @@
 	exports.IconButton = IconButton;
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(303);
+	var content = __webpack_require__(304);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(303, function() {
-				var newContent = __webpack_require__(303);
+			module.hot.accept(304, function() {
+				var newContent = __webpack_require__(304);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -50518,38 +50710,36 @@
 	}
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
+
 
 	// module
-	exports.push([module.id, ".theme_radio_3-10W, .theme_text_3olhV {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n:root {\n  --palette-red-50: #ffebee;\n  --palette-red-100: #ffcdd2;\n  --palette-red-200: #ef9a9a;\n  --palette-red-300: #e57373;\n  --palette-red-400: #ef5350;\n  --palette-red-500: #f44336;\n  --palette-red-600: #e53935;\n  --palette-red-700: #d32f2f;\n  --palette-red-800: #c62828;\n  --palette-red-900: #b71c1c;\n  --palette-red-a100: #ff8a80;\n  --palette-red-a200: #ff5252;\n  --palette-red-a400: #ff1744;\n  --palette-red-a700: #d50000;\n  --palette-pink-50: #fce4ec;\n  --palette-pink-100: #f8bbd0;\n  --palette-pink-200: #f48fb1;\n  --palette-pink-300: #f06292;\n  --palette-pink-400: #ec407a;\n  --palette-pink-500: #e91e63;\n  --palette-pink-600: #d81b60;\n  --palette-pink-700: #c2185b;\n  --palette-pink-800: #ad1457;\n  --palette-pink-900: #880e4f;\n  --palette-pink-a100: #ff80ab;\n  --palette-pink-a200: #ff4081;\n  --palette-pink-a400: #f50057;\n  --palette-pink-a700: #c51162;\n  --palette-purple-50: #f3e5f5;\n  --palette-purple-100: #e1bee7;\n  --palette-purple-200: #ce93d8;\n  --palette-purple-300: #ba68c8;\n  --palette-purple-400: #ab47bc;\n  --palette-purple-500: #9c27b0;\n  --palette-purple-600: #8e24aa;\n  --palette-purple-700: #7b1fa2;\n  --palette-purple-800: #6a1b9a;\n  --palette-purple-900: #4a148c;\n  --palette-purple-a100: #ea80fc;\n  --palette-purple-a200: #e040fb;\n  --palette-purple-a400: #d500f9;\n  --palette-purple-a700: #aa00ff;\n  --palette-deep-purple-50: #ede7f6;\n  --palette-deep-purple-100: #d1c4e9;\n  --palette-deep-purple-200: #b39ddb;\n  --palette-deep-purple-300: #9575cd;\n  --palette-deep-purple-400: #7e57c2;\n  --palette-deep-purple-500: #673ab7;\n  --palette-deep-purple-600: #5e35b1;\n  --palette-deep-purple-700: #512da8;\n  --palette-deep-purple-800: #4527a0;\n  --palette-deep-purple-900: #311b92;\n  --palette-deep-purple-a100: #b388ff;\n  --palette-deep-purple-a200: #7c4dff;\n  --palette-deep-purple-a400: #651fff;\n  --palette-deep-purple-a700: #6200ea;\n  --palette-indigo-50: #e8eaf6;\n  --palette-indigo-100: #c5cae9;\n  --palette-indigo-200: #9fa8da;\n  --palette-indigo-300: #7986cb;\n  --palette-indigo-400: #5c6bc0;\n  --palette-indigo-500: #3f51b5;\n  --palette-indigo-600: #3949ab;\n  --palette-indigo-700: #303f9f;\n  --palette-indigo-800: #283593;\n  --palette-indigo-900: #1a237e;\n  --palette-indigo-a100: #8c9eff;\n  --palette-indigo-a200: #536dfe;\n  --palette-indigo-a400: #3d5afe;\n  --palette-indigo-a700: #304ffe;\n  --palette-blue-50: #e3f2fd;\n  --palette-blue-100: #bbdefb;\n  --palette-blue-200: #90caf9;\n  --palette-blue-300: #64b5f6;\n  --palette-blue-400: #42a5f5;\n  --palette-blue-500: #2196f3;\n  --palette-blue-600: #1e88e5;\n  --palette-blue-700: #1976d2;\n  --palette-blue-800: #1565c0;\n  --palette-blue-900: #0d47a1;\n  --palette-blue-a100: #82b1ff;\n  --palette-blue-a200: #448aff;\n  --palette-blue-a400: #2979ff;\n  --palette-blue-a700: #2962ff;\n  --palette-light-blue-50: #e1f5fe;\n  --palette-light-blue-100: #b3e5fc;\n  --palette-light-blue-200: #81d4fa;\n  --palette-light-blue-300: #4fc3f7;\n  --palette-light-blue-400: #29b6f6;\n  --palette-light-blue-500: #03a9f4;\n  --palette-light-blue-600: #039be5;\n  --palette-light-blue-700: #0288d1;\n  --palette-light-blue-800: #0277bd;\n  --palette-light-blue-900: #01579b;\n  --palette-light-blue-a100: #80d8ff;\n  --palette-light-blue-a200: #40c4ff;\n  --palette-light-blue-a400: #00b0ff;\n  --palette-light-blue-a700: #0091ea;\n  --palette-cyan-50: #e0f7fa;\n  --palette-cyan-100: #b2ebf2;\n  --palette-cyan-200: #80deea;\n  --palette-cyan-300: #4dd0e1;\n  --palette-cyan-400: #26c6da;\n  --palette-cyan-500: #00bcd4;\n  --palette-cyan-600: #00acc1;\n  --palette-cyan-700: #0097a7;\n  --palette-cyan-800: #00838f;\n  --palette-cyan-900: #006064;\n  --palette-cyan-a100: #84ffff;\n  --palette-cyan-a200: #18ffff;\n  --palette-cyan-a400: #00e5ff;\n  --palette-cyan-a700: #00b8d4;\n  --palette-teal-50: #e0f2f1;\n  --palette-teal-100: #b2dfdb;\n  --palette-teal-200: #80cbc4;\n  --palette-teal-300: #4db6ac;\n  --palette-teal-400: #26a69a;\n  --palette-teal-500: #009688;\n  --palette-teal-600: #00897b;\n  --palette-teal-700: #00796b;\n  --palette-teal-800: #00695c;\n  --palette-teal-900: #004d40;\n  --palette-teal-a100: #a7ffeb;\n  --palette-teal-a200: #64ffda;\n  --palette-teal-a400: #1de9b6;\n  --palette-teal-a700: #00bfa5;\n  --palette-green-50: #e8f5e9;\n  --palette-green-100: #c8e6c9;\n  --palette-green-200: #a5d6a7;\n  --palette-green-300: #81c784;\n  --palette-green-400: #66bb6a;\n  --palette-green-500: #4caf50;\n  --palette-green-600: #43a047;\n  --palette-green-700: #388e3c;\n  --palette-green-800: #2e7d32;\n  --palette-green-900: #1b5e20;\n  --palette-green-a100: #b9f6ca;\n  --palette-green-a200: #69f0ae;\n  --palette-green-a400: #00e676;\n  --palette-green-a700: #00c853;\n  --palette-light-green-50: #f1f8e9;\n  --palette-light-green-100: #dcedc8;\n  --palette-light-green-200: #c5e1a5;\n  --palette-light-green-300: #aed581;\n  --palette-light-green-400: #9ccc65;\n  --palette-light-green-500: #8bc34a;\n  --palette-light-green-600: #7cb342;\n  --palette-light-green-700: #689f38;\n  --palette-light-green-800: #558b2f;\n  --palette-light-green-900: #33691e;\n  --palette-light-green-a100: #ccff90;\n  --palette-light-green-a200: #b2ff59;\n  --palette-light-green-a400: #76ff03;\n  --palette-light-green-a700: #64dd17;\n  --palette-lime-50: #f9fbe7;\n  --palette-lime-100: #f0f4c3;\n  --palette-lime-200: #e6ee9c;\n  --palette-lime-300: #dce775;\n  --palette-lime-400: #d4e157;\n  --palette-lime-500: #cddc39;\n  --palette-lime-600: #c0ca33;\n  --palette-lime-700: #afb42b;\n  --palette-lime-800: #9e9d24;\n  --palette-lime-900: #827717;\n  --palette-lime-a100: #f4ff81;\n  --palette-lime-a200: #eeff41;\n  --palette-lime-a400: #c6ff00;\n  --palette-lime-a700: #aeea00;\n  --palette-yellow-50: #fffde7;\n  --palette-yellow-100: #fff9c4;\n  --palette-yellow-200: #fff59d;\n  --palette-yellow-300: #fff176;\n  --palette-yellow-400: #ffee58;\n  --palette-yellow-500: #ffeb3b;\n  --palette-yellow-600: #fdd835;\n  --palette-yellow-700: #fbc02d;\n  --palette-yellow-800: #f9a825;\n  --palette-yellow-900: #f57f17;\n  --palette-yellow-a100: #ffff8d;\n  --palette-yellow-a200: yellow;\n  --palette-yellow-a400: #ffea00;\n  --palette-yellow-a700: #ffd600;\n  --palette-amber-50: #fff8e1;\n  --palette-amber-100: #ffecb3;\n  --palette-amber-200: #ffe082;\n  --palette-amber-300: #ffd54f;\n  --palette-amber-400: #ffca28;\n  --palette-amber-500: #ffc107;\n  --palette-amber-600: #ffb300;\n  --palette-amber-700: #ffa000;\n  --palette-amber-800: #ff8f00;\n  --palette-amber-900: #ff6f00;\n  --palette-amber-a100: #ffe57f;\n  --palette-amber-a200: #ffd740;\n  --palette-amber-a400: #ffc400;\n  --palette-amber-a700: #ffab00;\n  --palette-orange-50: #fff3e0;\n  --palette-orange-100: #ffe0b2;\n  --palette-orange-200: #ffcc80;\n  --palette-orange-300: #ffb74d;\n  --palette-orange-400: #ffa726;\n  --palette-orange-500: #ff9800;\n  --palette-orange-600: #fb8c00;\n  --palette-orange-700: #f57c00;\n  --palette-orange-800: #ef6c00;\n  --palette-orange-900: #e65100;\n  --palette-orange-a100: #ffd180;\n  --palette-orange-a200: #ffab40;\n  --palette-orange-a400: #ff9100;\n  --palette-orange-a700: #ff6d00;\n  --palette-deep-orange-50: #fbe9e7;\n  --palette-deep-orange-100: #ffccbc;\n  --palette-deep-orange-200: #ffab91;\n  --palette-deep-orange-300: #ff8a65;\n  --palette-deep-orange-400: #ff7043;\n  --palette-deep-orange-500: #ff5722;\n  --palette-deep-orange-600: #f4511e;\n  --palette-deep-orange-700: #e64a19;\n  --palette-deep-orange-800: #d84315;\n  --palette-deep-orange-900: #bf360c;\n  --palette-deep-orange-a100: #ff9e80;\n  --palette-deep-orange-a200: #ff6e40;\n  --palette-deep-orange-a400: #ff3d00;\n  --palette-deep-orange-a700: #dd2c00;\n  --palette-brown-50: #efebe9;\n  --palette-brown-100: #d7ccc8;\n  --palette-brown-200: #bcaaa4;\n  --palette-brown-300: #a1887f;\n  --palette-brown-400: #8d6e63;\n  --palette-brown-500: #795548;\n  --palette-brown-600: #6d4c41;\n  --palette-brown-700: #5d4037;\n  --palette-brown-800: #4e342e;\n  --palette-brown-900: #3e2723;\n  --palette-grey-50: #fafafa;\n  --palette-grey-100: whitesmoke;\n  --palette-grey-200: #eeeeee;\n  --palette-grey-300: #e0e0e0;\n  --palette-grey-400: #bdbdbd;\n  --palette-grey-500: #9e9e9e;\n  --palette-grey-600: #757575;\n  --palette-grey-700: #616161;\n  --palette-grey-800: #424242;\n  --palette-grey-900: #212121;\n  --palette-blue-grey-50: #eceff1;\n  --palette-blue-grey-100: #cfd8dc;\n  --palette-blue-grey-200: #b0bec5;\n  --palette-blue-grey-300: #90a4ae;\n  --palette-blue-grey-400: #78909c;\n  --palette-blue-grey-500: #607d8b;\n  --palette-blue-grey-600: #546e7a;\n  --palette-blue-grey-700: #455a64;\n  --palette-blue-grey-800: #37474f;\n  --palette-blue-grey-900: #263238;\n  --color-black: black;\n  --color-white: white;\n  --color-dark-contrast: var(--color-white);\n  --color-light-contrast: var(--color-black); }\n\n:root {\n  --color-divider: var(--palette-grey-200);\n  --color-background: var(--color-white);\n  --color-text: var(--palette-grey-900);\n  --color-text-secondary: var(--palette-grey-600);\n  --color-primary: var(--palette-indigo-500);\n  --color-primary-dark: var(--palette-indigo-700);\n  --color-accent: var(--palette-pink-a200);\n  --color-accent-dark: var(--palette-pink-700);\n  --color-primary-contrast: var(--color-dark-contrast);\n  --color-accent-contrast: var(--color-dark-contrast);\n  --unit: 1rem;\n  --preferred-font: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n  --font-size: calc(1.6 * var(--unit));\n  --font-size-tiny: calc(1.2 * var(--unit));\n  --font-size-small: calc(1.4 * var(--unit));\n  --font-size-normal: var(--font-size);\n  --font-size-big: calc(1.8 * var(--unit));\n  --font-weight-thin: 300;\n  --font-weight-normal: 400;\n  --font-weight-semi-bold: 500;\n  --font-weight-bold: 700;\n  --shadow-2p: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  --shadow-3p: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12);\n  --shadow-4p: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);\n  --shadow-6p: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);\n  --shadow-8p: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);\n  --shadow-16p: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);\n  --shadow-key-umbra-opacity: 0.2;\n  --shadow-key-penumbra-opacity: 0.14;\n  --shadow-ambient-shadow-opacity: 0.12;\n  --zdepth-shadow-1: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);\n  --zdepth-shadow-2: 0 3px 10px rgba(0, 0, 0, 0.16), 0 3px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-3: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-4: 0 14px 45px rgba(0, 0, 0, 0.25), 0 10px 18px rgba(0, 0, 0, 0.22);\n  --zdepth-shadow-5: 0 19px 60px rgba(0, 0, 0, 0.3), 0 15px 20px rgba(0, 0, 0, 0.22);\n  --animation-duration: 0.35s;\n  --animation-delay: calc(var(--animation-duration) / 5);\n  --animation-curve-fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1);\n  --animation-curve-linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1);\n  --animation-curve-fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1);\n  --animation-curve-default: var(--animation-curve-fast-out-slow-in);\n  --z-index-highest: 300;\n  --z-index-higher: 200;\n  --z-index-high: 100;\n  --z-index-normal: 1;\n  --z-index-low: -100;\n  --z-index-lower: -200; }\n\n:root {\n  --button-border-radius: calc(0.2 * var(--unit));\n  --button-height: calc(3.6 * var(--unit));\n  --button-toggle-font-size: calc(2 * var(--unit));\n  --button-primary-color: var(--color-primary);\n  --button-primary-color-hover: color(var(--color-primary) a(20%));\n  --button-primary-color-contrast: var(--color-primary-contrast);\n  --button-accent-color-contrast: var(--color-primary-contrast);\n  --button-accent-color-hover: color(var(--color-accent) a(20%));\n  --button-accent-color: var(--color-accent);\n  --button-neutral-color: var(--color-white);\n  --button-neutral-color-contrast: var(--palette-grey-900);\n  --button-neutral-color-hover: color(var(--palette-grey-900) a(20%));\n  --button-floating-font-size: calc(2.4 * var(--unit));\n  --button-floating-height: calc(5.6 * var(--unit));\n  --button-floating-mini-height: calc(4 * var(--unit));\n  --button-floating-mini-font-size: calc(var(--button-floating-mini-height) / 2.25);\n  --button-disabled-text-color: color(var(--color-black) a(26%));\n  --button-disabled-background-color: color(var(--color-black) a(12%));\n  --button-disabled-text-color-inverse: color(var(--color-black) a(54%));\n  --button-disabled-background-inverse: color(var(--color-black) a(8%));\n  --button-squared-icon-margin: calc(0.6 * var(--unit));\n  --button-squared-min-width: calc(9 * var(--unit));\n  --button-squared-padding: 0 calc(1.2 * var(--unit)); }\n\n.theme_button_20xhZ {\n  align-content: center;\n  align-items: center;\n  border: 0;\n  cursor: pointer;\n  display: inline-block;\n  flex-direction: row;\n  font-size: calc(1.4 * var(--unit));\n  font-weight: 500;\n  height: var(--button-height);\n  justify-content: center;\n  letter-spacing: 0;\n  line-height: var(--button-height);\n  outline: none;\n  position: relative;\n  text-align: center;\n  text-decoration: none;\n  text-transform: uppercase;\n  transition: box-shadow 0.2s var(--animation-curve-fast-out-linear-in), background-color 0.2s var(--animation-curve-default), color 0.2s var(--animation-curve-default);\n  white-space: nowrap; }\n  .theme_button_20xhZ > input {\n    height: 0.1px;\n    margin: 0;\n    opacity: 0;\n    overflow: hidden;\n    padding: 0;\n    position: absolute;\n    width: 0.1px;\n    z-index: 0; }\n  .theme_button_20xhZ::-moz-focus-inner {\n    border: 0; }\n  .theme_button_20xhZ > span:not([data-react-toolbox='tooltip']) {\n    display: inline-block;\n    line-height: var(--button-height);\n    vertical-align: top; }\n  .theme_button_20xhZ > svg {\n    display: inline-block;\n    fill: currentColor;\n    font-size: 120%;\n    height: var(--button-height);\n    vertical-align: top;\n    width: 1em; }\n  .theme_button_20xhZ > * {\n    pointer-events: none; }\n  .theme_button_20xhZ > .theme_rippleWrapper_DS_V0 {\n    overflow: hidden; }\n  .theme_button_20xhZ[disabled] {\n    color: var(--button-disabled-text-color);\n    cursor: auto;\n    pointer-events: none; }\n\n.theme_squared_3AZhT {\n  border-radius: var(--button-border-radius);\n  min-width: var(--button-squared-min-width);\n  padding: var(--button-squared-padding); }\n  .theme_squared_3AZhT .theme_icon_IB0dR {\n    font-size: 120%;\n    margin-right: var(--button-squared-icon-margin);\n    vertical-align: middle; }\n  .theme_squared_3AZhT > svg {\n    margin-right: calc(0.5 * var(--unit)); }\n\n.theme_solid_1H2lv[disabled] {\n  background-color: var(--button-disabled-background-color);\n  box-shadow: var(--shadow-2p); }\n\n.theme_solid_1H2lv:active {\n  box-shadow: var(--shadow-2p); }\n\n.theme_solid_1H2lv:focus:not(:active) {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36); }\n\n.theme_raised_r4lU5 {\n  box-shadow: var(--shadow-2p); }\n\n.theme_flat_1r1Pt {\n  background: transparent; }\n\n.theme_floating_2uGP3 {\n  border-radius: 50%;\n  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);\n  font-size: var(--button-floating-font-size);\n  height: var(--button-floating-height);\n  width: var(--button-floating-height); }\n  .theme_floating_2uGP3 .theme_icon_IB0dR {\n    line-height: var(--button-floating-height); }\n  .theme_floating_2uGP3 > .theme_rippleWrapper_DS_V0 {\n    border-radius: 50%; }\n  .theme_floating_2uGP3.theme_mini_2XlsV {\n    font-size: var(--button-floating-mini-font-size);\n    height: var(--button-floating-mini-height);\n    width: var(--button-floating-mini-height); }\n    .theme_floating_2uGP3.theme_mini_2XlsV .theme_icon_IB0dR {\n      line-height: var(--button-floating-mini-height); }\n\n.theme_toggle_fYymG {\n  background: transparent;\n  border-radius: 50%;\n  width: var(--button-height); }\n  .theme_toggle_fYymG > .theme_icon_IB0dR,\n  .theme_toggle_fYymG svg {\n    font-size: var(--button-toggle-font-size);\n    line-height: var(--button-height);\n    vertical-align: top; }\n  .theme_toggle_fYymG > .theme_rippleWrapper_DS_V0 {\n    border-radius: 50%; }\n\n.theme_primary_2kO4n:not([disabled]).theme_raised_r4lU5, .theme_primary_2kO4n:not([disabled]).theme_floating_2uGP3 {\n  background: var(--button-primary-color);\n  color: var(--button-primary-color-contrast); }\n\n.theme_primary_2kO4n:not([disabled]).theme_flat_1r1Pt, .theme_primary_2kO4n:not([disabled]).theme_toggle_fYymG {\n  color: var(--button-primary-color); }\n  .theme_primary_2kO4n:not([disabled]).theme_flat_1r1Pt:focus:not(:active), .theme_primary_2kO4n:not([disabled]).theme_toggle_fYymG:focus:not(:active) {\n    background: var(--button-primary-color-hover); }\n\n.theme_primary_2kO4n:not([disabled]).theme_flat_1r1Pt:hover {\n  background: var(--button-primary-color-hover); }\n\n.theme_accent_2oX2A:not([disabled]).theme_raised_r4lU5, .theme_accent_2oX2A:not([disabled]).theme_floating_2uGP3 {\n  background: var(--button-accent-color);\n  color: var(--button-accent-color-contrast); }\n\n.theme_accent_2oX2A:not([disabled]).theme_flat_1r1Pt, .theme_accent_2oX2A:not([disabled]).theme_toggle_fYymG {\n  color: var(--button-accent-color); }\n  .theme_accent_2oX2A:not([disabled]).theme_flat_1r1Pt:focus:not(:active), .theme_accent_2oX2A:not([disabled]).theme_toggle_fYymG:focus:not(:active) {\n    background: var(--button-accent-color-hover); }\n\n.theme_accent_2oX2A:not([disabled]).theme_flat_1r1Pt:hover {\n  background: var(--button-accent-color-hover); }\n\n.theme_neutral_1ynBh:not([disabled]).theme_raised_r4lU5, .theme_neutral_1ynBh:not([disabled]).theme_floating_2uGP3 {\n  background-color: var(--button-neutral-color);\n  color: var(--button-neutral-color-contrast); }\n\n.theme_neutral_1ynBh:not([disabled]).theme_flat_1r1Pt, .theme_neutral_1ynBh:not([disabled]).theme_toggle_fYymG {\n  color: var(--button-neutral-color-contrast); }\n  .theme_neutral_1ynBh:not([disabled]).theme_flat_1r1Pt:focus:not(:active), .theme_neutral_1ynBh:not([disabled]).theme_toggle_fYymG:focus:not(:active) {\n    background: var(--button-neutral-color-hover); }\n\n.theme_neutral_1ynBh:not([disabled]).theme_flat_1r1Pt:hover {\n  background: var(--button-neutral-color-hover); }\n\n.theme_neutral_1ynBh:not([disabled]).theme_inverse_20Nnw.theme_raised_r4lU5, .theme_neutral_1ynBh:not([disabled]).theme_inverse_20Nnw.theme_floating_2uGP3 {\n  background-color: var(--button-neutral-color-contrast);\n  color: var(--button-neutral-color); }\n\n.theme_neutral_1ynBh:not([disabled]).theme_inverse_20Nnw.theme_flat_1r1Pt, .theme_neutral_1ynBh:not([disabled]).theme_inverse_20Nnw.theme_toggle_fYymG {\n  color: var(--button-neutral-color); }\n  .theme_neutral_1ynBh:not([disabled]).theme_inverse_20Nnw.theme_flat_1r1Pt:focus:not(:active), .theme_neutral_1ynBh:not([disabled]).theme_inverse_20Nnw.theme_toggle_fYymG:focus:not(:active) {\n    background: var(--button-neutral-color-hover); }\n\n.theme_neutral_1ynBh:not([disabled]).theme_inverse_20Nnw.theme_flat_1r1Pt:hover {\n  background: var(--button-neutral-color-hover); }\n\n.theme_neutral_1ynBh.theme_inverse_20Nnw[disabled] {\n  background-color: var(--button-disabled-background-inverse);\n  color: var(--button-disabled-text-color-inverse); }\n", ""]);
+	exports.push([module.id, ".theme_radio_30hua, .theme_text_2F6_f {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.theme_button_8VilQ {\n  position: relative; }\n  .theme_button_8VilQ > input {\n    position: absolute;\n    top: 0;\n    left: 0;\n    z-index: 0;\n    width: 0.1px;\n    height: 0.1px;\n    padding: 0;\n    margin: 0;\n    overflow: hidden;\n    opacity: 0; }\n\n.theme_raised_1CNoR, .theme_flat_2dFf8, .theme_floating_2F6gF, .theme_toggle_3I1Mu {\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 1;\n  text-transform: uppercase;\n  letter-spacing: 0;\n  position: relative;\n  display: inline-block;\n  height: 36px;\n  flex-direction: row;\n  align-content: center;\n  align-items: center;\n  justify-content: center;\n  line-height: 36px;\n  text-align: center;\n  text-decoration: none;\n  white-space: nowrap;\n  cursor: pointer;\n  border: 0;\n  outline: none;\n  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n  .theme_raised_1CNoR::-moz-focus-inner, .theme_flat_2dFf8::-moz-focus-inner, .theme_floating_2F6gF::-moz-focus-inner, .theme_toggle_3I1Mu::-moz-focus-inner {\n    border: 0; }\n  .theme_raised_1CNoR > span:not([data-react-toolbox=\"tooltip\"]), .theme_flat_2dFf8 > span:not([data-react-toolbox=\"tooltip\"]), .theme_floating_2F6gF > span:not([data-react-toolbox=\"tooltip\"]), .theme_toggle_3I1Mu > span:not([data-react-toolbox=\"tooltip\"]) {\n    display: inline-block;\n    line-height: 36px;\n    vertical-align: top; }\n  .theme_raised_1CNoR > svg, .theme_flat_2dFf8 > svg, .theme_floating_2F6gF > svg, .theme_toggle_3I1Mu > svg {\n    display: inline-block;\n    width: 1em;\n    height: 36px;\n    font-size: 120%;\n    vertical-align: top;\n    fill: currentColor; }\n  .theme_raised_1CNoR > *, .theme_flat_2dFf8 > *, .theme_floating_2F6gF > *, .theme_toggle_3I1Mu > * {\n    pointer-events: none; }\n  .theme_raised_1CNoR > .theme_rippleWrapper_1y--6, .theme_flat_2dFf8 > .theme_rippleWrapper_1y--6, .theme_floating_2F6gF > .theme_rippleWrapper_1y--6, .theme_toggle_3I1Mu > .theme_rippleWrapper_1y--6 {\n    overflow: hidden; }\n  [disabled].theme_raised_1CNoR, [disabled].theme_flat_2dFf8, [disabled].theme_floating_2F6gF, [disabled].theme_toggle_3I1Mu {\n    color: rgba(0, 0, 0, 0.26);\n    pointer-events: none;\n    cursor: auto; }\n\n.theme_raised_1CNoR, .theme_flat_2dFf8 {\n  min-width: 90px;\n  padding: 0 12px;\n  border-radius: 2px; }\n  .theme_raised_1CNoR .theme_icon_3Me_E, .theme_flat_2dFf8 .theme_icon_3Me_E {\n    margin-right: 6px;\n    font-size: 120%;\n    vertical-align: middle; }\n  .theme_raised_1CNoR > svg, .theme_flat_2dFf8 > svg {\n    margin-right: 5px; }\n\n[disabled].theme_raised_1CNoR, [disabled].theme_floating_2F6gF {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  background-color: rgba(0, 0, 0, 0.12); }\n\n.theme_raised_1CNoR:active, .theme_floating_2F6gF:active {\n  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2); }\n\n.theme_raised_1CNoR:focus:not(:active), .theme_floating_2F6gF:focus:not(:active) {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36); }\n\n.theme_raised_1CNoR {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }\n\n.theme_flat_2dFf8 {\n  background: transparent; }\n\n.theme_floating_2F6gF {\n  width: 56px;\n  height: 56px;\n  font-size: 24px;\n  border-radius: 50%;\n  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); }\n  .theme_floating_2F6gF .theme_icon_3Me_E {\n    line-height: 56px; }\n  .theme_floating_2F6gF > .theme_rippleWrapper_1y--6 {\n    border-radius: 50%; }\n  .theme_floating_2F6gF.theme_mini_1AvL1 {\n    width: 40px;\n    height: 40px;\n    font-size: 17.77778px; }\n    .theme_floating_2F6gF.theme_mini_1AvL1 .theme_icon_3Me_E {\n      line-height: 40px; }\n\n.theme_toggle_3I1Mu {\n  width: 36px;\n  background: transparent;\n  border-radius: 50%; }\n  .theme_toggle_3I1Mu > .theme_icon_3Me_E, .theme_toggle_3I1Mu svg {\n    font-size: 20px;\n    line-height: 36px;\n    vertical-align: top; }\n  .theme_toggle_3I1Mu > .theme_rippleWrapper_1y--6 {\n    border-radius: 50%; }\n\n.theme_neutral_3ARnn:not([disabled]).theme_raised_1CNoR, .theme_neutral_3ARnn:not([disabled]).theme_floating_2F6gF {\n  color: #212121;\n  background-color: white; }\n\n.theme_neutral_3ARnn:not([disabled]).theme_flat_2dFf8, .theme_neutral_3ARnn:not([disabled]).theme_toggle_3I1Mu {\n  color: #212121; }\n  .theme_neutral_3ARnn:not([disabled]).theme_flat_2dFf8:focus:not(:active), .theme_neutral_3ARnn:not([disabled]).theme_toggle_3I1Mu:focus:not(:active) {\n    background: rgba(33, 33, 33, 0.2); }\n\n.theme_neutral_3ARnn:not([disabled]).theme_flat_2dFf8:hover {\n  background: rgba(33, 33, 33, 0.2); }\n\n.theme_neutral_3ARnn:not([disabled]).theme_inverse_J-KFH.theme_raised_1CNoR, .theme_neutral_3ARnn:not([disabled]).theme_inverse_J-KFH.theme_floating_2F6gF {\n  color: white;\n  background-color: #212121; }\n\n.theme_neutral_3ARnn:not([disabled]).theme_inverse_J-KFH.theme_flat_2dFf8, .theme_neutral_3ARnn:not([disabled]).theme_inverse_J-KFH.theme_toggle_3I1Mu {\n  color: white; }\n  .theme_neutral_3ARnn:not([disabled]).theme_inverse_J-KFH.theme_flat_2dFf8:focus:not(:active), .theme_neutral_3ARnn:not([disabled]).theme_inverse_J-KFH.theme_toggle_3I1Mu:focus:not(:active) {\n    background: rgba(33, 33, 33, 0.2); }\n\n.theme_neutral_3ARnn:not([disabled]).theme_inverse_J-KFH.theme_flat_2dFf8:hover {\n  background: rgba(33, 33, 33, 0.2); }\n\n.theme_neutral_3ARnn.theme_inverse_J-KFH[disabled] {\n  color: rgba(255, 255, 255, 0.54);\n  background-color: rgba(255, 255, 255, 0.08); }\n\n.theme_primary_1P-Jx:not([disabled]).theme_raised_1CNoR, .theme_primary_1P-Jx:not([disabled]).theme_floating_2F6gF {\n  color: white;\n  background: #2196f3; }\n\n.theme_primary_1P-Jx:not([disabled]).theme_flat_2dFf8, .theme_primary_1P-Jx:not([disabled]).theme_toggle_3I1Mu {\n  color: #2196f3; }\n  .theme_primary_1P-Jx:not([disabled]).theme_flat_2dFf8:focus:not(:active), .theme_primary_1P-Jx:not([disabled]).theme_toggle_3I1Mu:focus:not(:active) {\n    background: rgba(33, 150, 243, 0.2); }\n\n.theme_primary_1P-Jx:not([disabled]).theme_flat_2dFf8:hover {\n  background: rgba(33, 150, 243, 0.2); }\n\n.theme_accent_27fA0:not([disabled]).theme_raised_1CNoR, .theme_accent_27fA0:not([disabled]).theme_floating_2F6gF {\n  color: white;\n  background: #ff4081; }\n\n.theme_accent_27fA0:not([disabled]).theme_flat_2dFf8, .theme_accent_27fA0:not([disabled]).theme_toggle_3I1Mu {\n  color: #ff4081; }\n  .theme_accent_27fA0:not([disabled]).theme_flat_2dFf8:focus:not(:active), .theme_accent_27fA0:not([disabled]).theme_toggle_3I1Mu:focus:not(:active) {\n    background: rgba(255, 64, 129, 0.2); }\n\n.theme_accent_27fA0:not([disabled]).theme_flat_2dFf8:hover {\n  background: rgba(255, 64, 129, 0.2); }\n", ""]);
 
 	// exports
 	exports.locals = {
-		"radio": "theme_radio_3-10W",
-		"text": "theme_text_3olhV",
-		"button": "theme_button_20xhZ",
-		"rippleWrapper": "theme_rippleWrapper_DS_V0",
-		"squared": "theme_squared_3AZhT",
-		"icon": "theme_icon_IB0dR",
-		"solid": "theme_solid_1H2lv",
-		"raised": "theme_raised_r4lU5 theme_button_20xhZ theme_squared_3AZhT theme_solid_1H2lv",
-		"flat": "theme_flat_1r1Pt theme_button_20xhZ theme_squared_3AZhT",
-		"floating": "theme_floating_2uGP3 theme_button_20xhZ theme_solid_1H2lv",
-		"mini": "theme_mini_2XlsV",
-		"toggle": "theme_toggle_fYymG theme_button_20xhZ",
-		"primary": "theme_primary_2kO4n",
-		"accent": "theme_accent_2oX2A",
-		"neutral": "theme_neutral_1ynBh",
-		"inverse": "theme_inverse_20Nnw"
+		"radio": "theme_radio_30hua",
+		"text": "theme_text_2F6_f",
+		"button": "theme_button_8VilQ",
+		"raised": "theme_raised_1CNoR",
+		"flat": "theme_flat_2dFf8",
+		"floating": "theme_floating_2F6gF",
+		"toggle": "theme_toggle_3I1Mu",
+		"rippleWrapper": "theme_rippleWrapper_1y--6",
+		"icon": "theme_icon_3Me_E",
+		"mini": "theme_mini_1AvL1",
+		"neutral": "theme_neutral_3ARnn",
+		"inverse": "theme_inverse_J-KFH",
+		"primary": "theme_primary_1P-Jx",
+		"accent": "theme_accent_27fA0"
 	};
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50563,21 +50753,21 @@
 
 	var _identifiers = __webpack_require__(270);
 
-	var _Card = __webpack_require__(305);
+	var _Card = __webpack_require__(306);
 
-	var _CardActions = __webpack_require__(306);
+	var _CardActions = __webpack_require__(307);
 
-	var _CardMedia = __webpack_require__(307);
+	var _CardMedia = __webpack_require__(308);
 
-	var _CardText = __webpack_require__(308);
+	var _CardText = __webpack_require__(309);
 
-	var _CardTitle = __webpack_require__(309);
+	var _CardTitle = __webpack_require__(310);
 
-	var _avatar = __webpack_require__(311);
+	var _avatar = __webpack_require__(312);
 
 	var _avatar2 = _interopRequireDefault(_avatar);
 
-	var _theme = __webpack_require__(314);
+	var _theme = __webpack_require__(315);
 
 	var _theme2 = _interopRequireDefault(_theme);
 
@@ -50598,7 +50788,7 @@
 	exports.CardTitle = ThemedCardTitle;
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50658,7 +50848,7 @@
 	exports.Card = Card;
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50711,7 +50901,7 @@
 	exports.CardActions = CardActions;
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50791,7 +50981,7 @@
 	exports.CardMedia = CardMedia;
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50848,7 +51038,7 @@
 	exports.CardText = CardText;
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50872,7 +51062,7 @@
 
 	var _identifiers = __webpack_require__(270);
 
-	var _Avatar = __webpack_require__(310);
+	var _Avatar = __webpack_require__(311);
 
 	var _Avatar2 = _interopRequireDefault(_Avatar);
 
@@ -50946,7 +51136,7 @@
 	exports.cardTitleFactory = factory;
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50970,7 +51160,7 @@
 
 	var _identifiers = __webpack_require__(270);
 
-	var _FontIcon = __webpack_require__(299);
+	var _FontIcon = __webpack_require__(300);
 
 	var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
@@ -51031,7 +51221,7 @@
 	exports.Avatar = Avatar;
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51045,13 +51235,13 @@
 
 	var _reactCssThemr = __webpack_require__(265);
 
-	var _Avatar = __webpack_require__(310);
+	var _Avatar = __webpack_require__(311);
 
-	var _FontIcon = __webpack_require__(299);
+	var _FontIcon = __webpack_require__(300);
 
 	var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
-	var _theme = __webpack_require__(312);
+	var _theme = __webpack_require__(313);
 
 	var _theme2 = _interopRequireDefault(_theme);
 
@@ -51064,23 +51254,23 @@
 	exports.Avatar = ThemedAvatar;
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(313);
+	var content = __webpack_require__(314);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(313, function() {
-				var newContent = __webpack_require__(313);
+			module.hot.accept(314, function() {
+				var newContent = __webpack_require__(314);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -51088,102 +51278,45 @@
 		// When the module is disposed, remove the <style> tags
 		module.hot.dispose(function() { update(); });
 	}
-
-/***/ },
-/* 313 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(279)();
-	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
-
-	// module
-	exports.push([module.id, ".theme_radio_1-sal, .theme_text_UwEVG {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n:root {\n  --palette-red-50: #ffebee;\n  --palette-red-100: #ffcdd2;\n  --palette-red-200: #ef9a9a;\n  --palette-red-300: #e57373;\n  --palette-red-400: #ef5350;\n  --palette-red-500: #f44336;\n  --palette-red-600: #e53935;\n  --palette-red-700: #d32f2f;\n  --palette-red-800: #c62828;\n  --palette-red-900: #b71c1c;\n  --palette-red-a100: #ff8a80;\n  --palette-red-a200: #ff5252;\n  --palette-red-a400: #ff1744;\n  --palette-red-a700: #d50000;\n  --palette-pink-50: #fce4ec;\n  --palette-pink-100: #f8bbd0;\n  --palette-pink-200: #f48fb1;\n  --palette-pink-300: #f06292;\n  --palette-pink-400: #ec407a;\n  --palette-pink-500: #e91e63;\n  --palette-pink-600: #d81b60;\n  --palette-pink-700: #c2185b;\n  --palette-pink-800: #ad1457;\n  --palette-pink-900: #880e4f;\n  --palette-pink-a100: #ff80ab;\n  --palette-pink-a200: #ff4081;\n  --palette-pink-a400: #f50057;\n  --palette-pink-a700: #c51162;\n  --palette-purple-50: #f3e5f5;\n  --palette-purple-100: #e1bee7;\n  --palette-purple-200: #ce93d8;\n  --palette-purple-300: #ba68c8;\n  --palette-purple-400: #ab47bc;\n  --palette-purple-500: #9c27b0;\n  --palette-purple-600: #8e24aa;\n  --palette-purple-700: #7b1fa2;\n  --palette-purple-800: #6a1b9a;\n  --palette-purple-900: #4a148c;\n  --palette-purple-a100: #ea80fc;\n  --palette-purple-a200: #e040fb;\n  --palette-purple-a400: #d500f9;\n  --palette-purple-a700: #aa00ff;\n  --palette-deep-purple-50: #ede7f6;\n  --palette-deep-purple-100: #d1c4e9;\n  --palette-deep-purple-200: #b39ddb;\n  --palette-deep-purple-300: #9575cd;\n  --palette-deep-purple-400: #7e57c2;\n  --palette-deep-purple-500: #673ab7;\n  --palette-deep-purple-600: #5e35b1;\n  --palette-deep-purple-700: #512da8;\n  --palette-deep-purple-800: #4527a0;\n  --palette-deep-purple-900: #311b92;\n  --palette-deep-purple-a100: #b388ff;\n  --palette-deep-purple-a200: #7c4dff;\n  --palette-deep-purple-a400: #651fff;\n  --palette-deep-purple-a700: #6200ea;\n  --palette-indigo-50: #e8eaf6;\n  --palette-indigo-100: #c5cae9;\n  --palette-indigo-200: #9fa8da;\n  --palette-indigo-300: #7986cb;\n  --palette-indigo-400: #5c6bc0;\n  --palette-indigo-500: #3f51b5;\n  --palette-indigo-600: #3949ab;\n  --palette-indigo-700: #303f9f;\n  --palette-indigo-800: #283593;\n  --palette-indigo-900: #1a237e;\n  --palette-indigo-a100: #8c9eff;\n  --palette-indigo-a200: #536dfe;\n  --palette-indigo-a400: #3d5afe;\n  --palette-indigo-a700: #304ffe;\n  --palette-blue-50: #e3f2fd;\n  --palette-blue-100: #bbdefb;\n  --palette-blue-200: #90caf9;\n  --palette-blue-300: #64b5f6;\n  --palette-blue-400: #42a5f5;\n  --palette-blue-500: #2196f3;\n  --palette-blue-600: #1e88e5;\n  --palette-blue-700: #1976d2;\n  --palette-blue-800: #1565c0;\n  --palette-blue-900: #0d47a1;\n  --palette-blue-a100: #82b1ff;\n  --palette-blue-a200: #448aff;\n  --palette-blue-a400: #2979ff;\n  --palette-blue-a700: #2962ff;\n  --palette-light-blue-50: #e1f5fe;\n  --palette-light-blue-100: #b3e5fc;\n  --palette-light-blue-200: #81d4fa;\n  --palette-light-blue-300: #4fc3f7;\n  --palette-light-blue-400: #29b6f6;\n  --palette-light-blue-500: #03a9f4;\n  --palette-light-blue-600: #039be5;\n  --palette-light-blue-700: #0288d1;\n  --palette-light-blue-800: #0277bd;\n  --palette-light-blue-900: #01579b;\n  --palette-light-blue-a100: #80d8ff;\n  --palette-light-blue-a200: #40c4ff;\n  --palette-light-blue-a400: #00b0ff;\n  --palette-light-blue-a700: #0091ea;\n  --palette-cyan-50: #e0f7fa;\n  --palette-cyan-100: #b2ebf2;\n  --palette-cyan-200: #80deea;\n  --palette-cyan-300: #4dd0e1;\n  --palette-cyan-400: #26c6da;\n  --palette-cyan-500: #00bcd4;\n  --palette-cyan-600: #00acc1;\n  --palette-cyan-700: #0097a7;\n  --palette-cyan-800: #00838f;\n  --palette-cyan-900: #006064;\n  --palette-cyan-a100: #84ffff;\n  --palette-cyan-a200: #18ffff;\n  --palette-cyan-a400: #00e5ff;\n  --palette-cyan-a700: #00b8d4;\n  --palette-teal-50: #e0f2f1;\n  --palette-teal-100: #b2dfdb;\n  --palette-teal-200: #80cbc4;\n  --palette-teal-300: #4db6ac;\n  --palette-teal-400: #26a69a;\n  --palette-teal-500: #009688;\n  --palette-teal-600: #00897b;\n  --palette-teal-700: #00796b;\n  --palette-teal-800: #00695c;\n  --palette-teal-900: #004d40;\n  --palette-teal-a100: #a7ffeb;\n  --palette-teal-a200: #64ffda;\n  --palette-teal-a400: #1de9b6;\n  --palette-teal-a700: #00bfa5;\n  --palette-green-50: #e8f5e9;\n  --palette-green-100: #c8e6c9;\n  --palette-green-200: #a5d6a7;\n  --palette-green-300: #81c784;\n  --palette-green-400: #66bb6a;\n  --palette-green-500: #4caf50;\n  --palette-green-600: #43a047;\n  --palette-green-700: #388e3c;\n  --palette-green-800: #2e7d32;\n  --palette-green-900: #1b5e20;\n  --palette-green-a100: #b9f6ca;\n  --palette-green-a200: #69f0ae;\n  --palette-green-a400: #00e676;\n  --palette-green-a700: #00c853;\n  --palette-light-green-50: #f1f8e9;\n  --palette-light-green-100: #dcedc8;\n  --palette-light-green-200: #c5e1a5;\n  --palette-light-green-300: #aed581;\n  --palette-light-green-400: #9ccc65;\n  --palette-light-green-500: #8bc34a;\n  --palette-light-green-600: #7cb342;\n  --palette-light-green-700: #689f38;\n  --palette-light-green-800: #558b2f;\n  --palette-light-green-900: #33691e;\n  --palette-light-green-a100: #ccff90;\n  --palette-light-green-a200: #b2ff59;\n  --palette-light-green-a400: #76ff03;\n  --palette-light-green-a700: #64dd17;\n  --palette-lime-50: #f9fbe7;\n  --palette-lime-100: #f0f4c3;\n  --palette-lime-200: #e6ee9c;\n  --palette-lime-300: #dce775;\n  --palette-lime-400: #d4e157;\n  --palette-lime-500: #cddc39;\n  --palette-lime-600: #c0ca33;\n  --palette-lime-700: #afb42b;\n  --palette-lime-800: #9e9d24;\n  --palette-lime-900: #827717;\n  --palette-lime-a100: #f4ff81;\n  --palette-lime-a200: #eeff41;\n  --palette-lime-a400: #c6ff00;\n  --palette-lime-a700: #aeea00;\n  --palette-yellow-50: #fffde7;\n  --palette-yellow-100: #fff9c4;\n  --palette-yellow-200: #fff59d;\n  --palette-yellow-300: #fff176;\n  --palette-yellow-400: #ffee58;\n  --palette-yellow-500: #ffeb3b;\n  --palette-yellow-600: #fdd835;\n  --palette-yellow-700: #fbc02d;\n  --palette-yellow-800: #f9a825;\n  --palette-yellow-900: #f57f17;\n  --palette-yellow-a100: #ffff8d;\n  --palette-yellow-a200: yellow;\n  --palette-yellow-a400: #ffea00;\n  --palette-yellow-a700: #ffd600;\n  --palette-amber-50: #fff8e1;\n  --palette-amber-100: #ffecb3;\n  --palette-amber-200: #ffe082;\n  --palette-amber-300: #ffd54f;\n  --palette-amber-400: #ffca28;\n  --palette-amber-500: #ffc107;\n  --palette-amber-600: #ffb300;\n  --palette-amber-700: #ffa000;\n  --palette-amber-800: #ff8f00;\n  --palette-amber-900: #ff6f00;\n  --palette-amber-a100: #ffe57f;\n  --palette-amber-a200: #ffd740;\n  --palette-amber-a400: #ffc400;\n  --palette-amber-a700: #ffab00;\n  --palette-orange-50: #fff3e0;\n  --palette-orange-100: #ffe0b2;\n  --palette-orange-200: #ffcc80;\n  --palette-orange-300: #ffb74d;\n  --palette-orange-400: #ffa726;\n  --palette-orange-500: #ff9800;\n  --palette-orange-600: #fb8c00;\n  --palette-orange-700: #f57c00;\n  --palette-orange-800: #ef6c00;\n  --palette-orange-900: #e65100;\n  --palette-orange-a100: #ffd180;\n  --palette-orange-a200: #ffab40;\n  --palette-orange-a400: #ff9100;\n  --palette-orange-a700: #ff6d00;\n  --palette-deep-orange-50: #fbe9e7;\n  --palette-deep-orange-100: #ffccbc;\n  --palette-deep-orange-200: #ffab91;\n  --palette-deep-orange-300: #ff8a65;\n  --palette-deep-orange-400: #ff7043;\n  --palette-deep-orange-500: #ff5722;\n  --palette-deep-orange-600: #f4511e;\n  --palette-deep-orange-700: #e64a19;\n  --palette-deep-orange-800: #d84315;\n  --palette-deep-orange-900: #bf360c;\n  --palette-deep-orange-a100: #ff9e80;\n  --palette-deep-orange-a200: #ff6e40;\n  --palette-deep-orange-a400: #ff3d00;\n  --palette-deep-orange-a700: #dd2c00;\n  --palette-brown-50: #efebe9;\n  --palette-brown-100: #d7ccc8;\n  --palette-brown-200: #bcaaa4;\n  --palette-brown-300: #a1887f;\n  --palette-brown-400: #8d6e63;\n  --palette-brown-500: #795548;\n  --palette-brown-600: #6d4c41;\n  --palette-brown-700: #5d4037;\n  --palette-brown-800: #4e342e;\n  --palette-brown-900: #3e2723;\n  --palette-grey-50: #fafafa;\n  --palette-grey-100: whitesmoke;\n  --palette-grey-200: #eeeeee;\n  --palette-grey-300: #e0e0e0;\n  --palette-grey-400: #bdbdbd;\n  --palette-grey-500: #9e9e9e;\n  --palette-grey-600: #757575;\n  --palette-grey-700: #616161;\n  --palette-grey-800: #424242;\n  --palette-grey-900: #212121;\n  --palette-blue-grey-50: #eceff1;\n  --palette-blue-grey-100: #cfd8dc;\n  --palette-blue-grey-200: #b0bec5;\n  --palette-blue-grey-300: #90a4ae;\n  --palette-blue-grey-400: #78909c;\n  --palette-blue-grey-500: #607d8b;\n  --palette-blue-grey-600: #546e7a;\n  --palette-blue-grey-700: #455a64;\n  --palette-blue-grey-800: #37474f;\n  --palette-blue-grey-900: #263238;\n  --color-black: black;\n  --color-white: white;\n  --color-dark-contrast: var(--color-white);\n  --color-light-contrast: var(--color-black); }\n\n:root {\n  --color-divider: var(--palette-grey-200);\n  --color-background: var(--color-white);\n  --color-text: var(--palette-grey-900);\n  --color-text-secondary: var(--palette-grey-600);\n  --color-primary: var(--palette-indigo-500);\n  --color-primary-dark: var(--palette-indigo-700);\n  --color-accent: var(--palette-pink-a200);\n  --color-accent-dark: var(--palette-pink-700);\n  --color-primary-contrast: var(--color-dark-contrast);\n  --color-accent-contrast: var(--color-dark-contrast);\n  --unit: 1rem;\n  --preferred-font: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n  --font-size: calc(1.6 * var(--unit));\n  --font-size-tiny: calc(1.2 * var(--unit));\n  --font-size-small: calc(1.4 * var(--unit));\n  --font-size-normal: var(--font-size);\n  --font-size-big: calc(1.8 * var(--unit));\n  --font-weight-thin: 300;\n  --font-weight-normal: 400;\n  --font-weight-semi-bold: 500;\n  --font-weight-bold: 700;\n  --shadow-2p: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  --shadow-3p: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12);\n  --shadow-4p: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);\n  --shadow-6p: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);\n  --shadow-8p: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);\n  --shadow-16p: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);\n  --shadow-key-umbra-opacity: 0.2;\n  --shadow-key-penumbra-opacity: 0.14;\n  --shadow-ambient-shadow-opacity: 0.12;\n  --zdepth-shadow-1: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);\n  --zdepth-shadow-2: 0 3px 10px rgba(0, 0, 0, 0.16), 0 3px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-3: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-4: 0 14px 45px rgba(0, 0, 0, 0.25), 0 10px 18px rgba(0, 0, 0, 0.22);\n  --zdepth-shadow-5: 0 19px 60px rgba(0, 0, 0, 0.3), 0 15px 20px rgba(0, 0, 0, 0.22);\n  --animation-duration: 0.35s;\n  --animation-delay: calc(var(--animation-duration) / 5);\n  --animation-curve-fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1);\n  --animation-curve-linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1);\n  --animation-curve-fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1);\n  --animation-curve-default: var(--animation-curve-fast-out-slow-in);\n  --z-index-highest: 300;\n  --z-index-higher: 200;\n  --z-index-high: 100;\n  --z-index-normal: 1;\n  --z-index-low: -100;\n  --z-index-lower: -200; }\n\n:root {\n  --avatar-color: var(--color-white);\n  --avatar-background: var(--palette-grey-500);\n  --avatar-size: calc(4 * var(--unit));\n  --avatar-font-size: calc(2.4 * var(--unit)); }\n\n.theme_avatar_1C3r3 {\n  background-color: var(--avatar-background);\n  border-radius: 50%;\n  color: var(--avatar-color);\n  display: inline-block;\n  font-size: var(--avatar-font-size);\n  height: var(--avatar-size);\n  overflow: hidden;\n  position: relative;\n  text-align: center;\n  vertical-align: middle;\n  width: var(--avatar-size); }\n  .theme_avatar_1C3r3 > svg {\n    fill: currentColor;\n    height: var(--avatar-size);\n    width: 1em; }\n  .theme_avatar_1C3r3 > img {\n    height: auto;\n    max-width: 100%; }\n\n.theme_image_1izFW {\n  background-color: transparent;\n  background-position: center;\n  background-size: cover;\n  border-radius: 50%;\n  display: block;\n  height: 100%;\n  position: absolute;\n  width: 100%; }\n\n.theme_letter_hkoQC {\n  display: block;\n  line-height: var(--avatar-size);\n  width: 100%; }\n", ""]);
-
-	// exports
-	exports.locals = {
-		"radio": "theme_radio_1-sal",
-		"text": "theme_text_UwEVG",
-		"avatar": "theme_avatar_1C3r3",
-		"image": "theme_image_1izFW",
-		"letter": "theme_letter_hkoQC"
-	};
 
 /***/ },
 /* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
+	exports = module.exports = __webpack_require__(280)();
+	// imports
 
-	// load the styles
-	var content = __webpack_require__(315);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(true) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept(315, function() {
-				var newContent = __webpack_require__(315);
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
+
+	// module
+	exports.push([module.id, ".theme_radio_10ann, .theme_text_XF4s8 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.theme_avatar_3Up2K {\n  position: relative;\n  display: inline-block;\n  width: 40px;\n  height: 40px;\n  overflow: hidden;\n  font-size: 24px;\n  color: white;\n  text-align: center;\n  vertical-align: middle;\n  background-color: #9e9e9e;\n  border-radius: 50%; }\n  .theme_avatar_3Up2K > svg {\n    width: 1em;\n    height: 40px;\n    fill: currentColor; }\n  .theme_avatar_3Up2K > img {\n    max-width: 100%;\n    height: auto; }\n\n.theme_image_h8cB7 {\n  position: absolute;\n  display: block;\n  width: 100%;\n  height: 100%;\n  background-color: transparent;\n  background-position: center;\n  background-size: cover;\n  border-radius: 50%; }\n\n.theme_letter_3O71B {\n  display: block;\n  width: 100%;\n  line-height: 40px; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"radio": "theme_radio_10ann",
+		"text": "theme_text_XF4s8",
+		"avatar": "theme_avatar_3Up2K",
+		"image": "theme_image_h8cB7",
+		"letter": "theme_letter_3O71B"
+	};
 
 /***/ },
 /* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
-	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
-
-	// module
-	exports.push([module.id, ".theme_radio_3tBuu, .theme_text_21flf {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n:root {\n  --palette-red-50: #ffebee;\n  --palette-red-100: #ffcdd2;\n  --palette-red-200: #ef9a9a;\n  --palette-red-300: #e57373;\n  --palette-red-400: #ef5350;\n  --palette-red-500: #f44336;\n  --palette-red-600: #e53935;\n  --palette-red-700: #d32f2f;\n  --palette-red-800: #c62828;\n  --palette-red-900: #b71c1c;\n  --palette-red-a100: #ff8a80;\n  --palette-red-a200: #ff5252;\n  --palette-red-a400: #ff1744;\n  --palette-red-a700: #d50000;\n  --palette-pink-50: #fce4ec;\n  --palette-pink-100: #f8bbd0;\n  --palette-pink-200: #f48fb1;\n  --palette-pink-300: #f06292;\n  --palette-pink-400: #ec407a;\n  --palette-pink-500: #e91e63;\n  --palette-pink-600: #d81b60;\n  --palette-pink-700: #c2185b;\n  --palette-pink-800: #ad1457;\n  --palette-pink-900: #880e4f;\n  --palette-pink-a100: #ff80ab;\n  --palette-pink-a200: #ff4081;\n  --palette-pink-a400: #f50057;\n  --palette-pink-a700: #c51162;\n  --palette-purple-50: #f3e5f5;\n  --palette-purple-100: #e1bee7;\n  --palette-purple-200: #ce93d8;\n  --palette-purple-300: #ba68c8;\n  --palette-purple-400: #ab47bc;\n  --palette-purple-500: #9c27b0;\n  --palette-purple-600: #8e24aa;\n  --palette-purple-700: #7b1fa2;\n  --palette-purple-800: #6a1b9a;\n  --palette-purple-900: #4a148c;\n  --palette-purple-a100: #ea80fc;\n  --palette-purple-a200: #e040fb;\n  --palette-purple-a400: #d500f9;\n  --palette-purple-a700: #aa00ff;\n  --palette-deep-purple-50: #ede7f6;\n  --palette-deep-purple-100: #d1c4e9;\n  --palette-deep-purple-200: #b39ddb;\n  --palette-deep-purple-300: #9575cd;\n  --palette-deep-purple-400: #7e57c2;\n  --palette-deep-purple-500: #673ab7;\n  --palette-deep-purple-600: #5e35b1;\n  --palette-deep-purple-700: #512da8;\n  --palette-deep-purple-800: #4527a0;\n  --palette-deep-purple-900: #311b92;\n  --palette-deep-purple-a100: #b388ff;\n  --palette-deep-purple-a200: #7c4dff;\n  --palette-deep-purple-a400: #651fff;\n  --palette-deep-purple-a700: #6200ea;\n  --palette-indigo-50: #e8eaf6;\n  --palette-indigo-100: #c5cae9;\n  --palette-indigo-200: #9fa8da;\n  --palette-indigo-300: #7986cb;\n  --palette-indigo-400: #5c6bc0;\n  --palette-indigo-500: #3f51b5;\n  --palette-indigo-600: #3949ab;\n  --palette-indigo-700: #303f9f;\n  --palette-indigo-800: #283593;\n  --palette-indigo-900: #1a237e;\n  --palette-indigo-a100: #8c9eff;\n  --palette-indigo-a200: #536dfe;\n  --palette-indigo-a400: #3d5afe;\n  --palette-indigo-a700: #304ffe;\n  --palette-blue-50: #e3f2fd;\n  --palette-blue-100: #bbdefb;\n  --palette-blue-200: #90caf9;\n  --palette-blue-300: #64b5f6;\n  --palette-blue-400: #42a5f5;\n  --palette-blue-500: #2196f3;\n  --palette-blue-600: #1e88e5;\n  --palette-blue-700: #1976d2;\n  --palette-blue-800: #1565c0;\n  --palette-blue-900: #0d47a1;\n  --palette-blue-a100: #82b1ff;\n  --palette-blue-a200: #448aff;\n  --palette-blue-a400: #2979ff;\n  --palette-blue-a700: #2962ff;\n  --palette-light-blue-50: #e1f5fe;\n  --palette-light-blue-100: #b3e5fc;\n  --palette-light-blue-200: #81d4fa;\n  --palette-light-blue-300: #4fc3f7;\n  --palette-light-blue-400: #29b6f6;\n  --palette-light-blue-500: #03a9f4;\n  --palette-light-blue-600: #039be5;\n  --palette-light-blue-700: #0288d1;\n  --palette-light-blue-800: #0277bd;\n  --palette-light-blue-900: #01579b;\n  --palette-light-blue-a100: #80d8ff;\n  --palette-light-blue-a200: #40c4ff;\n  --palette-light-blue-a400: #00b0ff;\n  --palette-light-blue-a700: #0091ea;\n  --palette-cyan-50: #e0f7fa;\n  --palette-cyan-100: #b2ebf2;\n  --palette-cyan-200: #80deea;\n  --palette-cyan-300: #4dd0e1;\n  --palette-cyan-400: #26c6da;\n  --palette-cyan-500: #00bcd4;\n  --palette-cyan-600: #00acc1;\n  --palette-cyan-700: #0097a7;\n  --palette-cyan-800: #00838f;\n  --palette-cyan-900: #006064;\n  --palette-cyan-a100: #84ffff;\n  --palette-cyan-a200: #18ffff;\n  --palette-cyan-a400: #00e5ff;\n  --palette-cyan-a700: #00b8d4;\n  --palette-teal-50: #e0f2f1;\n  --palette-teal-100: #b2dfdb;\n  --palette-teal-200: #80cbc4;\n  --palette-teal-300: #4db6ac;\n  --palette-teal-400: #26a69a;\n  --palette-teal-500: #009688;\n  --palette-teal-600: #00897b;\n  --palette-teal-700: #00796b;\n  --palette-teal-800: #00695c;\n  --palette-teal-900: #004d40;\n  --palette-teal-a100: #a7ffeb;\n  --palette-teal-a200: #64ffda;\n  --palette-teal-a400: #1de9b6;\n  --palette-teal-a700: #00bfa5;\n  --palette-green-50: #e8f5e9;\n  --palette-green-100: #c8e6c9;\n  --palette-green-200: #a5d6a7;\n  --palette-green-300: #81c784;\n  --palette-green-400: #66bb6a;\n  --palette-green-500: #4caf50;\n  --palette-green-600: #43a047;\n  --palette-green-700: #388e3c;\n  --palette-green-800: #2e7d32;\n  --palette-green-900: #1b5e20;\n  --palette-green-a100: #b9f6ca;\n  --palette-green-a200: #69f0ae;\n  --palette-green-a400: #00e676;\n  --palette-green-a700: #00c853;\n  --palette-light-green-50: #f1f8e9;\n  --palette-light-green-100: #dcedc8;\n  --palette-light-green-200: #c5e1a5;\n  --palette-light-green-300: #aed581;\n  --palette-light-green-400: #9ccc65;\n  --palette-light-green-500: #8bc34a;\n  --palette-light-green-600: #7cb342;\n  --palette-light-green-700: #689f38;\n  --palette-light-green-800: #558b2f;\n  --palette-light-green-900: #33691e;\n  --palette-light-green-a100: #ccff90;\n  --palette-light-green-a200: #b2ff59;\n  --palette-light-green-a400: #76ff03;\n  --palette-light-green-a700: #64dd17;\n  --palette-lime-50: #f9fbe7;\n  --palette-lime-100: #f0f4c3;\n  --palette-lime-200: #e6ee9c;\n  --palette-lime-300: #dce775;\n  --palette-lime-400: #d4e157;\n  --palette-lime-500: #cddc39;\n  --palette-lime-600: #c0ca33;\n  --palette-lime-700: #afb42b;\n  --palette-lime-800: #9e9d24;\n  --palette-lime-900: #827717;\n  --palette-lime-a100: #f4ff81;\n  --palette-lime-a200: #eeff41;\n  --palette-lime-a400: #c6ff00;\n  --palette-lime-a700: #aeea00;\n  --palette-yellow-50: #fffde7;\n  --palette-yellow-100: #fff9c4;\n  --palette-yellow-200: #fff59d;\n  --palette-yellow-300: #fff176;\n  --palette-yellow-400: #ffee58;\n  --palette-yellow-500: #ffeb3b;\n  --palette-yellow-600: #fdd835;\n  --palette-yellow-700: #fbc02d;\n  --palette-yellow-800: #f9a825;\n  --palette-yellow-900: #f57f17;\n  --palette-yellow-a100: #ffff8d;\n  --palette-yellow-a200: yellow;\n  --palette-yellow-a400: #ffea00;\n  --palette-yellow-a700: #ffd600;\n  --palette-amber-50: #fff8e1;\n  --palette-amber-100: #ffecb3;\n  --palette-amber-200: #ffe082;\n  --palette-amber-300: #ffd54f;\n  --palette-amber-400: #ffca28;\n  --palette-amber-500: #ffc107;\n  --palette-amber-600: #ffb300;\n  --palette-amber-700: #ffa000;\n  --palette-amber-800: #ff8f00;\n  --palette-amber-900: #ff6f00;\n  --palette-amber-a100: #ffe57f;\n  --palette-amber-a200: #ffd740;\n  --palette-amber-a400: #ffc400;\n  --palette-amber-a700: #ffab00;\n  --palette-orange-50: #fff3e0;\n  --palette-orange-100: #ffe0b2;\n  --palette-orange-200: #ffcc80;\n  --palette-orange-300: #ffb74d;\n  --palette-orange-400: #ffa726;\n  --palette-orange-500: #ff9800;\n  --palette-orange-600: #fb8c00;\n  --palette-orange-700: #f57c00;\n  --palette-orange-800: #ef6c00;\n  --palette-orange-900: #e65100;\n  --palette-orange-a100: #ffd180;\n  --palette-orange-a200: #ffab40;\n  --palette-orange-a400: #ff9100;\n  --palette-orange-a700: #ff6d00;\n  --palette-deep-orange-50: #fbe9e7;\n  --palette-deep-orange-100: #ffccbc;\n  --palette-deep-orange-200: #ffab91;\n  --palette-deep-orange-300: #ff8a65;\n  --palette-deep-orange-400: #ff7043;\n  --palette-deep-orange-500: #ff5722;\n  --palette-deep-orange-600: #f4511e;\n  --palette-deep-orange-700: #e64a19;\n  --palette-deep-orange-800: #d84315;\n  --palette-deep-orange-900: #bf360c;\n  --palette-deep-orange-a100: #ff9e80;\n  --palette-deep-orange-a200: #ff6e40;\n  --palette-deep-orange-a400: #ff3d00;\n  --palette-deep-orange-a700: #dd2c00;\n  --palette-brown-50: #efebe9;\n  --palette-brown-100: #d7ccc8;\n  --palette-brown-200: #bcaaa4;\n  --palette-brown-300: #a1887f;\n  --palette-brown-400: #8d6e63;\n  --palette-brown-500: #795548;\n  --palette-brown-600: #6d4c41;\n  --palette-brown-700: #5d4037;\n  --palette-brown-800: #4e342e;\n  --palette-brown-900: #3e2723;\n  --palette-grey-50: #fafafa;\n  --palette-grey-100: whitesmoke;\n  --palette-grey-200: #eeeeee;\n  --palette-grey-300: #e0e0e0;\n  --palette-grey-400: #bdbdbd;\n  --palette-grey-500: #9e9e9e;\n  --palette-grey-600: #757575;\n  --palette-grey-700: #616161;\n  --palette-grey-800: #424242;\n  --palette-grey-900: #212121;\n  --palette-blue-grey-50: #eceff1;\n  --palette-blue-grey-100: #cfd8dc;\n  --palette-blue-grey-200: #b0bec5;\n  --palette-blue-grey-300: #90a4ae;\n  --palette-blue-grey-400: #78909c;\n  --palette-blue-grey-500: #607d8b;\n  --palette-blue-grey-600: #546e7a;\n  --palette-blue-grey-700: #455a64;\n  --palette-blue-grey-800: #37474f;\n  --palette-blue-grey-900: #263238;\n  --color-black: black;\n  --color-white: white;\n  --color-dark-contrast: var(--color-white);\n  --color-light-contrast: var(--color-black); }\n\n:root {\n  --color-divider: var(--palette-grey-200);\n  --color-background: var(--color-white);\n  --color-text: var(--palette-grey-900);\n  --color-text-secondary: var(--palette-grey-600);\n  --color-primary: var(--palette-indigo-500);\n  --color-primary-dark: var(--palette-indigo-700);\n  --color-accent: var(--palette-pink-a200);\n  --color-accent-dark: var(--palette-pink-700);\n  --color-primary-contrast: var(--color-dark-contrast);\n  --color-accent-contrast: var(--color-dark-contrast);\n  --unit: 1rem;\n  --preferred-font: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n  --font-size: calc(1.6 * var(--unit));\n  --font-size-tiny: calc(1.2 * var(--unit));\n  --font-size-small: calc(1.4 * var(--unit));\n  --font-size-normal: var(--font-size);\n  --font-size-big: calc(1.8 * var(--unit));\n  --font-weight-thin: 300;\n  --font-weight-normal: 400;\n  --font-weight-semi-bold: 500;\n  --font-weight-bold: 700;\n  --shadow-2p: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  --shadow-3p: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12);\n  --shadow-4p: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);\n  --shadow-6p: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);\n  --shadow-8p: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);\n  --shadow-16p: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);\n  --shadow-key-umbra-opacity: 0.2;\n  --shadow-key-penumbra-opacity: 0.14;\n  --shadow-ambient-shadow-opacity: 0.12;\n  --zdepth-shadow-1: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);\n  --zdepth-shadow-2: 0 3px 10px rgba(0, 0, 0, 0.16), 0 3px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-3: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);\n  --zdepth-shadow-4: 0 14px 45px rgba(0, 0, 0, 0.25), 0 10px 18px rgba(0, 0, 0, 0.22);\n  --zdepth-shadow-5: 0 19px 60px rgba(0, 0, 0, 0.3), 0 15px 20px rgba(0, 0, 0, 0.22);\n  --animation-duration: 0.35s;\n  --animation-delay: calc(var(--animation-duration) / 5);\n  --animation-curve-fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1);\n  --animation-curve-linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1);\n  --animation-curve-fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1);\n  --animation-curve-default: var(--animation-curve-fast-out-slow-in);\n  --z-index-highest: 300;\n  --z-index-higher: 200;\n  --z-index-high: 100;\n  --z-index-normal: 1;\n  --z-index-low: -100;\n  --z-index-lower: -200; }\n\n:root {\n  --card-color-white: var(--color-white);\n  --card-text-overlay: color(var(--color-black) a(35%));\n  --card-background-color: var(--card-color-white);\n  --card-padding-sm: calc(0.8 * var(--unit));\n  --card-padding: calc(1.6 * var(--unit));\n  --card-padding-lg: calc(2 * var(--unit));\n  --card-font-size: var(--font-size-small); }\n\n.theme_card_3S6jg {\n  background: var(--card-background-color);\n  border-radius: calc(0.2 * var(--unit));\n  box-shadow: var(--shadow-2p);\n  display: flex;\n  flex-direction: column;\n  font-size: var(--card-font-size);\n  overflow: hidden;\n  width: 100%; }\n  .theme_card_3S6jg.theme_raised_1E7M6 {\n    box-shadow: var(--shadow-8p); }\n  .theme_card_3S6jg [data-react-toolbox='avatar'] {\n    display: block; }\n\n.theme_cardMedia_2rQaW {\n  background-position: center center;\n  background-repeat: no-repeat;\n  background-size: cover;\n  position: relative; }\n  .theme_cardMedia_2rQaW.theme_wide_2gamw, .theme_cardMedia_2rQaW.theme_square_1vL8I {\n    width: 100%; }\n    .theme_cardMedia_2rQaW.theme_wide_2gamw .theme_content_5a3W3, .theme_cardMedia_2rQaW.theme_square_1vL8I .theme_content_5a3W3 {\n      height: 100%;\n      position: absolute; }\n    .theme_cardMedia_2rQaW.theme_wide_2gamw .theme_content_5a3W3 > iframe,\n    .theme_cardMedia_2rQaW.theme_wide_2gamw .theme_content_5a3W3 > video,\n    .theme_cardMedia_2rQaW.theme_wide_2gamw .theme_content_5a3W3 > img, .theme_cardMedia_2rQaW.theme_square_1vL8I .theme_content_5a3W3 > iframe,\n    .theme_cardMedia_2rQaW.theme_square_1vL8I .theme_content_5a3W3 > video,\n    .theme_cardMedia_2rQaW.theme_square_1vL8I .theme_content_5a3W3 > img {\n      max-width: 100%; }\n  .theme_cardMedia_2rQaW::after {\n    content: '';\n    display: block;\n    height: 0; }\n  .theme_cardMedia_2rQaW.theme_wide_2gamw::after {\n    padding-top: 56.25%; }\n  .theme_cardMedia_2rQaW.theme_square_1vL8I::after {\n    padding-top: 100%; }\n  .theme_cardMedia_2rQaW .theme_content_5a3W3 {\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    left: 0;\n    overflow: hidden;\n    position: relative;\n    top: 0;\n    width: 100%; }\n  .theme_cardMedia_2rQaW .theme_contentOverlay_35cMo .theme_cardTitle_1az8Y,\n  .theme_cardMedia_2rQaW .theme_contentOverlay_35cMo .theme_cardActions_5uNHj,\n  .theme_cardMedia_2rQaW .theme_contentOverlay_35cMo .theme_cardText_1_Hq0 {\n    background-color: var(--card-text-overlay); }\n  .theme_cardMedia_2rQaW .theme_cardTitle_1az8Y .theme_title_3XkB0,\n  .theme_cardMedia_2rQaW .theme_cardTitle_1az8Y .theme_subtitle_qyj2A {\n    color: var(--card-color-white); }\n\n.theme_cardTitle_1az8Y {\n  align-items: center;\n  display: flex; }\n  .theme_cardTitle_1az8Y [data-react-toolbox='avatar'] {\n    margin-right: calc(1.3 * var(--unit)); }\n  .theme_cardTitle_1az8Y .theme_subtitle_qyj2A {\n    color: var(--color-text-secondary); }\n  .theme_cardTitle_1az8Y.theme_large_JceAP {\n    padding: var(--card-padding-lg) var(--card-padding) calc(var(--card-padding) - 0.2 * var(--unit)); }\n    .theme_cardTitle_1az8Y.theme_large_JceAP .theme_title_3XkB0 {\n      font-size: 2.4rem;\n      -moz-osx-font-smoothing: grayscale;\n      font-weight: 400;\n      line-height: 1.25; }\n  .theme_cardTitle_1az8Y.theme_small_3DK2R {\n    padding: var(--card-padding); }\n    .theme_cardTitle_1az8Y.theme_small_3DK2R .theme_title_3XkB0 {\n      font-size: 1.4rem;\n      letter-spacing: 0;\n      line-height: 1.4; }\n    .theme_cardTitle_1az8Y.theme_small_3DK2R .theme_subtitle_qyj2A {\n      font-weight: 500;\n      line-height: 1.4; }\n\n.theme_cardTitle_1az8Y,\n.theme_cardText_1_Hq0 {\n  padding: calc(var(--card-padding) - 0.2 * var(--unit)) var(--card-padding); }\n  .theme_cardTitle_1az8Y:last-child,\n  .theme_cardText_1_Hq0:last-child {\n    padding-bottom: var(--card-padding-lg); }\n  .theme_cardTitle_1az8Y + .theme_cardText_1_Hq0,\n  .theme_cardText_1_Hq0 + .theme_cardText_1_Hq0 {\n    padding-top: 0; }\n\n.theme_cardActions_5uNHj {\n  align-items: center;\n  display: flex;\n  justify-content: flex-start;\n  padding: var(--card-padding-sm); }\n  .theme_cardActions_5uNHj [data-react-toolbox='button'] {\n    margin: 0 calc(var(--card-padding-sm) / 2);\n    min-width: 0;\n    padding: 0 var(--card-padding-sm); }\n    .theme_cardActions_5uNHj [data-react-toolbox='button']:first-child {\n      margin-left: 0; }\n    .theme_cardActions_5uNHj [data-react-toolbox='button']:last-child {\n      margin-right: 0; }\n", ""]);
-
-	// exports
-	exports.locals = {
-		"radio": "theme_radio_3tBuu",
-		"text": "theme_text_21flf",
-		"card": "theme_card_3S6jg",
-		"raised": "theme_raised_1E7M6",
-		"cardMedia": "theme_cardMedia_2rQaW",
-		"wide": "theme_wide_2gamw",
-		"square": "theme_square_1vL8I",
-		"content": "theme_content_5a3W3",
-		"contentOverlay": "theme_contentOverlay_35cMo",
-		"cardTitle": "theme_cardTitle_1az8Y",
-		"cardActions": "theme_cardActions_5uNHj",
-		"cardText": "theme_cardText_1_Hq0",
-		"title": "theme_title_3XkB0",
-		"subtitle": "theme_subtitle_qyj2A",
-		"large": "theme_large_JceAP",
-		"small": "theme_small_3DK2R"
-	};
-
-/***/ },
-/* 316 */
-/***/ function(module, exports, __webpack_require__) {
-
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(317);
+	var content = __webpack_require__(316);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(317, function() {
-				var newContent = __webpack_require__(317);
+			module.hot.accept(316, function() {
+				var newContent = __webpack_require__(316);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -51193,23 +51326,79 @@
 	}
 
 /***/ },
-/* 317 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
-	exports.i(__webpack_require__(318), undefined);
+
 
 	// module
-	exports.push([module.id, ".Test_radio_BklPD, .Test_text_2OS6Q {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n.Test_top_block_2qdF_ {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.Test_top_container_1V2yo {\n  display: flex;\n  justify-content: flex-end; }\n  @media " + __webpack_require__(318).locals["phone"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1; } }\n  @media " + __webpack_require__(318).locals["tablet"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back.svg\") left no-repeat;\n      margin-bottom: 40px;\n      flex-grow: 1; } }\n  @media " + __webpack_require__(318).locals["desktop"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back.svg\") left no-repeat;\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(318).locals["phone"] + " {\n  .Test_img_3mDz4 {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(318).locals["not_phone"] + " {\n  .Test_img_3mDz4 {\n    height: 120px;\n    padding-right: 40px; } }\n\n.Test_card_block_3xgZU {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(318).locals["phone"] + " {\n  .Test_card_container_IgvPj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(318).locals["tablet"] + " {\n  .Test_card_container_IgvPj {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(318).locals["desktop"] + " {\n  .Test_card_container_IgvPj {\n    width: 944px;\n    margin-top: -40px; } }\n\n.Test_actions_1Baim {\n  border-top: 1px solid rgba(0, 0, 0, 0.12);\n  display: flex;\n  justify-content: flex-end;\n  padding: 16px; }\n", ""]);
+	exports.push([module.id, ".theme_radio_3NShI, .theme_text_1K7sr {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.theme_card_1fLgR {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  display: flex;\n  width: 100%;\n  flex-direction: column;\n  overflow: hidden;\n  font-size: 14px;\n  background: white;\n  border-radius: 2px; }\n  .theme_card_1fLgR.theme_raised_1ZelY {\n    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2); }\n  .theme_card_1fLgR [data-react-toolbox=\"avatar\"] {\n    display: block; }\n\n.theme_cardMedia_1u8Kt {\n  position: relative;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: cover; }\n  .theme_cardMedia_1u8Kt.theme_wide_2hX-1, .theme_cardMedia_1u8Kt.theme_square_k9vMw {\n    width: 100%; }\n    .theme_cardMedia_1u8Kt.theme_wide_2hX-1 .theme_content_3T1dH, .theme_cardMedia_1u8Kt.theme_square_k9vMw .theme_content_3T1dH {\n      position: absolute;\n      height: 100%; }\n    .theme_cardMedia_1u8Kt.theme_wide_2hX-1 .theme_content_3T1dH > iframe, .theme_cardMedia_1u8Kt.theme_wide_2hX-1 .theme_content_3T1dH > video, .theme_cardMedia_1u8Kt.theme_wide_2hX-1 .theme_content_3T1dH > img, .theme_cardMedia_1u8Kt.theme_square_k9vMw .theme_content_3T1dH > iframe, .theme_cardMedia_1u8Kt.theme_square_k9vMw .theme_content_3T1dH > video, .theme_cardMedia_1u8Kt.theme_square_k9vMw .theme_content_3T1dH > img {\n      max-width: 100%; }\n  .theme_cardMedia_1u8Kt::after {\n    display: block;\n    height: 0;\n    content: \"\"; }\n  .theme_cardMedia_1u8Kt.theme_wide_2hX-1::after {\n    padding-top: 56.25%; }\n  .theme_cardMedia_1u8Kt.theme_square_k9vMw::after {\n    padding-top: 100%; }\n  .theme_cardMedia_1u8Kt .theme_content_3T1dH {\n    position: relative;\n    top: 0;\n    left: 0;\n    display: flex;\n    width: 100%;\n    flex-direction: column;\n    justify-content: flex-end;\n    overflow: hidden; }\n  .theme_cardMedia_1u8Kt .theme_contentOverlay_1Yejq .theme_cardTitle_3rrwJ, .theme_cardMedia_1u8Kt .theme_contentOverlay_1Yejq .theme_cardActions_1h5Ri, .theme_cardMedia_1u8Kt .theme_contentOverlay_1Yejq .theme_cardText_cChZN {\n    background-color: rgba(0, 0, 0, 0.35); }\n\n.theme_cardTitle_3rrwJ {\n  display: flex;\n  align-items: center; }\n  .theme_cardTitle_3rrwJ [data-react-toolbox=\"avatar\"] {\n    margin-right: 13px; }\n  .theme_cardTitle_3rrwJ .theme_subtitle_2m2AL {\n    color: #757575; }\n  .theme_cardTitle_3rrwJ.theme_large_2Ny8T {\n    padding: 20px 16px 14px; }\n    .theme_cardTitle_3rrwJ.theme_large_2Ny8T .theme_title_23jIR {\n      font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n      font-size: 24px;\n      font-weight: 400;\n      line-height: 32px;\n      -moz-osx-font-smoothing: grayscale;\n      line-height: 1.25; }\n  .theme_cardTitle_3rrwJ.theme_small_1Wof2 {\n    padding: 16px; }\n    .theme_cardTitle_3rrwJ.theme_small_1Wof2 .theme_title_23jIR {\n      font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n      font-size: 14px;\n      line-height: 24px;\n      letter-spacing: 0;\n      font-weight: 500;\n      line-height: 1.4; }\n    .theme_cardTitle_3rrwJ.theme_small_1Wof2 .theme_subtitle_2m2AL {\n      font-weight: 500;\n      line-height: 1.4; }\n  .theme_cardMedia_1u8Kt .theme_cardTitle_3rrwJ .theme_title_23jIR, .theme_cardMedia_1u8Kt .theme_cardTitle_3rrwJ .theme_subtitle_2m2AL {\n    color: white; }\n\n.theme_cardTitle_3rrwJ, .theme_cardText_cChZN {\n  padding: 14px 16px; }\n  .theme_cardTitle_3rrwJ:last-child, .theme_cardText_cChZN:last-child {\n    padding-bottom: 20px; }\n  .theme_cardTitle_3rrwJ + .theme_cardText_cChZN, .theme_cardText_cChZN + .theme_cardText_cChZN {\n    padding-top: 0; }\n\n.theme_cardActions_1h5Ri {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  padding: 8px; }\n  .theme_cardActions_1h5Ri [data-react-toolbox=\"button\"] {\n    min-width: 0;\n    padding: 0 8px;\n    margin: 0 4px; }\n    .theme_cardActions_1h5Ri [data-react-toolbox=\"button\"]:first-child {\n      margin-left: 0; }\n    .theme_cardActions_1h5Ri [data-react-toolbox=\"button\"]:last-child {\n      margin-right: 0; }\n", ""]);
 
 	// exports
 	exports.locals = {
-		"phone": "" + __webpack_require__(318).locals["phone"] + "",
-		"tablet": "" + __webpack_require__(318).locals["tablet"] + "",
-		"desktop": "" + __webpack_require__(318).locals["desktop"] + "",
-		"not_phone": "" + __webpack_require__(318).locals["not_phone"] + "",
+		"radio": "theme_radio_3NShI",
+		"text": "theme_text_1K7sr",
+		"card": "theme_card_1fLgR",
+		"raised": "theme_raised_1ZelY",
+		"cardMedia": "theme_cardMedia_1u8Kt",
+		"wide": "theme_wide_2hX-1",
+		"square": "theme_square_k9vMw",
+		"content": "theme_content_3T1dH",
+		"contentOverlay": "theme_contentOverlay_1Yejq",
+		"cardTitle": "theme_cardTitle_3rrwJ",
+		"cardActions": "theme_cardActions_1h5Ri",
+		"cardText": "theme_cardText_cChZN",
+		"subtitle": "theme_subtitle_2m2AL",
+		"large": "theme_large_2Ny8T",
+		"title": "theme_title_23jIR",
+		"small": "theme_small_1Wof2"
+	};
+
+/***/ },
+/* 317 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(318);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(281)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(true) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept(318, function() {
+				var newContent = __webpack_require__(318);
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 318 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(280)();
+	// imports
+	exports.i(__webpack_require__(319), undefined);
+
+	// module
+	exports.push([module.id, ".Test_radio_BklPD, .Test_text_2OS6Q {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.Test_top_block_2qdF_ {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.Test_top_container_1V2yo {\n  display: flex;\n  justify-content: flex-end; }\n  @media " + __webpack_require__(319).locals["phone"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1; } }\n  @media " + __webpack_require__(319).locals["tablet"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back@t.svg\") left no-repeat;\n      flex-grow: 1;\n      margin: 0 40px 40px 40px; } }\n  @media " + __webpack_require__(319).locals["desktop"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back.svg\") left no-repeat;\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(319).locals["phone"] + " {\n  .Test_img_3mDz4 {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(319).locals["notphone"] + " {\n  .Test_img_3mDz4 {\n    height: 120px;\n    padding-right: 40px; } }\n\n.Test_card_block_3xgZU {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(319).locals["phone"] + " {\n  .Test_card_container_IgvPj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(319).locals["tablet"] + " {\n  .Test_card_container_IgvPj {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(319).locals["desktop"] + " {\n  .Test_card_container_IgvPj {\n    width: 944px;\n    margin-top: -40px; } }\n\n.Test_actions_1Baim {\n  border-top: 1px solid rgba(0, 0, 0, 0.12);\n  display: flex;\n  justify-content: flex-end;\n  padding: 16px; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"phone": "" + __webpack_require__(319).locals["phone"] + "",
+		"tablet": "" + __webpack_require__(319).locals["tablet"] + "",
+		"desktop": "" + __webpack_require__(319).locals["desktop"] + "",
+		"notphone": "" + __webpack_require__(319).locals["notphone"] + "",
 		"radio": "Test_radio_BklPD",
 		"text": "Test_text_2OS6Q",
 		"top_block": "Test_top_block_2qdF_",
@@ -51221,29 +51410,29 @@
 	};
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
+
 
 	// module
-	exports.push([module.id, ".breakpoints_radio_3PsE1, .breakpoints_text_286hj {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n", ""]);
+	exports.push([module.id, ".breakpoints_radio_3PsE1, .breakpoints_text_286hj {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n", ""]);
 
 	// exports
 	exports.locals = {
 		"phone": "(max-width: 599px)",
 		"tablet": "(min-width: 600px) and (max-width: 1023px)",
 		"desktop": "(min-width: 1024px)",
-		"not_phone": "(min-width: 600px)",
-		"not_desktop": "(max-width: 1023px)",
+		"notphone": "(min-width: 600px)",
+		"notdesktop": "(max-width: 1023px)",
 		"radio": "breakpoints_radio_3PsE1",
 		"text": "breakpoints_text_286hj"
 	};
 
 /***/ },
-/* 319 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51258,9 +51447,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _card = __webpack_require__(304);
+	var _card = __webpack_require__(305);
 
-	var _MainResult = __webpack_require__(320);
+	var _button = __webpack_require__(298);
+
+	var _MainResult = __webpack_require__(321);
 
 	var _MainResult2 = _interopRequireDefault(_MainResult);
 
@@ -51278,35 +51469,66 @@
 		function MainResult() {
 			_classCallCheck(this, MainResult);
 
-			return _possibleConstructorReturn(this, (MainResult.__proto__ || Object.getPrototypeOf(MainResult)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (MainResult.__proto__ || Object.getPrototypeOf(MainResult)).call(this));
+
+			_this.root = location.protocol + '//' + location.host;
+			return _this;
 		}
 
 		_createClass(MainResult, [{
+			key: 'toProduct',
+			value: function toProduct() {
+				var to = this.root + this.props.recomendation.link;
+				location = to;
+			}
+		}, {
+			key: 'bayProduct',
+			value: function bayProduct() {
+				var to = this.root + this.props.recomendation.link + 'kupit';
+				location = to;
+			}
+		}, {
+			key: 'goHome',
+			value: function goHome() {
+				var root = location.protocol + '//' + location.host;
+				location = root;
+			}
+		}, {
 			key: 'render',
 			value: function render() {
-				var Answer = function Answer(props) {
+				var _this2 = this;
+
+				var actions = function actions() {
 					return _react2.default.createElement(
-						'h1',
-						null,
-						props.data
+						'div',
+						{ className: _MainResult2.default.actions },
+						_react2.default.createElement(_button.Button, { label: '\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u0435\u0435', primary: true, onClick: _this2.toProduct.bind(_this2) }),
+						_react2.default.createElement(_button.Button, { label: '\u0417\u0430\u043A\u0430\u0437\u0430\u0442\u044C', primary: true, raised: true, onClick: _this2.bayProduct.bind(_this2) })
 					);
 				};
-				var result = _react2.default.createElement(Answer, { data: this.props.lawResult.label });
-				var recomendation = _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'h1',
-						null,
-						this.props.recomendation.label
-					),
-					_react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement('img', { src: this.props.recomendation.image }),
-						_react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.recomendation.text } })
-					)
-				);
+
+				var hints = function hints() {
+					if (!_.isEmpty(_this2.props.hints)) {
+						var hts = _.map(_this2.props.hints, function (hint, $index) {
+							return _react2.default.createElement(
+								'p',
+								{ key: $index },
+								hint
+							);
+						});
+						return _react2.default.createElement(
+							'div',
+							{ className: _MainResult2.default.main_hints },
+							hts
+						);
+					}
+				};
+				var lawHint = this.props.lawResult.hint ? _react2.default.createElement(
+					'p',
+					{ className: _MainResult2.default.law_hint },
+					this.props.lawResult.hint
+				) : null;
+
 				return _react2.default.createElement(
 					'div',
 					{ className: _MainResult2.default.main_container },
@@ -51328,8 +51550,38 @@
 							_react2.default.createElement(
 								_card.Card,
 								null,
-								result,
-								recomendation
+								_react2.default.createElement(
+									'div',
+									{ className: _MainResult2.default.header_block },
+									_react2.default.createElement(
+										'label',
+										{ className: _MainResult2.default.card_title },
+										'\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442'
+									),
+									_react2.default.createElement(
+										'label',
+										{ className: _MainResult2.default.law_result },
+										this.props.lawResult.label
+									)
+								),
+								_react2.default.createElement('div', { className: _MainResult2.default.law_text, dangerouslySetInnerHTML: { __html: this.props.lawResult.text } }),
+								_react2.default.createElement('div', { className: _MainResult2.default.hints }),
+								_react2.default.createElement(
+									'div',
+									{ className: _MainResult2.default.recomendation },
+									_react2.default.createElement(
+										'div',
+										{ className: _MainResult2.default.recomendation_img },
+										_react2.default.createElement('img', { src: this.props.recomendation.image })
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: _MainResult2.default.recomendation_content },
+										_react2.default.createElement('div', { className: _MainResult2.default.recomendation_text, dangerouslySetInnerHTML: { __html: this.props.recomendation.text } }),
+										hints(),
+										actions()
+									)
+								)
 							)
 						)
 					)
@@ -51343,23 +51595,23 @@
 	exports.default = MainResult;
 
 /***/ },
-/* 320 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(321);
+	var content = __webpack_require__(322);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(321, function() {
-				var newContent = __webpack_require__(321);
+			module.hot.accept(322, function() {
+				var newContent = __webpack_require__(322);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -51367,52 +51619,95 @@
 		// When the module is disposed, remove the <style> tags
 		module.hot.dispose(function() { update(); });
 	}
-
-/***/ },
-/* 321 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(279)();
-	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
-	exports.i(__webpack_require__(318), undefined);
-
-	// module
-	exports.push([module.id, ".MainResult_radio_37U7D, .MainResult_text_2MFj3 {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n.MainResult_top_block_2hgb7 {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.MainResult_top_container_JSQCe {\n  display: flex;\n  justify-content: flex-end; }\n  @media " + __webpack_require__(318).locals["phone"] + " {\n    .MainResult_top_container_JSQCe {\n      flex-grow: 1; } }\n  @media " + __webpack_require__(318).locals["tablet"] + " {\n    .MainResult_top_container_JSQCe {\n      background: url(\"/static/assets/images/back_phone.svg\") left no-repeat;\n      margin-bottom: 40px;\n      flex-grow: 1; } }\n  @media " + __webpack_require__(318).locals["desktop"] + " {\n    .MainResult_top_container_JSQCe {\n      background: url(\"/static/assets/images/back.svg\") left no-repeat;\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(318).locals["phone"] + " {\n  .MainResult_img_3rkkp {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(318).locals["not_phone"] + " {\n  .MainResult_img_3rkkp {\n    height: 120px;\n    padding-right: 40px; } }\n\n.MainResult_card_block_Z6GKk {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(318).locals["phone"] + " {\n  .MainResult_card_container_1zkS1 {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(318).locals["tablet"] + " {\n  .MainResult_card_container_1zkS1 {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(318).locals["desktop"] + " {\n  .MainResult_card_container_1zkS1 {\n    width: 944px;\n    margin-top: -40px; } }\n", ""]);
-
-	// exports
-	exports.locals = {
-		"phone": "" + __webpack_require__(318).locals["phone"] + "",
-		"tablet": "" + __webpack_require__(318).locals["tablet"] + "",
-		"desktop": "" + __webpack_require__(318).locals["desktop"] + "",
-		"not_phone": "" + __webpack_require__(318).locals["not_phone"] + "",
-		"radio": "MainResult_radio_37U7D",
-		"text": "MainResult_text_2MFj3",
-		"top_block": "MainResult_top_block_2hgb7",
-		"top_container": "MainResult_top_container_JSQCe",
-		"img": "MainResult_img_3rkkp",
-		"card_block": "MainResult_card_block_Z6GKk",
-		"card_container": "MainResult_card_container_1zkS1"
-	};
 
 /***/ },
 /* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
+	exports = module.exports = __webpack_require__(280)();
+	// imports
+	exports.i(__webpack_require__(323), undefined);
+	exports.i(__webpack_require__(290), undefined);
+	exports.i(__webpack_require__(319), undefined);
+
+	// module
+	exports.push([module.id, ".MainResult_radio_37U7D, .MainResult_text_2MFj3 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.MainResult_top_block_2hgb7 {\n  align-items: center; }\n\n.MainResult_top_container_JSQCe { }\n  @media " + __webpack_require__(319).locals["notdesktop"] + " {\n    .MainResult_top_container_JSQCe {\n      background: none;\n      justify-content: center; } }\n\n@media " + __webpack_require__(319).locals["notdesktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 115px; } }\n\n@media " + __webpack_require__(319).locals["desktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 80px; } }\n\n.MainResult_card_block_Z6GKk { }\n\n.MainResult_card_container_1zkS1 { }\n\n.MainResult_header_block_24pg8 {\n  padding: 16px; }\n\n.MainResult_card_title_2TP7X {\n  font-size: 20px;\n  color: rgba(0, 0, 0, 0.54);\n  text-transform: uppercase;\n  display: block; }\n\n.MainResult_law_result_16rkc {\n  display: block;\n  padding-top: 16px; }\n\n.MainResult_law_text_3SvDa {\n  border-top: solid 1px rgba(0, 0, 0, 0.12);\n  padding: 24px 16px; }\n  .MainResult_law_text_3SvDa ul {\n    padding-left: 16px;\n    margin-top: 0; }\n    .MainResult_law_text_3SvDa ul li {\n      margin-bottom: 8px; }\n\n.MainResult_recomendation_2oJzM {\n  padding: 16px;\n  display: flex;\n  background-color: #e4e9eb; }\n  @media " + __webpack_require__(319).locals["notdesktop"] + " {\n    .MainResult_recomendation_2oJzM {\n      flex-direction: column; } }\n  @media " + __webpack_require__(319).locals["desktop"] + " {\n    .MainResult_recomendation_2oJzM {\n      flex-direction: row;\n      flex-wrap: wrap; } }\n\n@media " + __webpack_require__(319).locals["notdesktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 2;\n    padding-top: 16px; } }\n\n@media " + __webpack_require__(319).locals["desktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 1;\n    width: 60%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between; } }\n\n.MainResult_recomendation_img_1scjZ {\n  justify-content: center;\n  display: flex; }\n  @media " + __webpack_require__(319).locals["notdesktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 1; } }\n  @media " + __webpack_require__(319).locals["desktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 2;\n      width: 40%; } }\n\n.MainResult_recomendation_text_21rqL {\n  font-size: 16px;\n  color: rgba(0, 0, 0, 0.87); }\n\n.MainResult_actions_1wJj_ {\n  display: flex;\n  justify-content: flex-start;\n  padding-top: 16px; }\n  .MainResult_actions_1wJj_ button {\n    margin-right: 8px; }\n\n.MainResult_hints_2wFDV {\n  padding: 16px; }\n\n.MainResult_main_hints_30-4_ ul {\n  padding-left: 16px;\n  margin-top: 0; }\n  .MainResult_main_hints_30-4_ ul li {\n    margin-bottom: 8px; }\n\n.MainResult_law_hint_3Hsg_ { }\n\n.MainResult_to_site_Rzemt {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  margin-top: 16px;\n  padding: 16px 0; }\n  .MainResult_to_site_Rzemt button {\n    margin-right: 24px; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"phone": "" + __webpack_require__(319).locals["phone"] + "",
+		"tablet": "" + __webpack_require__(319).locals["tablet"] + "",
+		"desktop": "" + __webpack_require__(319).locals["desktop"] + "",
+		"notphone": "" + __webpack_require__(319).locals["notphone"] + "",
+		"notdesktop": "" + __webpack_require__(319).locals["notdesktop"] + "",
+		"fonts": "\"../styles/fonts.css\"",
+		"radio": "MainResult_radio_37U7D",
+		"text": "MainResult_text_2MFj3",
+		"top_block": "MainResult_top_block_2hgb7 " + __webpack_require__(323).locals["top_block"] + "",
+		"top_container": "MainResult_top_container_JSQCe " + __webpack_require__(323).locals["top_container"] + "",
+		"img": "MainResult_img_3rkkp",
+		"card_block": "MainResult_card_block_Z6GKk " + __webpack_require__(323).locals["card_block"] + "",
+		"card_container": "MainResult_card_container_1zkS1 " + __webpack_require__(323).locals["card_container"] + "",
+		"header_block": "MainResult_header_block_24pg8",
+		"card_title": "MainResult_card_title_2TP7X",
+		"law_result": "MainResult_law_result_16rkc " + __webpack_require__(290).locals["title"] + "",
+		"law_text": "MainResult_law_text_3SvDa " + __webpack_require__(290).locals["text"] + "",
+		"recomendation": "MainResult_recomendation_2oJzM",
+		"recomendation_content": "MainResult_recomendation_content_3ejwV",
+		"recomendation_img": "MainResult_recomendation_img_1scjZ",
+		"recomendation_text": "MainResult_recomendation_text_21rqL",
+		"actions": "MainResult_actions_1wJj_",
+		"hints": "MainResult_hints_2wFDV",
+		"main_hints": "MainResult_main_hints_30-4_",
+		"law_hint": "MainResult_law_hint_3Hsg_ " + __webpack_require__(290).locals["text"] + "",
+		"to_site": "MainResult_to_site_Rzemt"
+	};
+
+/***/ },
+/* 323 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(280)();
+	// imports
+	exports.i(__webpack_require__(319), undefined);
+
+	// module
+	exports.push([module.id, ".Test_radio_BklPD, .Test_text_2OS6Q {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n.Test_top_block_2qdF_ {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.Test_top_container_1V2yo {\n  display: flex;\n  justify-content: flex-end; }\n  @media " + __webpack_require__(319).locals["phone"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1; } }\n  @media " + __webpack_require__(319).locals["tablet"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back@t.svg\") left no-repeat;\n      flex-grow: 1;\n      margin: 0 40px 40px 40px; } }\n  @media " + __webpack_require__(319).locals["desktop"] + " {\n    .Test_top_container_1V2yo {\n      background: url(\"/static/assets/images/back.svg\") left no-repeat;\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(319).locals["phone"] + " {\n  .Test_img_3mDz4 {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(319).locals["notphone"] + " {\n  .Test_img_3mDz4 {\n    height: 120px;\n    padding-right: 40px; } }\n\n.Test_card_block_3xgZU {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(319).locals["phone"] + " {\n  .Test_card_container_IgvPj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(319).locals["tablet"] + " {\n  .Test_card_container_IgvPj {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(319).locals["desktop"] + " {\n  .Test_card_container_IgvPj {\n    width: 944px;\n    margin-top: -40px; } }\n\n.Test_actions_1Baim {\n  border-top: 1px solid rgba(0, 0, 0, 0.12);\n  display: flex;\n  justify-content: flex-end;\n  padding: 16px; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"phone": "" + __webpack_require__(319).locals["phone"] + "",
+		"tablet": "" + __webpack_require__(319).locals["tablet"] + "",
+		"desktop": "" + __webpack_require__(319).locals["desktop"] + "",
+		"notphone": "" + __webpack_require__(319).locals["notphone"] + "",
+		"radio": "Test_radio_BklPD",
+		"text": "Test_text_2OS6Q",
+		"top_block": "Test_top_block_2qdF_",
+		"top_container": "Test_top_container_1V2yo",
+		"img": "Test_img_3mDz4",
+		"card_block": "Test_card_block_3xgZU",
+		"card_container": "Test_card_container_IgvPj",
+		"actions": "Test_actions_1Baim"
+	};
+
+/***/ },
+/* 324 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(323);
+	var content = __webpack_require__(325);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(323, function() {
-				var newContent = __webpack_require__(323);
+			module.hot.accept(325, function() {
+				var newContent = __webpack_require__(325);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -51422,22 +51717,21 @@
 	}
 
 /***/ },
-/* 323 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
-	exports.i(__webpack_require__(318), undefined);
+	exports.i(__webpack_require__(319), undefined);
 
 	// module
-	exports.push([module.id, ".App_radio_2o0X9, .App_text_2B0-5 {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n.App_main_2rFI5 {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  width: 100%; }\n\n.App_header_3h75s {\n  position: fixed;\n  height: 60px;\n  background: #43a047;\n  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);\n  width: 100%;\n  display: flex;\n  align-items: center; }\n  @media " + __webpack_require__(318).locals["phone"] + " {\n    .App_header_3h75s {\n      padding-left: 16px; } }\n  @media " + __webpack_require__(318).locals["tablet"] + " {\n    .App_header_3h75s {\n      padding-left: 24px; } }\n  @media " + __webpack_require__(318).locals["desktop"] + " {\n    .App_header_3h75s {\n      padding-left: 40px; } }\n\n.App_logo_jooaG {\n  display: block;\n  width: 164px;\n  height: 40px;\n  background-image: url(\"/static/assets/images/logo.svg\");\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: contain; }\n\n.App_container_220Kg {\n  padding-top: 60px;\n  display: flex;\n  flex-direction: column;\n  flex-grow: 1; }\n\n.App_footer_2uEZI {\n  background: #404040;\n  height: 60px;\n  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.5);\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  .App_footer_2uEZI span {\n    padding: 0 16px;\n    font-size: 12px;\n    color: #ffffff;\n    opacity: 0.87; }\n    .App_footer_2uEZI span a {\n      text-decoration: none;\n      color: inherit; }\n", ""]);
+	exports.push([module.id, ".App_radio_2o0X9, .App_text_2B0-5 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.App_main_2rFI5 {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  width: 100%; }\n\n.App_header_3h75s {\n  position: fixed;\n  height: 60px;\n  background: #43a047;\n  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);\n  width: 100%;\n  display: flex;\n  align-items: center; }\n  @media " + __webpack_require__(319).locals["phone"] + " {\n    .App_header_3h75s {\n      padding-left: 16px; } }\n  @media " + __webpack_require__(319).locals["tablet"] + " {\n    .App_header_3h75s {\n      padding-left: 24px; } }\n  @media " + __webpack_require__(319).locals["desktop"] + " {\n    .App_header_3h75s {\n      padding-left: 40px; } }\n\n.App_logo_jooaG {\n  display: block;\n  width: 164px;\n  height: 40px;\n  background-image: url(\"/static/assets/images/logo.svg\");\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: contain; }\n\n.App_container_220Kg {\n  padding-top: 60px;\n  display: flex;\n  flex-direction: column;\n  flex-grow: 1; }\n\n.App_footer_2uEZI {\n  background: #404040;\n  height: 60px;\n  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.5);\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  .App_footer_2uEZI span {\n    padding: 0 16px;\n    font-size: 12px;\n    color: #ffffff;\n    opacity: 0.87; }\n    .App_footer_2uEZI span a {\n      text-decoration: none;\n      color: inherit; }\n", ""]);
 
 	// exports
 	exports.locals = {
-		"phone": "" + __webpack_require__(318).locals["phone"] + "",
-		"tablet": "" + __webpack_require__(318).locals["tablet"] + "",
-		"desktop": "" + __webpack_require__(318).locals["desktop"] + "",
+		"phone": "" + __webpack_require__(319).locals["phone"] + "",
+		"tablet": "" + __webpack_require__(319).locals["tablet"] + "",
+		"desktop": "" + __webpack_require__(319).locals["desktop"] + "",
 		"radio": "App_radio_2o0X9",
 		"text": "App_text_2B0-5",
 		"main": "App_main_2rFI5",
@@ -51448,7 +51742,7 @@
 	};
 
 /***/ },
-/* 324 */
+/* 326 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -51464,7 +51758,7 @@
 	      block: "StartScreen",
 	      data: {
 	        image: "/static/assets/images/1.svg",
-	        nextStepId: 1
+	        nextStepId: 2
 	      }
 	    }, {
 	      id: 1,
@@ -51527,35 +51821,15 @@
 	      data: {
 	        question: "Хорошо, давайте разбираться. Есть ли что-то из списка:",
 	        text: "<ul> <li>Одежда</li> <li>Ковры</li> <li>Кожа или изделия из кожи</li> <li>Древесина или изделия из дерева</li> <li>Химические вещества</li> <li>Резиновые и пластмассовые изделия</li> <li>Минеральные неметаллические продукты </li> <li>Компьютеры и электронное, оптическое оборудование</li> <li>Электрическое оборудование</li> <li>Машины и оборудование, не включенные в другие группировки</li> <li>Средства автотранспортные, прицепы и полуприцепы</li> <li>Средства транспортные и оборудование, прочие</li> <li>Мебель</li> <li>Инструменты музыкальные</li> <li>Приспособления ортопедические</li> <li>Спортивные товары</li> </ul> ",
-	        /*"
-	        <ul>
-	        <li>Одежда</li>
-	        <li>Ковры</li>
-	        <li>Кожа или изделия из кожи</li>
-	        <li>Древесина или изделия из дерева</li>
-	        <li>Химические вещества</li>
-	        <li>Резиновые и пластмассовые изделия</li>
-	        <li>Минеральные неметаллические продукты </li>
-	        <li>Компьютеры и электронное, оптическое оборудование</li>
-	        <li>Электрическое оборудование</li>
-	        <li>Машины и оборудование, не включенные в другие группировки</li>
-	        <li>Средства автотранспортные, прицепы и полуприцепы</li>
-	        <li>Средства транспортные и оборудование, прочие</li>
-	        <li>Мебель</li>
-	        <li>Инструменты музыкальные</li>
-	        <li>Приспособления ортопедические</li>
-	        <li>Спортивные товары</li>
-	        </ul>
-	        "*/
 	        image: "/static/assets/images/5.svg",
 	        answers: [{
 	          id: 42,
 	          label: "Да",
-	          nextStepId: 101 //2042
+	          nextStepId: 8 //2042
 	        }, {
 	          id: 41,
 	          label: "Нет",
-	          nextStepId: 7 //-
+	          nextStepId: 9 //-
 	        }]
 	      }
 	    }, {
@@ -51571,34 +51845,82 @@
 	        }, {
 	          id: 52,
 	          label: "Интернет-магазин",
-	          nextStepId: 101 //2018
+	          nextStepId: 7
 	        }, {
 	          id: 53,
-	          label: "Крытый рынок или ярмарка",
+	          label: "Крытый рынок",
 	          nextStepId: 7
 	        }, {
 	          id: 54,
 	          label: "Предприятие общественного питания",
 	          nextStepId: 6
+	        }, {
+	          id: 55,
+	          label: "Рынок без помещения и в развал, разносная торговля",
+	          nextStepId: 101 //-
+	        }, {
+	          id: 56,
+	          label: "Мороженое на улице или безалкогольные напитки в розлив",
+	          nextStepId: 101 //-
 	        }]
 	      }
 	    }, {
 	      id: 6,
 	      block: "RbQuestion",
 	      data: {
-	        question: "Работаете ли вы с ВУЗами, колледжами или школами?",
+	        question: "Работаете ли вы с образовательными учреждениями?",
 	        image: "/static/assets/images/7.svg",
 	        answers: [{
 	          id: 61,
-	          label: "Да, работаю, но как отдельный предприниматель или юрлицо",
+	          label: "Да, как отдельный предприниматель или юрлицо",
 	          nextStepId: 7
 	        }, {
 	          id: 62,
-	          label: "Работаю, но столовая или кафе — подразделение образовательного учреждения",
+	          label: "Работаю, как подразделение образовательного учреждения",
 	          nextStepId: 101 //-
 	        }, {
 	          id: 63,
 	          label: "Нет, не работаю",
+	          nextStepId: 7
+	        }]
+	      }
+	    }, {
+	      id: 8,
+	      block: "RbQuestion",
+	      data: {
+	        question: "В каком формате работаете?",
+	        image: "/static/assets/images/6.svg",
+	        answers: [{
+	          id: 81,
+	          label: "Один или несколько магазинов",
+	          nextStepId: 7
+	        }, {
+	          id: 82,
+	          label: "Интернет-магазин",
+	          nextStepId: 7
+	        }, {
+	          id: 83,
+	          label: "Крытый рынок",
+	          nextStepId: 7
+	        }, {
+	          id: 85,
+	          label: "Рынок без помещения и в развал, разносная торговля",
+	          nextStepId: 101 //-
+	        }]
+	      }
+	    }, {
+	      id: 9,
+	      block: "RbQuestion",
+	      data: {
+	        question: "Продаёте ли вы почтовые марки или предметы религиозного культа?",
+	        image: "/static/assets/images/8.svg",
+	        answers: [{
+	          id: 91,
+	          label: "Да",
+	          nextStepId: 101 //-
+	        }, {
+	          id: 92,
+	          label: "Нет",
 	          nextStepId: 7
 	        }]
 	      }
@@ -51630,7 +51952,7 @@
 	      id: 101,
 	      block: "RbQuestion",
 	      data: {
-	        question: "Сколько печатаете чеков за день?",
+	        question: "Сколько покупателей обслуживаете за день?",
 	        image: "/static/assets/images/9.svg",
 	        answers: [{
 	          id: 1011,
@@ -51665,65 +51987,77 @@
 	  },
 	  result: {
 	    lawResults: [{
-	      bindings: [[62]],
+	      bindings: [[62], [55], [56], [91]],
 	      data: {
 	        label: "Вам не нужна касса",
-	        text: "<p>По новому закону вам не нужна онлайн-касса. Но вы можете использовать кассу для удобства учёта.</p>",
+	        text: "<span>По новому закону вам не нужна онлайн-касса. Но вы можете использовать кассу для удобства учёта.</span>",
 	        image: "/static/assets/images/o4.svg"
 	      }
 	    }, {
-	      bindings: [[21], [52], [71], [72]],
+	      bindings: [[21], [71], [72]],
 	      data: {
 	        label: "Есть время выбрать",
-	        text: "<p>Предприятия услуг населению начинают передачу фискальных данных 1 июля 2018 года. У вас есть в запасе время, но затягивать не стоит. До 1 июля вам нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД</li><li>купить онлайн-кассу и зарегистрировать её в ФНС</li></ul>",
+	        text: "<span>Предприятия услуг населению начинают передачу фискальных данных 1 июля 2018 года. У вас есть в запасе время, но затягивать не стоит. До 1 июля вам нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД</li><li>купить онлайн-кассу и зарегистрировать её в ФНС</li></uspan>",
 	        image: "/static/assets/images/o3.svg"
 	      }
 	    }, {
 	      bindings: [[73], [74], [31], [32]],
 	      data: {
 	        label: "Вам нужно перейти на новые правила 1 июля 2017 года",
-	        text: "<p>Вы должны начать передачу фискальных данных уже 1 июля 2017 года. Времени не так много, нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД</li><li>приобрести онлайн-кассу и зарегистрировать её в ФНС</li></ul>",
-	        hint: "<p>Обратите внимание, если у вас заканчивается ЭКЛЗ, то с 1 февраля 2017 года вы не сможете зарегистрировать кассу без фискального накопителя.</p>",
+	        text: "<span>Вы должны начать передачу фискальных данных уже 1 июля 2017 года. Времени не так много, нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД</li><li>приобрести онлайн-кассу и зарегистрировать её в ФНС</li></uspan>",
+	        hint: "Обратите внимание, если у вас заканчивается ЭКЛЗ, то с 1 февраля 2017 года вы не сможете зарегистрировать кассу без фискального накопителя.",
 	        image: "/static/assets/images/o2.svg"
 	      }
 	    }, {
-	      bindings: [[42]],
+	      bindings: [[42, 85]],
 	      data: {
 	        label: "Скорее всего вам придётся купить кассу",
-	        text: "<p>Но это пока неточно. Минфин подготовил Постановление с перечнем товаров, при продаже которых обязательно использование ККТ. Сейчас документ проходит публичные обсуждения и антикоррупционную экспертизу. Если документ примут, то вам придётся начать использовать ККТ с 1 июля 2018 года. До этого момента нужно будет приобрести онлайн-кассу и заключить договор с ОФД. Чтобы быть в курсе, подпишитесь на карточку закона на <a href='http://regulation.gov.ru/projects#npa=46191' target='_blank'>портале regulation.gov.ru</a>.</p>",
+	        text: "<span>Но это пока неточно. Минфин подготовил Постановление с перечнем товаров, при продаже которых обязательно использование ККТ. Сейчас документ проходит публичные обсуждения и антикоррупционную экспертизу. Если документ примут, то вам придётся начать использовать ККТ с 1 июля 2018 года. До этого момента нужно будет приобрести онлайн-кассу и заключить договор с ОФД. Чтобы быть в курсе, подпишитесь на карточку закона на <a href='http://regulation.gov.ru/projects#npa=46191' target='_blank'>портале regulation.gov.ru</a>.</span>",
 	        image: "/static/assets/images/o1.svg"
 	      }
 	    }],
 	    hints: [{
-	      bindings: [[1021]],
+	      binding: 1021,
 	      text: "ККТ работает со всеми популярными системами товароучёта."
 	    }, {
-	      bindings: [[1022]],
+	      binding: 1022,
 	      text: "Данные о продажах и товарах можно выгружать из ККТ в таблицы Excel."
+	    }, {
+	      binding: 11,
+	      text: "Если у вас уже есть касса Viki, то новая касса не нужна, достаточно приобрести комплект доработки."
 	    }],
-	    recomendations: [{
+	    recomendations: [/*{
+	                     bindings: [[42, 55]],
+	                     data: {
+	                     label: "Viki Micro с ККТ Viki Print 57",
+	                     text: "<span>А пока присмотритесь к <a href='https://dreamkas.ru/kassy-viki/viki-micro/'>ККТ из линеек Viki и Viki Print</a>. ККТ полностью соответствуют требованиям нового закона и удобны в использовании.</span>",
+	                     image: "/static/assets/images/b4.png",
+	                     link: "/kassy-viki/viki-micro/"
+	                     }
+	                     },*/
+	    {
 	      bindings: [[1011], [1012]],
 	      data: {
 	        label: "Viki Micro с ККТ Viki Print 57",
-	        text: "<p>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/' target='_blank'> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.</p>",
-	        image: "/static/assets/images/kassa-viki-micro-egais.jpg",
-	        link: "https://dreamkas.ru/kassy-viki/viki-micro/"
+	        text: "<span>Бюджетный вариант для работы по новым правилам — моноблок <a href='https://dreamkas.ru/kassy-viki/viki-micro/''> Viki Micro с ККТ Viki Print 57.</a> В миниатюрной кассе только нужные функции, вы не переплачиваете за то, чем пользоваться не будете.</span>",
+	        image: "/static/assets/images/b2.png",
+	        link: "/kassy-viki/viki-micro/"
 	      }
 	    }, {
 	      bindings: [[1013]],
 	      data: {
 	        label: "ККТ Viki Micro",
-	        text: "<p>Обратите внимание на ККТ Viki Micro — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.</p>",
-	        image: "/static/assets/images/kassa-dlja-alkogolja.jpg",
-	        link: "https://dreamkas.ru/kassy-viki/viki-mini/"
+	        text: "<span>Обратите внимание на <a href='https://dreamkas.ru/kassy-viki/viki-micro/'>ККТ Viki Micro</a> — это полноценное рабочее место кассира, полностью готовое к работе по новым правилам 54-ФЗ.</span>",
+	        image: "/static/assets/images/b3.png",
+	        link: "/kassy-viki/viki-micro/"
 	      }
 	    }, {
 	      bindings: [[1014]],
 	      data: {
 	        label: "Моноблок Viki Classic и ККТ Viki Print 80 Plus",
-	        text: "<p>Надежный вариант для работы с большими нагрузками — флагманский моноблок Viki Classic и ККТ Viki Print 80 Plus. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.</p>",
-	        image: "/static/assets/images/kassa-viki-classic.jpg",
-	        link: "https://dreamkas.ru/kassy-viki/viki-classic/"
+	        text: "<span>Надежный вариант для работы с большими нагрузками — флагманский моноблок <a href='https://dreamkas.ru/kassy-viki/viki-classic/'>Viki Classic и ККТ Viki Print 80 Plus<a>. Мощный моноблок и принтер с автоматическим отрезчиком позволяют увеличить скорость работы и избежать очередей.</span>",
+	        image: "/static/assets/images/b1.png",
+	        link: "/kassy-viki/viki-classic/"
 	      }
 	    }]
 
@@ -51731,23 +52065,23 @@
 	};
 
 /***/ },
-/* 325 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(326);
+	var content = __webpack_require__(328);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(280)(content, {});
+	var update = __webpack_require__(281)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(326, function() {
-				var newContent = __webpack_require__(326);
+			module.hot.accept(328, function() {
+				var newContent = __webpack_require__(328);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -51757,15 +52091,15 @@
 	}
 
 /***/ },
-/* 326 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(279)();
+	exports = module.exports = __webpack_require__(280)();
 	// imports
-	exports.push([module.id, "@import url(/node_modules/react-toolbox/lib/radio/theme.css);", ""]);
+
 
 	// module
-	exports.push([module.id, ".index_radio_1t95l, .index_text_113Qb {\n  vertical-align: middle !important;\n  white-space: normal !important; }\n\n:root {\n  --unit: 10px;\n  --color-divider: var(--palette-grey-200);\n  --color-background: var(--color-white);\n  --color-text: var(--palette-grey-900);\n  --color-text-secondary: var(--palette-grey-600);\n  --color-primary: var(--palette-blue-a200);\n  --color-primary-dark: var(--palette-blue-a500);\n  --color-accent: var(--palette-blue-a200);\n  --color-accent-dark: var(--palette-blue-a500);\n  --color-primary-contrast: var(--color-dark-contrast);\n  --color-accent-contrast: var(--color-dark-contrast);\n  --radio-field-margin-bottom: 20px;\n  --radio-button-size: 16px;\n  --radio-inner-margin: calc(var(--radio-button-size) / 4);\n  --radio-inner-color: var(--color-primary);\n  --radio-focus-color: color(var(--color-black) a(10%));\n  --radio-checked-focus-color: color(var(--color-primary) a(26%));\n  --radio-text-color: rgba(0, 0, 0, 0.54);\n  --radio-disabled-color: color(var(--color-black) a(26%));\n  --radio-text-font-size: 16px; }\n  :root p {\n    margin: 0 0 16px; }\n", ""]);
+	exports.push([module.id, ".index_radio_1t95l, .index_text_113Qb {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n:root {\n  --unit: 10px;\n  --color-divider: var(--palette-grey-200);\n  --color-background: var(--color-white);\n  --color-text: var(--palette-grey-900);\n  --color-text-secondary: var(--palette-grey-600);\n  --color-primary: var(--palette-blue-a200);\n  --color-primary-dark: var(--palette-blue-a500);\n  --color-accent: var(--palette-blue-a200);\n  --color-accent-dark: var(--palette-blue-a500);\n  --color-primary-contrast: var(--color-dark-contrast);\n  --color-accent-contrast: var(--color-dark-contrast);\n  --radio-field-margin-bottom: 16px;\n  --radio-button-size: 20px;\n  --radio-inner-margin: calc(var(--radio-button-size) / 4);\n  --radio-inner-color: var(--color-primary);\n  --radio-focus-color: color(var(--color-black) a(10%));\n  --radio-checked-focus-color: color(var(--color-primary) a(26%));\n  --radio-text-color: rgba(0, 0, 0, 0.54);\n  --radio-disabled-color: color(var(--color-black) a(26%));\n  --radio-text-font-size: 16px; }\n  :root p {\n    margin: 0 0 16px; }\n", ""]);
 
 	// exports
 	exports.locals = {

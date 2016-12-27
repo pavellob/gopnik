@@ -8,7 +8,7 @@
 
 .text {
 	font-size: 14px;
-	color: $font_color--opacity;
+	color: $font_color;
   line-height: 1.43;
 }
 
@@ -21,6 +21,6 @@
 
 .control{
 	font-size: 16px;
-	color: $font_color--opacity;
+	color: $font_color;
 }
 
