@@ -27,12 +27,14 @@ class App extends React.Component {
     ReactDOM.unmountComponentAtNode(document.getElementById('root'))
     console.log(answers);
 
+    const req = {test: answers, result: _.result(result, 'lawResult.label'), recomendation: _.result(result, 'recomendation.label')};
+
    fetch('/api/testresults/', {
 		  method: 'POST',
 		  headers: {
 		    'Content-Type': 'application/json'
 		  },
-		  body: answers
+		  body: JSON.stringify(req)
 		})
     const Result = () => {
   		return (
