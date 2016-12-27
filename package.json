@@ -28,7 +28,8 @@
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.12.8",
-    "webpack-dev-server": "^1.12.1"
+    "webpack-dev-server": "^1.12.1",
+    "whatwg-fetch": "^2.0.1"
   },
   "description": "test in react",
   "devDependencies": {

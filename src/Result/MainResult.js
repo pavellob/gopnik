@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'react-toolbox/lib/card';
 import {Button} from 'react-toolbox/lib/button';
+import {FontIcon} from 'react-toolbox/lib/font_icon';
 
 
 import styles from './MainResult.css';
@@ -69,6 +70,12 @@ class MainResult extends React.Component {
 									<div className={styles.recomendation_text} dangerouslySetInnerHTML={{__html: this.props.recomendation.text}}/>
 									{hints()}
 									{actions()}
+								</div>
+							</div>
+							<div className={styles.share_block}>
+								<span className={styles.share}><FontIcon value='share'/></span>
+								<div className={styles.socialShares}>
+
 								</div>
 							</div>
 						</Card>
