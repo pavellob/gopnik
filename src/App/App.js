@@ -25,6 +25,7 @@ class App extends React.Component {
   finishTest(answers){
 		const result = this.calculateResult(answers);
     ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+    
    /* fetch('http://localhost:8080/users', {
     	credentials: 'include',
 		  method: 'POST',

@@ -153,3 +153,26 @@ $topContainerHeight: 184px;
   	margin-right: 24px;
   }
 }
+
+.share_block {
+	padding: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.share {
+  display: flex;
+  align-items: center;
+  color: $font_color--opacity;
+  font-size: 16px;
+}
+
+.social_shares{
+	height: 32px;
+	display: flex;
+  align-items: center;
+}
+.icon{
+	padding-left: 16px;
+	width: 32px;	
+}

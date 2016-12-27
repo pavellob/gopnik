@@ -52,12 +52,7 @@ module.exports = {
           'sass-loader',
           'postcss-loader',
         ],
-      }/*, 
-      {
-        test: /\.(mp4|ogg|svg|eot|ttf|woff|woff2|jpg|png)$/,
-        loader: 'file-loader'
-      }*/
-
+      }
     ]
   },
   postcss: [ 

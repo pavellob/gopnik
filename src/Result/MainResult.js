@@ -73,9 +73,11 @@ class MainResult extends React.Component {
 								</div>
 							</div>
 							<div className={styles.share_block}>
-								<span className={styles.share}><FontIcon value='share'/></span>
-								<div className={styles.socialShares}>
-
+								<span className={styles.share}><FontIcon value='share'/>Поделиться</span>
+								<div className={styles.social_shares}>
+									<a className={styles.icon} target="_blank" href="https://vk.com/dreamkas" ><img src="/static/assets/images/vk.svg" /></a>
+									<a className={styles.icon} target="_blank" href="https://www.facebook.com/DreamkasRussia"><img src="/static/assets/images/fb.svg"  /></a>
+									<a className={styles.icon} target="_blank" href="https://www.facebook.com/DreamkasRussia"><img src="/static/assets/images/oki.svg"  /></a>
 								</div>
 							</div>
 						</Card>
