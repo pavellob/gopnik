@@ -19,7 +19,7 @@ module.exports = {
   entry: {
     app: [
       'whatwg-fetch',
-      'webpack-dev-server/client?http://' + devServer.host + ':' + devServer.port,
+      //'webpack-dev-server/client?http://' + devServer.host + ':' + devServer.port,
       './index.js'
     ]
   },
