@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "1285b42249a56a483187"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "79d65d9b9d6b0a6c3a09"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -45005,7 +45005,7 @@
 	        label: "Вам не нужна касса",
 	        text: "<span>По новому закону вам не нужна онлайн-касса. Но вы можете использовать кассу для удобства учёта.</span>",
 	        image: "static/assets/images/o4.svg",
-	        shareImage: "static/assets/images/noShare.jpg"
+	        shareImage: "static/assets/images/no_share.jpg"
 	      }
 	    }, {
 	      bindings: [[21], [71], [72]],
@@ -45013,7 +45013,7 @@
 	        label: "Вам нужно перейти на онлайн-кассу к 1 июля 2018 года",
 	        text: "<span>Предприятия услуг населению и торговые предприятия на ЕНВД и ПСН начинают передачу фискальных данных 1 июля 2018 года. У вас есть в запасе время, но затягивать не стоит. До 1 июля вам нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД,</li><li>купить онлайн-кассу и зарегистрировать её в ФНС.</li></uspan>",
 	        image: "static/assets/images/o3.svg",
-	        shareImage: "static/assets/images/2018Share.jpg"
+	        shareImage: "static/assets/images/2018_share.jpg"
 	      }
 	    }, {
 	      bindings: [[73], [74], [31], [32]],
@@ -45022,7 +45022,7 @@
 	        text: "<span>Вы должны начать передачу фискальных данных уже 1 июля 2017 года. Времени не так много, нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД,</li><li>приобрести онлайн-кассу и зарегистрировать её в ФНС.</li></uspan>",
 	        hint: "Обратите внимание, если у вас заканчивается ЭКЛЗ, то с 1 февраля 2017 года вы не сможете зарегистрировать кассу без фискального накопителя.",
 	        image: "static/assets/images/o2.svg",
-	        shareImage: "static/assets/images/2017Share.jpg"
+	        shareImage: "static/assets/images/2017_share.jpg"
 	      }
 	    }, {
 	      bindings: [[42, 85]],
@@ -45030,7 +45030,7 @@
 	        label: "Скорее всего вам придётся купить кассу",
 	        text: "<span>Но это пока неточно. Минфин подготовил Постановление с перечнем товаров, при продаже которых обязательно использование ККТ. Сейчас документ проходит публичные обсуждения и антикоррупционную экспертизу. Если документ примут, то вам придётся начать использовать ККТ с 1 июля 2018 года. До этого момента нужно будет приобрести онлайн-кассу и заключить договор с ОФД. Чтобы быть в курсе, подпишитесь на карточку закона на <a href='http://regulation.gov.ru/projects#npa=46191' target='_blank'>портале regulation.gov.ru</a>.</span>",
 	        image: "static/assets/images/o1.svg",
-	        shareImage: "static/assets/images/someTimeShare.jpg"
+	        shareImage: "static/assets/images/some_time_share.jpg"
 	      }
 	    }],
 	    hints: [{
