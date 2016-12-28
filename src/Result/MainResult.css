@@ -181,6 +181,6 @@ $topContainerHeight: 184px;
   align-items: center;
 }
 .icon{
-	padding-left: 16px;
+	margin-left: 16px;
 	width: 32px;	
 }

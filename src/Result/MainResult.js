@@ -28,6 +28,34 @@ class MainResult extends React.Component {
 		location = root + '?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz';
 	}
 
+	shareVK() {
+		let url = 'http://vk.com/share.php';
+		url += '?url=' + encodeURIComponent('https://dreamkas.ru/test-54fz');
+		url += '&title=' + encodeURIComponent(this.props.lawResult.label);
+		url += '&description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
+		url += '&image=' + encodeURIComponent(window.location + this.props.recomendation.image);
+		url += '&noparse=true';
+		return url;
+	}
+
+	shareFB (){
+		let url = 'https://www.facebook.com/dialog/feed?app_id=1031167230307124';
+    url += '&redirect_uri='+ encodeURIComponent('https://dreamkas.ru');
+    url += '&picture=' + encodeURIComponent(window.location + this.props.recomendation.image);
+    url += '&caption='+ encodeURIComponent(this.props.lawResult.label);
+    url += '&description='+ encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
+    return url;
+	}
+
+	shareOK () {
+		let url = 'https://connect.ok.ru/dk?cmd=WidgetSharePreview&st.cmd=WidgetSharePreview&st._aid=ExternalShareWidget_SharePreview';
+		url += '&st.imageUrl=' + encodeURIComponent(window.location + this.props.recomendation.image);
+		url += '&st.description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
+		url += '&st.shareUrl=' + encodeURIComponent('https://dreamkas.ru/test-54fz');
+		url += '&st.title=' + encodeURIComponent(this.props.lawResult.label);
+		return url;
+	}
+
 	render() {
 		const actions = () => {
 			return (<div className={styles.actions}> 
@@ -76,9 +104,9 @@ class MainResult extends React.Component {
 							<div className={styles.share_block}>
 								<span className={styles.share}><FontIcon value='share'/>Поделиться</span>
 								<div className={styles.social_shares}>
-									<a className={styles.icon} target="_blank" href="https://vk.com/dreamkas" ><img src="static/assets/images/vk.svg" /></a>
-									<a className={styles.icon} target="_blank" href="https://www.facebook.com/DreamkasRussia"><img src="static/assets/images/fb.svg"  /></a>
-									<a className={styles.icon} target="_blank" href="https://www.facebook.com/DreamkasRussia"><img src="static/assets/images/oki.svg"  /></a>
+									<a className={styles.icon} target="_blank" href={this.shareVK()} ><img src="static/assets/images/vk.svg" /></a>
+									<a className={styles.icon} target="_blank" href={this.shareFB()}><img src="static/assets/images/fb.svg"  /></a>
+									<a className={styles.icon} target="_blank" href={this.shareOK()}><img src="static/assets/images/oki.svg"  /></a>
 								</div>
 							</div>
 						</Card>
