@@ -25,10 +25,10 @@ class App extends React.Component {
   finishTest(answers){
 		const result = this.calculateResult(answers);
     ReactDOM.unmountComponentAtNode(document.getElementById('root'))
-    console.log(answers);
+    ////console.log(answers);
 
     this.sendToSheet(answers, result);
-    
+
     const Result = () => {
   		return (
   			<div>
@@ -52,12 +52,12 @@ class App extends React.Component {
 	}
 
 	calculateResult(answers) {
-		console.log("dfdsfsdfsdfsdfsd");
+		//console.log("dfdsfsdfsdfsdfsd");
 		const anwsIds = _.map(answers, 'id');
 		const hs =  _.map(_.filter(this.props.hints, hint => {
 				return anwsIds.includes(hint.binding);
 			}), 'text');
-		console.log(hs)
+		//console.log(hs)
 		return {
 			lawResult: _.result(_.find(this.props.lawResults, r => {
 				return _.some(r.bindings, bind => {

@@ -5,12 +5,12 @@ import styles from './StartScreen.css';
 class StartScreen extends React.Component {
 	constructor(props) {
 		super(props);
-		//console.log('props is: ', props);
+		////console.log('props is: ', props);
 		this.state = {isComplete: !props.needAnswer}
 	}
 
 	componentWillUnmount(){
-		//console.log('I am unmount and my state is: ', this.state);
+		////console.log('I am unmount and my state is: ', this.state);
 	}
 	render() {
 		return (

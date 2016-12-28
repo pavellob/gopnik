@@ -6,7 +6,7 @@ import styles from './RbQuestion.css';
 class RbQuestion extends React.Component {
 	constructor(props) {
 		super(props);
-		//console.log(props);
+		////console.log(props);
 		this.complete = this.complete.bind(this);
 		this.state = {
 			answer: null,

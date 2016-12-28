@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "79d65d9b9d6b0a6c3a09"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "15b4976394400f8d9767"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22972,7 +22972,7 @@
 			value: function finishTest(answers) {
 				var result = this.calculateResult(answers);
 				_reactDom2.default.unmountComponentAtNode(document.getElementById('root'));
-				console.log(answers);
+				////console.log(answers);
 
 				this.sendToSheet(answers, result);
 
@@ -23001,12 +23001,12 @@
 		}, {
 			key: 'calculateResult',
 			value: function calculateResult(answers) {
-				console.log("dfdsfsdfsdfsdfsd");
+				//console.log("dfdsfsdfsdfsdfsd");
 				var anwsIds = _.map(answers, 'id');
 				var hs = _.map(_.filter(this.props.hints, function (hint) {
 					return anwsIds.includes(hint.binding);
 				}), 'text');
-				console.log(hs);
+				//console.log(hs)
 				return {
 					lawResult: _.result(_.find(this.props.lawResults, function (r) {
 						return _.some(r.bindings, function (bind) {
@@ -23147,7 +23147,7 @@
 		}, {
 			key: 'resolveStep',
 			value: function resolveStep(result) {
-				console.log('resolveStep:', result);
+				//console.log('resolveStep:', result);
 				var newState = { stepComplete: result.isComplete };
 				if (result.isComplete && result.answer) {
 					_lodash2.default.assign(newState, { answer: result.answer });
@@ -23157,7 +23157,7 @@
 		}, {
 			key: 'next',
 			value: function next() {
-				console.log('next press:');
+				//console.log('next press:')
 				if (this.state.stepComplete) {
 
 					if (this.state.answer) {
@@ -23236,7 +23236,7 @@
 		}, {
 			key: 'componentWillUnmount',
 			value: function componentWillUnmount() {
-				console.log('will unmount');
+				//console.log('will unmount')
 			}
 		}]);
 
@@ -23262,7 +23262,7 @@
 				} else {
 					var _React$createElement;
 
-					console.log(this.props);
+					//console.log(this.props);
 					var lbl = this.props.isFirst ? "Поехали" : "Дальше";
 
 					return _react2.default.createElement(_button.Button, (_React$createElement = { label: lbl, primary: true, onClick: this.props.next }, _defineProperty(_React$createElement, 'primary', true), _defineProperty(_React$createElement, 'raised', true), _React$createElement));
@@ -40458,7 +40458,7 @@
 		function RbQuestion(props) {
 			_classCallCheck(this, RbQuestion);
 
-			//console.log(props);
+			////console.log(props);
 			var _this = _possibleConstructorReturn(this, (RbQuestion.__proto__ || Object.getPrototypeOf(RbQuestion)).call(this, props));
 
 			_this.complete = _this.complete.bind(_this);
@@ -42773,7 +42773,7 @@
 		function StartScreen(props) {
 			_classCallCheck(this, StartScreen);
 
-			//console.log('props is: ', props);
+			////console.log('props is: ', props);
 			var _this = _possibleConstructorReturn(this, (StartScreen.__proto__ || Object.getPrototypeOf(StartScreen)).call(this, props));
 
 			_this.state = { isComplete: !props.needAnswer };
@@ -42783,7 +42783,7 @@
 		_createClass(StartScreen, [{
 			key: 'componentWillUnmount',
 			value: function componentWillUnmount() {
-				//console.log('I am unmount and my state is: ', this.state);
+				////console.log('I am unmount and my state is: ', this.state);
 			}
 		}, {
 			key: 'render',
@@ -42929,7 +42929,7 @@
 				_classCallCheck(this, _class);
 
 				return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
-				//console.log('step props:', props);
+				////console.log('step props:', props);
 			}
 
 			_createClass(_class, [{
@@ -42945,7 +42945,7 @@
 			}, {
 				key: 'componentDidMount',
 				value: function componentDidMount() {
-					console.log('step mounted');
+					//console.log('step mounted');
 				}
 			}]);
 
@@ -44411,7 +44411,7 @@
 			key: 'shareVK',
 			value: function shareVK() {
 				var url = 'http://vk.com/share.php';
-				url += '?url=' + encodeURIComponent('https://dreamkas.ru/54fz/test');
+				url += '?url=' + encodeURIComponent('https://dreamkas.ru/54fz/test/');
 				url += '&title=' + encodeURIComponent(this.props.lawResult.label);
 				url += '&description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
 				url += '&image=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
@@ -44422,7 +44422,7 @@
 			key: 'shareFB',
 			value: function shareFB() {
 				var url = 'https://www.facebook.com/dialog/feed?app_id=1031167230307124';
-				url += '&redirect_uri=' + encodeURIComponent('https://dreamkas.ru/54fz/test');
+				url += '&redirect_uri=' + encodeURIComponent('https://dreamkas.ru/54fz/test/');
 				url += '&picture=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
 				url += '&caption=' + encodeURIComponent(this.props.lawResult.label);
 				url += '&description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
@@ -44434,7 +44434,7 @@
 				var url = 'https://connect.ok.ru/dk?cmd=WidgetSharePreview&st.cmd=WidgetSharePreview&st._aid=ExternalShareWidget_SharePreview';
 				url += '&st.imageUrl=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
 				url += '&st.description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
-				url += '&st.shareUrl=' + encodeURIComponent('https://dreamkas.ru/54fz/test');
+				url += '&st.shareUrl=' + encodeURIComponent('https://dreamkas.ru/54fz/test/');
 				url += '&st.title=' + encodeURIComponent(this.props.lawResult.label);
 				return url;
 			}

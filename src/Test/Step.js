@@ -10,7 +10,7 @@ import styles from './Step.css';
 let StepMixin = InnerComponent => class extends React.Component {
  constructor(props){
 		super(props);
-		//console.log('step props:', props);
+		////console.log('step props:', props);
 	}
 
 	render() {
@@ -22,7 +22,7 @@ let StepMixin = InnerComponent => class extends React.Component {
 		)
 	}
   componentDidMount(){
-    console.log('step mounted');
+    //console.log('step mounted');
   }
 }
 

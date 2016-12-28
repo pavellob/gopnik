@@ -28,7 +28,7 @@ class Test extends React.Component {
 	}
 
 	resolveStep(result) {
-		console.log('resolveStep:', result);
+		//console.log('resolveStep:', result);
 		const newState = {stepComplete: result.isComplete};
 		if (result.isComplete && result.answer) {
 			_.assign(newState, {answer: result.answer});
@@ -37,7 +37,7 @@ class Test extends React.Component {
 	}
 
 	next() {
-			console.log('next press:')
+			//console.log('next press:')
 			if(this.state.stepComplete) {
 
 				if (this.state.answer) {
@@ -100,7 +100,7 @@ class Test extends React.Component {
 
   
   componentWillUnmount(){
-  	console.log('will unmount')
+  	//console.log('will unmount')
   }
 }
 
@@ -114,7 +114,7 @@ class Actions extends React.Component {
 				<Button label="Завершить" onClick={this.props.finish} primary raised/>
 			)
 		} else {
-			console.log(this.props);
+			//console.log(this.props);
 			let lbl =  this.props.isFirst ? "Поехали" : "Дальше";
 
 			return (
