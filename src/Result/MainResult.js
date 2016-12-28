@@ -102,7 +102,7 @@ class MainResult extends React.Component {
 								</div>
 							</div>
 							<div className={styles.share_block}>
-								<span className={styles.share}><FontIcon value='share'/>Поделиться</span>
+								<span className={styles.share}><FontIcon className={styles.share_icon} value='share'/>Поделиться</span>
 								<div className={styles.social_shares}>
 									<a className={styles.icon} target="_blank" href={this.shareVK()} ><img src="static/assets/images/vk.svg" /></a>
 									<a className={styles.icon} target="_blank" href={this.shareFB()}><img src="static/assets/images/fb.svg"  /></a>

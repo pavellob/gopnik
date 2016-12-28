@@ -174,6 +174,9 @@ $topContainerHeight: 184px;
   color: $font_color--opacity;
   font-size: 16px;
 }
+.share_icon {
+	margin-right: 8px;
+}
 
 .social_shares{
 	height: 32px;
