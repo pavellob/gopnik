@@ -27,15 +27,8 @@ class App extends React.Component {
     ReactDOM.unmountComponentAtNode(document.getElementById('root'))
     console.log(answers);
 
-    const req = {test: answers, result: _.result(result, 'lawResult.label'), recomendation: _.result(result, 'recomendation.label')};
-
-   fetch('/api/testresults/', {
-		  method: 'POST',
-		  headers: {
-		    'Content-Type': 'application/json'
-		  },
-		  body: JSON.stringify(req)
-		})
+    this.sendToSheet(answers, result);
+    
     const Result = () => {
   		return (
   			<div>
@@ -44,6 +37,18 @@ class App extends React.Component {
   		)
     }
     ReactDOM.render(<Result />,  document.getElementById('root'))
+	}
+
+	sendToSheet(answers, result) {
+		const req = {test: answers, result: _.result(result, 'lawResult.label'), recomendation: _.result(result, 'recomendation.label')};
+
+    fetch('/api/testresults/', {
+		  method: 'POST',
+		  headers: {
+		    'Content-Type': 'application/json'
+		  },
+		  body: JSON.stringify(req)
+		})
 	}
 
 	calculateResult(answers) {
