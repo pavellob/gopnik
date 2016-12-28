@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ab6ce3c5b881797b271c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8d24360c3260de8778d3"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -30584,6 +30584,20 @@
 				_reactDom2.default.unmountComponentAtNode(document.getElementById('root'));
 				console.log(answers);
 
+				this.sendToSheet(answers, result);
+
+				var Result = function Result() {
+					return _react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(_MainResult2.default, result)
+					);
+				};
+				_reactDom2.default.render(_react2.default.createElement(Result, null), document.getElementById('root'));
+			}
+		}, {
+			key: 'sendToSheet',
+			value: function sendToSheet(answers, result) {
 				var req = { test: answers, result: _.result(result, 'lawResult.label'), recomendation: _.result(result, 'recomendation.label') };
 
 				fetch('/api/testresults/', {
@@ -30593,14 +30607,6 @@
 					},
 					body: JSON.stringify(req)
 				});
-				var Result = function Result() {
-					return _react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement(_MainResult2.default, result)
-					);
-				};
-				_reactDom2.default.render(_react2.default.createElement(Result, null), document.getElementById('root'));
 			}
 		}, {
 			key: 'calculateResult',
@@ -51996,6 +52002,37 @@
 				location = root + '?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz';
 			}
 		}, {
+			key: 'shareVK',
+			value: function shareVK() {
+				var url = 'http://vk.com/share.php';
+				url += '?url=' + encodeURIComponent('https://dreamkas.ru/test-54fz');
+				url += '&title=' + encodeURIComponent(this.props.lawResult.label);
+				url += '&description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
+				url += '&image=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
+				url += '&noparse=true';
+				return url;
+			}
+		}, {
+			key: 'shareFB',
+			value: function shareFB() {
+				var url = 'https://www.facebook.com/dialog/feed?app_id=1031167230307124';
+				url += '&redirect_uri=' + encodeURIComponent('https://dreamkas.ru');
+				url += '&picture=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
+				url += '&caption=' + encodeURIComponent(this.props.lawResult.label);
+				url += '&description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
+				return url;
+			}
+		}, {
+			key: 'shareOK',
+			value: function shareOK() {
+				var url = 'https://connect.ok.ru/dk?cmd=WidgetSharePreview&st.cmd=WidgetSharePreview&st._aid=ExternalShareWidget_SharePreview';
+				url += '&st.imageUrl=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
+				url += '&st.description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
+				url += '&st.shareUrl=' + encodeURIComponent('https://dreamkas.ru/test-54fz');
+				url += '&st.title=' + encodeURIComponent(this.props.lawResult.label);
+				return url;
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var _this2 = this;
@@ -52098,17 +52135,17 @@
 										{ className: _MainResult2.default.social_shares },
 										_react2.default.createElement(
 											'a',
-											{ className: _MainResult2.default.icon, target: '_blank', href: 'https://vk.com/dreamkas' },
+											{ className: _MainResult2.default.icon, target: '_blank', href: this.shareVK() },
 											_react2.default.createElement('img', { src: 'static/assets/images/vk.svg' })
 										),
 										_react2.default.createElement(
 											'a',
-											{ className: _MainResult2.default.icon, target: '_blank', href: 'https://www.facebook.com/DreamkasRussia' },
+											{ className: _MainResult2.default.icon, target: '_blank', href: this.shareFB() },
 											_react2.default.createElement('img', { src: 'static/assets/images/fb.svg' })
 										),
 										_react2.default.createElement(
 											'a',
-											{ className: _MainResult2.default.icon, target: '_blank', href: 'https://www.facebook.com/DreamkasRussia' },
+											{ className: _MainResult2.default.icon, target: '_blank', href: this.shareOK() },
 											_react2.default.createElement('img', { src: 'static/assets/images/oki.svg' })
 										)
 									)
@@ -52182,7 +52219,7 @@
 	exports.i(__webpack_require__(299), undefined);
 
 	// module
-	exports.push([module.id, ".MainResult_radio_37U7D, .MainResult_text_2MFj3 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.MainResult_top_block_2hgb7 {\n  align-items: center; }\n\n.MainResult_top_container_JSQCe { }\n  @media " + __webpack_require__(299).locals["notdesktop"] + " {\n    .MainResult_top_container_JSQCe {\n      background: none;\n      justify-content: center; } }\n\n@media " + __webpack_require__(299).locals["notdesktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 115px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 80px; } }\n\n.MainResult_b_img_2EbyV { }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .MainResult_b_img_2EbyV {\n      display: none; } }\n\n.MainResult_card_block_Z6GKk { }\n\n.MainResult_card_container_1zkS1 { }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 16px; } }\n\n@media " + __webpack_require__(299).locals["notphone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 32px 32px 16px; } }\n\n.MainResult_card_title_2TP7X {\n  font-size: 20px;\n  color: rgba(0, 0, 0, 0.54);\n  text-transform: uppercase;\n  display: block; }\n\n.MainResult_law_result_16rkc {\n  display: block;\n  padding-top: 16px; }\n\n.MainResult_law_text_3SvDa {\n  border-top: solid 1px rgba(0, 0, 0, 0.12); }\n  .MainResult_law_text_3SvDa ul {\n    padding-left: 16px;\n    margin-top: 0; }\n    .MainResult_law_text_3SvDa ul li {\n      margin-bottom: 8px; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 16px; } }\n  @media " + __webpack_require__(299).locals["notphone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 24px 32px; } }\n\n.MainResult_recomendation_2oJzM {\n  font-weight: 300;\n  display: flex;\n  background-color: #e4e9eb; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px 16px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: row;\n      flex-wrap: wrap; } }\n\n@media " + __webpack_require__(299).locals["notdesktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 2;\n    padding-top: 32px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 1;\n    width: 60%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between; } }\n\n.MainResult_recomendation_img_1scjZ {\n  justify-content: center;\n  display: flex; }\n  @media " + __webpack_require__(299).locals["notdesktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 1; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 2;\n      width: 40%; } }\n\n.MainResult_recomendation_text_21rqL {\n  font-size: 16px;\n  color: rgba(0, 0, 0, 0.87); }\n\n.MainResult_actions_1wJj_ {\n  display: flex;\n  justify-content: flex-start;\n  padding-top: 16px; }\n  .MainResult_actions_1wJj_ button {\n    margin-right: 8px; }\n\n.MainResult_hints_2wFDV {\n  padding: 16px; }\n\n.MainResult_main_hints_30-4_ {\n  padding-top: 16px;\n  font-size: 16px; }\n\n.MainResult_law_hint_3Hsg_ { }\n\n.MainResult_to_site_Rzemt {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  margin-top: 16px;\n  padding: 16px 0; }\n  .MainResult_to_site_Rzemt button {\n    margin-right: 24px; }\n\n.MainResult_share_block_IA6aH {\n  padding: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n.MainResult_share_2PWJ9 {\n  display: flex;\n  align-items: center;\n  color: rgba(0, 0, 0, 0.54);\n  font-size: 16px; }\n\n.MainResult_social_shares_25MjR {\n  height: 32px;\n  display: flex;\n  align-items: center; }\n\n.MainResult_icon_15APe {\n  padding-left: 16px;\n  width: 32px; }\n", ""]);
+	exports.push([module.id, ".MainResult_radio_37U7D, .MainResult_text_2MFj3 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.MainResult_top_block_2hgb7 {\n  align-items: center; }\n\n.MainResult_top_container_JSQCe { }\n  @media " + __webpack_require__(299).locals["notdesktop"] + " {\n    .MainResult_top_container_JSQCe {\n      background: none;\n      justify-content: center; } }\n\n@media " + __webpack_require__(299).locals["notdesktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 115px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 80px; } }\n\n.MainResult_b_img_2EbyV { }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .MainResult_b_img_2EbyV {\n      display: none; } }\n\n.MainResult_card_block_Z6GKk { }\n\n.MainResult_card_container_1zkS1 { }\n\n@media " + __webpack_require__(299).locals["phone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 16px; } }\n\n@media " + __webpack_require__(299).locals["notphone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 32px 32px 16px; } }\n\n.MainResult_card_title_2TP7X {\n  font-size: 20px;\n  color: rgba(0, 0, 0, 0.54);\n  text-transform: uppercase;\n  display: block; }\n\n.MainResult_law_result_16rkc {\n  display: block;\n  padding-top: 16px; }\n\n.MainResult_law_text_3SvDa {\n  border-top: solid 1px rgba(0, 0, 0, 0.12); }\n  .MainResult_law_text_3SvDa ul {\n    padding-left: 16px;\n    margin-top: 0; }\n    .MainResult_law_text_3SvDa ul li {\n      margin-bottom: 8px; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 16px; } }\n  @media " + __webpack_require__(299).locals["notphone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 24px 32px; } }\n\n.MainResult_recomendation_2oJzM {\n  font-weight: 300;\n  display: flex;\n  background-color: #e4e9eb; }\n  @media " + __webpack_require__(299).locals["phone"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px 16px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(299).locals["tablet"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: row;\n      flex-wrap: wrap; } }\n\n@media " + __webpack_require__(299).locals["notdesktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 2;\n    padding-top: 32px; } }\n\n@media " + __webpack_require__(299).locals["desktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 1;\n    width: 60%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between; } }\n\n.MainResult_recomendation_img_1scjZ {\n  justify-content: center;\n  display: flex; }\n  @media " + __webpack_require__(299).locals["notdesktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 1; } }\n  @media " + __webpack_require__(299).locals["desktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 2;\n      width: 40%; } }\n\n.MainResult_recomendation_text_21rqL {\n  font-size: 16px;\n  color: rgba(0, 0, 0, 0.87); }\n\n.MainResult_actions_1wJj_ {\n  display: flex;\n  justify-content: flex-start;\n  padding-top: 16px; }\n  .MainResult_actions_1wJj_ button {\n    margin-right: 8px; }\n\n.MainResult_hints_2wFDV {\n  padding: 16px; }\n\n.MainResult_main_hints_30-4_ {\n  padding-top: 16px;\n  font-size: 16px; }\n\n.MainResult_law_hint_3Hsg_ { }\n\n.MainResult_to_site_Rzemt {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  margin-top: 16px;\n  padding: 16px 0; }\n  .MainResult_to_site_Rzemt button {\n    margin-right: 24px; }\n\n.MainResult_share_block_IA6aH {\n  padding: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n.MainResult_share_2PWJ9 {\n  display: flex;\n  align-items: center;\n  color: rgba(0, 0, 0, 0.54);\n  font-size: 16px; }\n\n.MainResult_social_shares_25MjR {\n  height: 32px;\n  display: flex;\n  align-items: center; }\n\n.MainResult_icon_15APe {\n  margin-left: 16px;\n  width: 32px; }\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -52560,14 +52597,16 @@
 	      data: {
 	        label: "Вам не нужна касса",
 	        text: "<span>По новому закону вам не нужна онлайн-касса. Но вы можете использовать кассу для удобства учёта.</span>",
-	        image: "static/assets/images/o4.svg"
+	        image: "static/assets/images/o4.svg",
+	        shareImage: "static/assets/images/noShare.jpg"
 	      }
 	    }, {
 	      bindings: [[21], [71], [72]],
 	      data: {
 	        label: "Вам нужно перейти на онлайн-кассу к 1 июля 2018 года",
 	        text: "<span>Предприятия услуг населению и торговые предприятия на ЕНВД и ПСН начинают передачу фискальных данных 1 июля 2018 года. У вас есть в запасе время, но затягивать не стоит. До 1 июля вам нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД,</li><li>купить онлайн-кассу и зарегистрировать её в ФНС.</li></uspan>",
-	        image: "static/assets/images/o3.svg"
+	        image: "static/assets/images/o3.svg",
+	        shareImage: "static/assets/images/2018Share.jpg"
 	      }
 	    }, {
 	      bindings: [[73], [74], [31], [32]],
@@ -52575,14 +52614,16 @@
 	        label: "Вам нужно перейти на новые правила 1 июля 2017 года",
 	        text: "<span>Вы должны начать передачу фискальных данных уже 1 июля 2017 года. Времени не так много, нужно успеть:</p><ul><li>выбрать и заключить договор с ОФД,</li><li>приобрести онлайн-кассу и зарегистрировать её в ФНС.</li></uspan>",
 	        hint: "Обратите внимание, если у вас заканчивается ЭКЛЗ, то с 1 февраля 2017 года вы не сможете зарегистрировать кассу без фискального накопителя.",
-	        image: "static/assets/images/o2.svg"
+	        image: "static/assets/images/o2.svg",
+	        shareImage: "static/assets/images/2017Share.jpg"
 	      }
 	    }, {
 	      bindings: [[42, 85]],
 	      data: {
 	        label: "Скорее всего вам придётся купить кассу",
 	        text: "<span>Но это пока неточно. Минфин подготовил Постановление с перечнем товаров, при продаже которых обязательно использование ККТ. Сейчас документ проходит публичные обсуждения и антикоррупционную экспертизу. Если документ примут, то вам придётся начать использовать ККТ с 1 июля 2018 года. До этого момента нужно будет приобрести онлайн-кассу и заключить договор с ОФД. Чтобы быть в курсе, подпишитесь на карточку закона на <a href='http://regulation.gov.ru/projects#npa=46191' target='_blank'>портале regulation.gov.ru</a>.</span>",
-	        image: "static/assets/images/o1.svg"
+	        image: "static/assets/images/o1.svg",
+	        shareImage: "static/assets/images/someTimeShare.jpg"
 	      }
 	    }],
 	    hints: [{
