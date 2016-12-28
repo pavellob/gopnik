@@ -30,7 +30,7 @@ class MainResult extends React.Component {
 
 	shareVK() {
 		let url = 'http://vk.com/share.php';
-		url += '?url=' + encodeURIComponent('https://dreamkas.ru/test-54fz');
+		url += '?url=' + encodeURIComponent('https://dreamkas.ru/54fz/test');
 		url += '&title=' + encodeURIComponent(this.props.lawResult.label);
 		url += '&description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
 		url += '&image=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
@@ -40,7 +40,7 @@ class MainResult extends React.Component {
 
 	shareFB (){
 		let url = 'https://www.facebook.com/dialog/feed?app_id=1031167230307124';
-    url += '&redirect_uri='+ encodeURIComponent('https://dreamkas.ru');
+    url += '&redirect_uri='+ encodeURIComponent('https://dreamkas.ru/54fz/test');
     url += '&picture=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
     url += '&caption='+ encodeURIComponent(this.props.lawResult.label);
     url += '&description='+ encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
@@ -51,7 +51,7 @@ class MainResult extends React.Component {
 		let url = 'https://connect.ok.ru/dk?cmd=WidgetSharePreview&st.cmd=WidgetSharePreview&st._aid=ExternalShareWidget_SharePreview';
 		url += '&st.imageUrl=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
 		url += '&st.description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
-		url += '&st.shareUrl=' + encodeURIComponent('https://dreamkas.ru/test-54fz');
+		url += '&st.shareUrl=' + encodeURIComponent('https://dreamkas.ru/54fz/test');
 		url += '&st.title=' + encodeURIComponent(this.props.lawResult.label);
 		return url;
 	}
