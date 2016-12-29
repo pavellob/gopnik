@@ -41,6 +41,7 @@ class MainResult extends React.Component {
 	shareFB (){
 		let url = 'https://www.facebook.com/dialog/feed?app_id=1031167230307124';
     url += '&redirect_uri='+ encodeURIComponent('https://dreamkas.ru/54fz/test/');
+    url += '&link='+ encodeURIComponent('https://dreamkas.ru/54fz/test/');
     url += '&picture=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
     url += '&caption='+ encodeURIComponent(this.props.lawResult.label);
     url += '&description='+ encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');

@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "15b4976394400f8d9767"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "16aa4999b27021797826"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -44423,6 +44423,7 @@
 			value: function shareFB() {
 				var url = 'https://www.facebook.com/dialog/feed?app_id=1031167230307124';
 				url += '&redirect_uri=' + encodeURIComponent('https://dreamkas.ru/54fz/test/');
+				url += '&link=' + encodeURIComponent('https://dreamkas.ru/54fz/test/');
 				url += '&picture=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
 				url += '&caption=' + encodeURIComponent(this.props.lawResult.label);
 				url += '&description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
