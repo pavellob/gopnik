@@ -2,8 +2,8 @@ import React from 'react';
 import { Card } from 'react-toolbox/lib/card';
 import {Button} from 'react-toolbox/lib/button';
 import {FontIcon} from 'react-toolbox/lib/font_icon';
-import { Input } from 'react-toolbox/lib/input';
 
+import Subscribe from './Subscribe';
 
 import styles from './MainResult.css';
 
@@ -12,8 +12,6 @@ class MainResult extends React.Component {
 	constructor(){
 		super();
 		this.root = location.protocol + '//' + location.host;
-		this.state = { email: '', sendEmail: false};
-		this.sendEmail = this.sendEmail.bind(this);
 	}
 
 	toProduct() {
@@ -59,19 +57,7 @@ class MainResult extends React.Component {
 		return url;
 	}
 
-	sendEmail () {
-		/*fetch('/api/testresults/', {
-		  method: 'POST',
-		  headers: {
-		    'Content-Type': 'application/json'
-		  },
-		  body: JSON.stringify(req)
-		}).then(()=> {
-			this.state.sendEmail = true;
-		});*/
-		this.setState({sendEmail: true});
 	
-	}
 
 	render() {
 		const actions = () => {
@@ -91,31 +77,6 @@ class MainResult extends React.Component {
 			}
 		}
 		const lawHint = this.props.lawResult.hint ? <p className={styles.law_hint}>{this.props.lawResult.hint}</p> : null;
-
-		const sendEmailBlock = () => {
-			if(this.state.sendEmail) {
-				return (
-					<div className={styles.subscribe_container}>
-						<span className={styles.subscribe_title}>
-							Спасибо! Все самое интересное вы&nbsp;узнаете первым!
-						</span>
-					</div>
-				)
-
-			} else {
-				return (
-					<div className={styles.subscribe_container}>
-						<span className={styles.subscribe_title}> 
-							Подпишитесь на&nbsp;рассылку, чтобы первым узнавать о&nbsp;скидках и&nbsp;акциях
-						</span>
-						<div className={styles.subscribe_input_container}>
-							<Input className={styles.subscribe_input} type='email' value={this.state.email} label='Ваша электронная почта' />
-							<Button className={styles.subscribe_button} label="Подписаться" primary raised onClick={this.sendEmail}/>
-						</div>
-					</div>
-				)
-			}
-		}
 
 		return(
 			<div className={styles.main_container}>
@@ -153,7 +114,7 @@ class MainResult extends React.Component {
 							</div>
 						</Card>
 						<Card className={styles.subscribe_card}>
-							{sendEmailBlock()}
+							<Subscribe/>
 						</Card>
 					</div>
 				</div>
