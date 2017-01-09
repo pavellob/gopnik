@@ -19,6 +19,7 @@ $footerShadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.5);
 	box-shadow: $headerShadow;
 	width: 100%;
 	display: flex;
+	z-index: 100;
 	align-items: center;
   @media phone {
   	padding-left: 16px;

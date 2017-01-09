@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'react-toolbox/lib/card';
 import {Button} from 'react-toolbox/lib/button';
 import {FontIcon} from 'react-toolbox/lib/font_icon';
+import { Input } from 'react-toolbox/lib/input';
 
 
 import styles from './MainResult.css';
@@ -11,6 +12,8 @@ class MainResult extends React.Component {
 	constructor(){
 		super();
 		this.root = location.protocol + '//' + location.host;
+		this.state = { email: '', sendEmail: false};
+		this.sendEmail = this.sendEmail.bind(this);
 	}
 
 	toProduct() {
@@ -40,7 +43,6 @@ class MainResult extends React.Component {
 
 	shareFB (){
 		let url = 'https://www.facebook.com/dialog/feed?app_id=1031167230307124';
-    //url += '&redirect_uri='+ encodeURIComponent('https://dreamkas.ru/54fz/test/');
     url += '&link='+ encodeURIComponent('https://dreamkas.ru/54fz/test/');
     url += '&picture=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
     url += '&caption='+ encodeURIComponent(this.props.lawResult.label);
@@ -55,6 +57,20 @@ class MainResult extends React.Component {
 		url += '&st.shareUrl=' + encodeURIComponent('https://dreamkas.ru/54fz/test/');
 		url += '&st.title=' + encodeURIComponent(this.props.lawResult.label);
 		return url;
+	}
+
+	sendEmail () {
+		/*fetch('/api/testresults/', {
+		  method: 'POST',
+		  headers: {
+		    'Content-Type': 'application/json'
+		  },
+		  body: JSON.stringify(req)
+		}).then(()=> {
+			this.state.sendEmail = true;
+		});*/
+		this.setState({sendEmail: true});
+	
 	}
 
 	render() {
@@ -75,6 +91,31 @@ class MainResult extends React.Component {
 			}
 		}
 		const lawHint = this.props.lawResult.hint ? <p className={styles.law_hint}>{this.props.lawResult.hint}</p> : null;
+
+		const sendEmailBlock = () => {
+			if(this.state.sendEmail) {
+				return (
+					<div className={styles.subscribe_container}>
+						<span className={styles.subscribe_title}>
+							Спасибо! Все самое интересное вы&nbsp;узнаете первым!
+						</span>
+					</div>
+				)
+
+			} else {
+				return (
+					<div className={styles.subscribe_container}>
+						<span className={styles.subscribe_title}> 
+							Подпишитесь на&nbsp;рассылку, чтобы первым узнавать о&nbsp;скидках и&nbsp;акциях
+						</span>
+						<div className={styles.subscribe_input_container}>
+							<Input className={styles.subscribe_input} type='email' value={this.state.email} label='Ваша электронная почта' />
+							<Button className={styles.subscribe_button} label="Подписаться" primary raised onClick={this.sendEmail}/>
+						</div>
+					</div>
+				)
+			}
+		}
 
 		return(
 			<div className={styles.main_container}>
@@ -105,11 +146,14 @@ class MainResult extends React.Component {
 							<div className={styles.share_block}>
 								<span className={styles.share}><FontIcon className={styles.share_icon} value='share'/>Поделиться</span>
 								<div className={styles.social_shares}>
-									<a className={styles.icon} target="_blank" href={this.shareVK()} ><img src="static/assets/images/vk.svg" /></a>
+									<a className={styles.icon} target="_blank" href={this.shareVK()}><img src="static/assets/images/vk.svg" /></a>
 									<a className={styles.icon} target="_blank" href={this.shareFB()}><img src="static/assets/images/fb.svg"  /></a>
 									<a className={styles.icon} target="_blank" href={this.shareOK()}><img src="static/assets/images/oki.svg"  /></a>
 								</div>
 							</div>
+						</Card>
+						<Card className={styles.subscribe_card}>
+							{sendEmailBlock()}
 						</Card>
 					</div>
 				</div>
