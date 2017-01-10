@@ -162,31 +162,6 @@ $topContainerHeight: 184px;
   }
 }
 
-.share_block {
-	padding: 24px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.share {
-  display: flex;
-  align-items: center;
-  color: $font_color--opacity;
-  font-size: 16px;
-}
-.share_icon {
-	margin-right: 8px;
-}
-
-.social_shares{
-	height: 32px;
-	display: flex;
-  align-items: center;
-}
-.icon{
-	margin-left: 16px;
-	width: 32px;	
-}
 
 .subscribe_card {
 	margin-top: 16px;
