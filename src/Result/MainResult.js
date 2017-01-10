@@ -3,7 +3,7 @@ import { Card } from 'react-toolbox/lib/card';
 import {Button} from 'react-toolbox/lib/button';
 import {FontIcon} from 'react-toolbox/lib/font_icon';
 
-import Subscribe from './Subscribe';
+import Subscribe from '../Subscribe/Subscribe';
 import ShareBlock from '../ShareBlock/ShareBlock';
 
 import styles from './MainResult.css';
