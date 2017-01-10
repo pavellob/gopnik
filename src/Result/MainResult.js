@@ -37,6 +37,7 @@ class MainResult extends React.Component {
 			sharedUrl: 'https://dreamkas.ru/54fz/test/',
 			sharedImageUrl: window.location + this.props.lawResult.shareImage,
 		}
+		const subscribeTitle = 'Подпишитесь на&nbsp;рассылку, чтобы первым узнавать о&nbsp;скидках и&nbsp;акциях';
 		const actions = () => {
 			return (<div className={styles.actions}> 
 					<Button label="Заказать" primary raised onClick={this.bayProduct.bind(this)}/>
@@ -44,7 +45,6 @@ class MainResult extends React.Component {
 				</div>
 			)
 		}
-
 		const hints = () => {
 			if(!_.isEmpty(this.props.hints)){
 				const hts = _.map(this.props.hints, (hint, $index) => {
@@ -84,7 +84,7 @@ class MainResult extends React.Component {
 							<ShareBlock {...sharedProps}/>
 						</Card>
 						<Card className={styles.subscribe_card}>
-							<Subscribe />
+							<Subscribe title={subscribeTitle}/>
 						</Card>
 					</div>
 				</div>

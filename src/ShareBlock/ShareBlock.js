@@ -9,8 +9,6 @@ class ShareBlock extends React.Component {
 		super();
 	}
 
-	
-
 	shareVK() {
 		let url = 'http://vk.com/share.php';
 		url += '?url=' + encodeURIComponent(this.props.sharedUrl);

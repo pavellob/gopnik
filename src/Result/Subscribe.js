@@ -28,11 +28,14 @@ class Subscribe extends React.Component {
 	}
 
 	render () {
+
+		let { btnLabel, inputPlaceholder, title, successTitle} = this.props;
+		title = unescape(title);
 		if(this.state.isEmailSend) {
 			return (
 				<div className={styles.subscribe_container}>
 					<span className={styles.subscribe_title}>
-						Спасибо! Все самое интересное вы&nbsp;узнаете первым!
+						<div dangerouslySetInnerHTML={{__html: successTitle}} />
 					</span>
 				</div>
 			)
@@ -40,18 +43,31 @@ class Subscribe extends React.Component {
 			return (
 				<div className={styles.subscribe_container}>
 					<span className={styles.subscribe_title}> 
-						Подпишитесь на&nbsp;рассылку, чтобы первым узнавать о&nbsp;скидках и&nbsp;акциях
+						<div dangerouslySetInnerHTML={{__html: title}} />
 					</span>
 					<div className={styles.subscribe_input_container}>
-						<Input className={styles.subscribe_input} type='email' value={this.state.email} label='Ваша электронная почта' />
-						<Button className={styles.subscribe_button} label="Подписаться" primary raised onClick={this.sendEmail}/>
+						<Input className={styles.subscribe_input} type='email' value={this.state.email} label={inputPlaceholder} />
+						<Button className={styles.subscribe_button} label={btnLabel} primary raised onClick={this.sendEmail} />
 					</div>
 				</div>
 			)
 		}
 	}
-
 }
+
+Subscribe.propTypes = {
+	title: React.PropTypes.string.isRequired,
+	btnLabel: React.PropTypes.string.isRequired,
+	inputPlaceholder: React.PropTypes.string.isRequired,
+	successTitle: React.PropTypes.string.isRequired,
+}
+
+Subscribe.defaultProps = {
+	btnLabel: 'Подписаться',
+	inputPlaceholder: 'Ваша электронная почта',
+	successTitle: 'Спасибо! Все самое интересное вы&nbsp;узнаете первым!',
+}
+
 
 export default Subscribe;
 
