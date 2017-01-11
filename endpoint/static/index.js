@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "10de0c2e437afde15de0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "3cfbe7f60975bca5acb6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -1073,7 +1073,7 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _index = __webpack_require__(256);
+	var _index = __webpack_require__(273);
 
 	var _index2 = _interopRequireDefault(_index);
 
@@ -22930,11 +22930,11 @@
 
 	var _MainResult2 = _interopRequireDefault(_MainResult);
 
-	var _App = __webpack_require__(253);
+	var _App = __webpack_require__(270);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _test_data = __webpack_require__(255);
+	var _test_data = __webpack_require__(272);
 
 	var _test_data2 = _interopRequireDefault(_test_data);
 
@@ -44365,7 +44365,15 @@
 
 	var _font_icon = __webpack_require__(249);
 
-	var _MainResult = __webpack_require__(250);
+	var _Subscribe = __webpack_require__(250);
+
+	var _Subscribe2 = _interopRequireDefault(_Subscribe);
+
+	var _ShareBlock = __webpack_require__(264);
+
+	var _ShareBlock2 = _interopRequireDefault(_ShareBlock);
+
+	var _MainResult = __webpack_require__(267);
 
 	var _MainResult2 = _interopRequireDefault(_MainResult);
 
@@ -44408,42 +44416,32 @@
 				location = root + '?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz';
 			}
 		}, {
-			key: 'shareVK',
-			value: function shareVK() {
-				var url = 'http://vk.com/share.php';
-				url += '?url=' + encodeURIComponent('https://dreamkas.ru/54fz/test/');
-				url += '&title=' + encodeURIComponent(this.props.lawResult.label);
-				url += '&description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
-				url += '&image=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
-				url += '&noparse=true';
-				return url;
-			}
-		}, {
-			key: 'shareFB',
-			value: function shareFB() {
-				var url = 'https://www.facebook.com/dialog/feed?app_id=1031167230307124';
-				//url += '&redirect_uri='+ encodeURIComponent('https://dreamkas.ru/54fz/test/');
-				url += '&link=' + encodeURIComponent('https://dreamkas.ru/54fz/test/');
-				url += '&picture=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
-				url += '&caption=' + encodeURIComponent(this.props.lawResult.label);
-				url += '&description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
-				return url;
-			}
-		}, {
-			key: 'shareOK',
-			value: function shareOK() {
-				var url = 'https://connect.ok.ru/dk?cmd=WidgetSharePreview&st.cmd=WidgetSharePreview&st._aid=ExternalShareWidget_SharePreview';
-				url += '&st.imageUrl=' + encodeURIComponent(window.location + this.props.lawResult.shareImage);
-				url += '&st.description=' + encodeURIComponent('Пройди тест — узнай, нужна ли онлайн-касса тебе');
-				url += '&st.shareUrl=' + encodeURIComponent('https://dreamkas.ru/54fz/test/');
-				url += '&st.title=' + encodeURIComponent(this.props.lawResult.label);
-				return url;
-			}
-		}, {
 			key: 'render',
 			value: function render() {
 				var _this2 = this;
 
+				var sharedProps = {
+					label: this.props.lawResult.label,
+					description: 'Пройди тест — узнай, нужна ли онлайн-касса тебе',
+					sharedUrl: 'https://dreamkas.ru/54fz/test/',
+					sharedImageUrl: window.location + this.props.lawResult.shareImage
+				};
+				var subscribeProps = {
+					title: 'Подпишитесь на&nbsp;рассылку, чтобы первым узнавать о&nbsp;скидках и&nbsp;акциях',
+					action: function action(email) {
+						var req = {
+							user_email: email,
+							type: 'mail_to_subscribe_test'
+						};
+						return fetch('/api/mail_messages/', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify(req)
+						});
+					}
+				};
 				var actions = function actions() {
 					return _react2.default.createElement(
 						'div',
@@ -44452,7 +44450,6 @@
 						_react2.default.createElement(_button.Button, { label: '\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u0435\u0435', primary: true, onClick: _this2.toProduct.bind(_this2) })
 					);
 				};
-
 				var hints = function hints() {
 					if (!_.isEmpty(_this2.props.hints)) {
 						var hts = _.map(_this2.props.hints, function (hint, $index) {
@@ -44528,35 +44525,12 @@
 										actions()
 									)
 								),
-								_react2.default.createElement(
-									'div',
-									{ className: _MainResult2.default.share_block },
-									_react2.default.createElement(
-										'span',
-										{ className: _MainResult2.default.share },
-										_react2.default.createElement(_font_icon.FontIcon, { className: _MainResult2.default.share_icon, value: 'share' }),
-										'\u041F\u043E\u0434\u0435\u043B\u0438\u0442\u044C\u0441\u044F'
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: _MainResult2.default.social_shares },
-										_react2.default.createElement(
-											'a',
-											{ className: _MainResult2.default.icon, target: '_blank', href: this.shareVK() },
-											_react2.default.createElement('img', { src: 'static/assets/images/vk.svg' })
-										),
-										_react2.default.createElement(
-											'a',
-											{ className: _MainResult2.default.icon, target: '_blank', href: this.shareFB() },
-											_react2.default.createElement('img', { src: 'static/assets/images/fb.svg' })
-										),
-										_react2.default.createElement(
-											'a',
-											{ className: _MainResult2.default.icon, target: '_blank', href: this.shareOK() },
-											_react2.default.createElement('img', { src: 'static/assets/images/oki.svg' })
-										)
-									)
-								)
+								_react2.default.createElement(_ShareBlock2.default, sharedProps)
+							),
+							_react2.default.createElement(
+								_card.Card,
+								{ className: _MainResult2.default.subscribe_card },
+								_react2.default.createElement(_Subscribe2.default, subscribeProps)
 							)
 						)
 					)
@@ -44593,104 +44567,458 @@
 /* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
+	'use strict';
 
-	// load the styles
-	var content = __webpack_require__(251);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(209)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(true) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept(251, function() {
-				var newContent = __webpack_require__(251);
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _button = __webpack_require__(227);
+
+	var _input = __webpack_require__(251);
+
+	var _formsyReact = __webpack_require__(255);
+
+	var _formsyReact2 = _interopRequireDefault(_formsyReact);
+
+	var _Subscribe = __webpack_require__(262);
+
+	var _Subscribe2 = _interopRequireDefault(_Subscribe);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Subscribe = function (_React$Component) {
+		_inherits(Subscribe, _React$Component);
+
+		function Subscribe() {
+			_classCallCheck(this, Subscribe);
+
+			var _this = _possibleConstructorReturn(this, (Subscribe.__proto__ || Object.getPrototypeOf(Subscribe)).call(this));
+
+			_this.state = { email: '', isEmailSend: false };
+			_this.sendEmail = _this.sendEmail.bind(_this);
+			_this.handleEmailChange = _this.handleEmailChange.bind(_this);
+			return _this;
 		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
+
+		_createClass(Subscribe, [{
+			key: 'handleEmailChange',
+			value: function handleEmailChange(value) {
+				this.setState({ email: value });
+			}
+		}, {
+			key: 'sendEmail',
+			value: function sendEmail() {
+				var _this2 = this;
+
+				var email = this.state.email;
+				Promise.resolve(this.props.action(email)).then(function (resp) {
+					_this2.setState({ isEmailSend: true });
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _props = this.props,
+				    btnLabel = _props.btnLabel,
+				    inputPlaceholder = _props.inputPlaceholder,
+				    title = _props.title,
+				    successTitle = _props.successTitle;
+
+				if (this.state.isEmailSend) {
+					return _react2.default.createElement(
+						'div',
+						{ className: _Subscribe2.default.subscribe_container },
+						_react2.default.createElement(
+							'span',
+							{ className: _Subscribe2.default.subscribe_title },
+							_react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: successTitle } })
+						)
+					);
+				} else {
+					return _react2.default.createElement(
+						'div',
+						{ className: _Subscribe2.default.subscribe_container },
+						_react2.default.createElement(
+							'span',
+							{ className: _Subscribe2.default.subscribe_title },
+							_react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: title } })
+						),
+						_react2.default.createElement(
+							_formsyReact2.default.Form,
+							{ onValidSubmit: this.sendEmail, className: _Subscribe2.default.subscribe_input_container },
+							_react2.default.createElement(_input.Input, { className: _Subscribe2.default.subscribe_input, type: 'email', required: true, value: this.state.email, label: inputPlaceholder, onChange: this.handleEmailChange }),
+							_react2.default.createElement(_button.Button, { type: 'submit', className: _Subscribe2.default.subscribe_button, label: btnLabel, primary: true, raised: true })
+						)
+					);
+				}
+			}
+		}]);
+
+		return Subscribe;
+	}(_react2.default.Component);
+
+	Subscribe.propTypes = {
+		title: _react2.default.PropTypes.string.isRequired,
+		btnLabel: _react2.default.PropTypes.string.isRequired,
+		inputPlaceholder: _react2.default.PropTypes.string.isRequired,
+		successTitle: _react2.default.PropTypes.string.isRequired,
+		action: _react2.default.PropTypes.func.isRequired
+	};
+
+	Subscribe.defaultProps = {
+		btnLabel: 'Подписаться',
+		inputPlaceholder: 'Ваша электронная почта',
+		successTitle: 'Спасибо! Все самое интересное вы&nbsp;узнаете первым!'
+	};
+
+	exports.default = Subscribe;
 
 /***/ },
 /* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(208)();
-	// imports
-	exports.i(__webpack_require__(252), undefined);
-	exports.i(__webpack_require__(218), undefined);
-	exports.i(__webpack_require__(226), undefined);
+	'use strict';
 
-	// module
-	exports.push([module.id, ".MainResult_radio_37U7D, .MainResult_text_2MFj3 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.MainResult_top_block_2hgb7 {\n  align-items: center; }\n\n.MainResult_top_container_JSQCe { }\n  @media " + __webpack_require__(226).locals["notdesktop"] + " {\n    .MainResult_top_container_JSQCe {\n      background: none;\n      justify-content: center; } }\n\n@media " + __webpack_require__(226).locals["notdesktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 115px; } }\n\n@media " + __webpack_require__(226).locals["desktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 80px; } }\n\n.MainResult_b_img_2EbyV { }\n  @media " + __webpack_require__(226).locals["tablet"] + " {\n    .MainResult_b_img_2EbyV {\n      display: none; } }\n\n.MainResult_card_block_Z6GKk { }\n\n.MainResult_card_container_1zkS1 { }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 16px; } }\n\n@media " + __webpack_require__(226).locals["notphone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 32px 32px 16px; } }\n\n.MainResult_card_title_2TP7X {\n  font-size: 20px;\n  color: rgba(0, 0, 0, 0.54);\n  text-transform: uppercase;\n  display: block; }\n\n.MainResult_law_result_16rkc {\n  display: block;\n  padding-top: 16px; }\n\n.MainResult_law_text_3SvDa {\n  border-top: solid 1px rgba(0, 0, 0, 0.12); }\n  .MainResult_law_text_3SvDa ul {\n    padding-left: 16px;\n    margin-top: 0; }\n    .MainResult_law_text_3SvDa ul li {\n      margin-bottom: 8px; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 16px; } }\n  @media " + __webpack_require__(226).locals["notphone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 24px 32px; } }\n\n.MainResult_recomendation_2oJzM {\n  font-weight: 300;\n  display: flex;\n  background-color: #e4e9eb; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px 16px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(226).locals["tablet"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(226).locals["desktop"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: row;\n      flex-wrap: wrap; } }\n\n@media " + __webpack_require__(226).locals["notdesktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 2;\n    padding-top: 32px; } }\n\n@media " + __webpack_require__(226).locals["desktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 1;\n    width: 60%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between; } }\n\n.MainResult_recomendation_img_1scjZ {\n  justify-content: center;\n  display: flex; }\n  @media " + __webpack_require__(226).locals["notdesktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 1; } }\n  @media " + __webpack_require__(226).locals["desktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 2;\n      width: 40%; } }\n\n.MainResult_recomendation_text_21rqL {\n  font-size: 16px;\n  color: rgba(0, 0, 0, 0.87); }\n\n.MainResult_actions_1wJj_ {\n  display: flex;\n  justify-content: flex-start;\n  padding-top: 16px; }\n  .MainResult_actions_1wJj_ button {\n    margin-right: 8px; }\n\n.MainResult_hints_2wFDV {\n  padding: 16px; }\n\n.MainResult_main_hints_30-4_ {\n  padding-top: 16px;\n  font-size: 16px; }\n\n.MainResult_law_hint_3Hsg_ { }\n\n.MainResult_to_site_Rzemt {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  margin-top: 16px;\n  padding: 16px 0; }\n  .MainResult_to_site_Rzemt button {\n    margin-right: 24px; }\n\n.MainResult_share_block_IA6aH {\n  padding: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n.MainResult_share_2PWJ9 {\n  display: flex;\n  align-items: center;\n  color: rgba(0, 0, 0, 0.54);\n  font-size: 16px; }\n\n.MainResult_share_icon_1Qj-g {\n  margin-right: 8px; }\n\n.MainResult_social_shares_25MjR {\n  height: 32px;\n  display: flex;\n  align-items: center; }\n\n.MainResult_icon_15APe {\n  margin-left: 16px;\n  width: 32px; }\n", ""]);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Input = undefined;
 
-	// exports
-	exports.locals = {
-		"phone": "" + __webpack_require__(226).locals["phone"] + "",
-		"tablet": "" + __webpack_require__(226).locals["tablet"] + "",
-		"desktop": "" + __webpack_require__(226).locals["desktop"] + "",
-		"notphone": "" + __webpack_require__(226).locals["notphone"] + "",
-		"notdesktop": "" + __webpack_require__(226).locals["notdesktop"] + "",
-		"fonts": "\"../styles/fonts.css\"",
-		"radio": "MainResult_radio_37U7D",
-		"text": "MainResult_text_2MFj3",
-		"top_block": "MainResult_top_block_2hgb7 " + __webpack_require__(252).locals["top_block"] + "",
-		"top_container": "MainResult_top_container_JSQCe " + __webpack_require__(252).locals["top_container"] + "",
-		"img": "MainResult_img_3rkkp",
-		"b_img": "MainResult_b_img_2EbyV " + __webpack_require__(252).locals["b_img"] + "",
-		"card_block": "MainResult_card_block_Z6GKk " + __webpack_require__(252).locals["card_block"] + "",
-		"card_container": "MainResult_card_container_1zkS1 " + __webpack_require__(252).locals["card_container"] + "",
-		"header_block": "MainResult_header_block_24pg8",
-		"card_title": "MainResult_card_title_2TP7X",
-		"law_result": "MainResult_law_result_16rkc " + __webpack_require__(218).locals["title"] + "",
-		"law_text": "MainResult_law_text_3SvDa " + __webpack_require__(218).locals["text"] + "",
-		"recomendation": "MainResult_recomendation_2oJzM",
-		"recomendation_content": "MainResult_recomendation_content_3ejwV",
-		"recomendation_img": "MainResult_recomendation_img_1scjZ",
-		"recomendation_text": "MainResult_recomendation_text_21rqL",
-		"actions": "MainResult_actions_1wJj_",
-		"hints": "MainResult_hints_2wFDV",
-		"main_hints": "MainResult_main_hints_30-4_",
-		"law_hint": "MainResult_law_hint_3Hsg_ " + __webpack_require__(218).locals["text"] + "",
-		"to_site": "MainResult_to_site_Rzemt",
-		"share_block": "MainResult_share_block_IA6aH",
-		"share": "MainResult_share_2PWJ9",
-		"share_icon": "MainResult_share_icon_1Qj-g",
-		"social_shares": "MainResult_social_shares_25MjR",
-		"icon": "MainResult_icon_15APe"
-	};
+	var _identifiers = __webpack_require__(198);
+
+	var _reactCssThemr = __webpack_require__(193);
+
+	var _Input = __webpack_require__(252);
+
+	var _FontIcon = __webpack_require__(229);
+
+	var _FontIcon2 = _interopRequireDefault(_FontIcon);
+
+	var _theme = __webpack_require__(253);
+
+	var _theme2 = _interopRequireDefault(_theme);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Input = (0, _Input.inputFactory)(_FontIcon2.default);
+	var ThemedInput = (0, _reactCssThemr.themr)(_identifiers.INPUT, _theme2.default, { withRef: true })(Input);
+
+	exports.default = ThemedInput;
+	exports.Input = ThemedInput;
 
 /***/ },
 /* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(208)();
-	// imports
-	exports.i(__webpack_require__(226), undefined);
+	'use strict';
 
-	// module
-	exports.push([module.id, ".Test_radio_BklPD, .Test_text_2OS6Q {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n.Test_top_block_2qdF_ {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.Test_top_container_1V2yo {\n  display: flex;\n  justify-content: space-between; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1;\n      justify-content: flex-end; } }\n  @media " + __webpack_require__(226).locals["tablet"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1;\n      margin: 0 40px 40px 40px; } }\n  @media " + __webpack_require__(226).locals["desktop"] + " {\n    .Test_top_container_1V2yo {\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .Test_b_img_9Omh1 {\n    display: none; } }\n\n@media " + __webpack_require__(226).locals["tablet"] + " {\n  .Test_b_img_9Omh1 {\n    width: 500px; } }\n\n@media " + __webpack_require__(226).locals["desktop"] + " {\n  .Test_b_img_9Omh1 {\n    width: 600px; } }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .Test_img_3mDz4 {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(226).locals["notphone"] + " {\n  .Test_img_3mDz4 {\n    height: 120px;\n    padding-right: 40px; } }\n\n.Test_card_block_3xgZU {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .Test_card_container_IgvPj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(226).locals["tablet"] + " {\n  .Test_card_container_IgvPj {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(226).locals["desktop"] + " {\n  .Test_card_container_IgvPj {\n    width: 944px;\n    margin-top: -40px; } }\n\n.Test_actions_1Baim {\n  border-top: 1px solid rgba(0, 0, 0, 0.12);\n  display: flex;\n  justify-content: flex-end;\n  padding: 16px; }\n", ""]);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Input = exports.inputFactory = undefined;
 
-	// exports
-	exports.locals = {
-		"phone": "" + __webpack_require__(226).locals["phone"] + "",
-		"tablet": "" + __webpack_require__(226).locals["tablet"] + "",
-		"desktop": "" + __webpack_require__(226).locals["desktop"] + "",
-		"notphone": "" + __webpack_require__(226).locals["notphone"] + "",
-		"radio": "Test_radio_BklPD",
-		"text": "Test_text_2OS6Q",
-		"top_block": "Test_top_block_2qdF_",
-		"top_container": "Test_top_container_1V2yo",
-		"b_img": "Test_b_img_9Omh1",
-		"img": "Test_img_3mDz4",
-		"card_block": "Test_card_block_3xgZU",
-		"card_container": "Test_card_container_IgvPj",
-		"actions": "Test_actions_1Baim"
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _classnames4 = __webpack_require__(201);
+
+	var _classnames5 = _interopRequireDefault(_classnames4);
+
+	var _reactCssThemr = __webpack_require__(193);
+
+	var _identifiers = __webpack_require__(198);
+
+	var _FontIcon = __webpack_require__(229);
+
+	var _FontIcon2 = _interopRequireDefault(_FontIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var factory = function factory(FontIcon) {
+	  var Input = function (_React$Component) {
+	    _inherits(Input, _React$Component);
+
+	    function Input() {
+	      var _ref;
+
+	      var _temp, _this, _ret;
+
+	      _classCallCheck(this, Input);
+
+	      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	      }
+
+	      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Input.__proto__ || Object.getPrototypeOf(Input)).call.apply(_ref, [this].concat(args))), _this), _this.handleChange = function (event) {
+	        var _this$props = _this.props,
+	            onChange = _this$props.onChange,
+	            multiline = _this$props.multiline,
+	            maxLength = _this$props.maxLength;
+
+	        var valueFromEvent = event.target.value;
+
+	        // Trim value to maxLength if that exists (only on multiline inputs).
+	        // Note that this is still required even tho we have the onKeyPress filter
+	        // because the user could paste smt in the textarea.
+	        var haveToTrim = multiline && maxLength && event.target.value.length > maxLength;
+	        var value = haveToTrim ? valueFromEvent.substr(0, maxLength) : valueFromEvent;
+
+	        // propagate to to store and therefore to the input
+	        if (onChange) onChange(value, event);
+	      }, _this.handleAutoresize = function () {
+	        var element = _this.refs.input;
+	        var rows = _this.props.rows;
+
+	        if (typeof rows === 'number' && !isNaN(rows)) {
+	          element.style.height = null;
+	        } else {
+	          // compute the height difference between inner height and outer height
+	          var style = getComputedStyle(element, null);
+	          var heightOffset = style.boxSizing === 'content-box' ? -(parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)) : parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+
+	          // resize the input to its content size
+	          element.style.height = 'auto';
+	          element.style.height = element.scrollHeight + heightOffset + 'px';
+	        }
+	      }, _this.handleKeyPress = function (event) {
+	        // prevent insertion of more characters if we're a multiline input
+	        // and maxLength exists
+	        var _this$props2 = _this.props,
+	            multiline = _this$props2.multiline,
+	            maxLength = _this$props2.maxLength,
+	            onKeyPress = _this$props2.onKeyPress;
+
+	        if (multiline && maxLength) {
+	          // check if smt is selected, in which case the newly added charcter would
+	          // replace the selected characters, so the length of value doesn't actually
+	          // increase.
+	          var isReplacing = event.target.selectionEnd - event.target.selectionStart;
+	          var value = event.target.value;
+
+	          if (!isReplacing && value.length === maxLength) {
+	            event.preventDefault();
+	            event.stopPropagation();
+	            return;
+	          }
+	        }
+
+	        if (onKeyPress) onKeyPress(event);
+	      }, _temp), _possibleConstructorReturn(_this, _ret);
+	    }
+
+	    _createClass(Input, [{
+	      key: 'componentDidMount',
+	      value: function componentDidMount() {
+	        if (this.props.multiline) {
+	          window.addEventListener('resize', this.handleAutoresize);
+	          this.handleAutoresize();
+	        }
+	      }
+	    }, {
+	      key: 'componentWillReceiveProps',
+	      value: function componentWillReceiveProps(nextProps) {
+	        if (!this.props.multiline && nextProps.multiline) {
+	          window.addEventListener('resize', this.handleAutoresize);
+	        } else if (this.props.multiline && !nextProps.multiline) {
+	          window.removeEventListener('resize', this.handleAutoresize);
+	        }
+	      }
+	    }, {
+	      key: 'componentDidUpdate',
+	      value: function componentDidUpdate() {
+	        // resize the textarea, if nessesary
+	        if (this.props.multiline) this.handleAutoresize();
+	      }
+	    }, {
+	      key: 'componentWillUnmount',
+	      value: function componentWillUnmount() {
+	        if (this.props.multiline) window.removeEventListener('resize', this.handleAutoresize);
+	      }
+	    }, {
+	      key: 'blur',
+	      value: function blur() {
+	        this.refs.input.blur();
+	      }
+	    }, {
+	      key: 'focus',
+	      value: function focus() {
+	        this.refs.input.focus();
+	      }
+	    }, {
+	      key: 'render',
+	      value: function render() {
+	        var _classnames2;
+
+	        var _props = this.props,
+	            children = _props.children,
+	            disabled = _props.disabled,
+	            error = _props.error,
+	            floating = _props.floating,
+	            hint = _props.hint,
+	            icon = _props.icon,
+	            name = _props.name,
+	            labelText = _props.label,
+	            maxLength = _props.maxLength,
+	            multiline = _props.multiline,
+	            required = _props.required,
+	            theme = _props.theme,
+	            type = _props.type,
+	            value = _props.value,
+	            onKeyPress = _props.onKeyPress,
+	            _props$rows = _props.rows,
+	            rows = _props$rows === undefined ? 1 : _props$rows,
+	            others = _objectWithoutProperties(_props, ['children', 'disabled', 'error', 'floating', 'hint', 'icon', 'name', 'label', 'maxLength', 'multiline', 'required', 'theme', 'type', 'value', 'onKeyPress', 'rows']);
+
+	        var length = maxLength && value ? value.length : 0;
+	        var labelClassName = (0, _classnames5.default)(theme.label, _defineProperty({}, theme.fixed, !floating));
+
+	        var className = (0, _classnames5.default)(theme.input, (_classnames2 = {}, _defineProperty(_classnames2, theme.disabled, disabled), _defineProperty(_classnames2, theme.errored, error), _defineProperty(_classnames2, theme.hidden, type === 'hidden'), _defineProperty(_classnames2, theme.withIcon, icon), _classnames2), this.props.className);
+
+	        var valuePresent = value !== null && value !== undefined && value !== '' && !((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === Number && isNaN(value));
+
+	        var inputElementProps = _extends({}, others, {
+	          className: (0, _classnames5.default)(theme.inputElement, _defineProperty({}, theme.filled, valuePresent)),
+	          onChange: this.handleChange,
+	          ref: 'input',
+	          role: 'input',
+	          name: name,
+	          disabled: disabled,
+	          required: required,
+	          type: type,
+	          value: value
+	        });
+	        if (!multiline) {
+	          inputElementProps.maxLength = maxLength;
+	          inputElementProps.onKeyPress = onKeyPress;
+	        } else {
+	          inputElementProps.rows = rows;
+	          inputElementProps.onKeyPress = this.handleKeyPress;
+	        }
+
+	        return _react2.default.createElement(
+	          'div',
+	          { 'data-react-toolbox': 'input', className: className },
+	          _react2.default.createElement(multiline ? 'textarea' : 'input', inputElementProps),
+	          icon ? _react2.default.createElement(FontIcon, { className: theme.icon, value: icon }) : null,
+	          _react2.default.createElement('span', { className: theme.bar }),
+	          labelText ? _react2.default.createElement(
+	            'label',
+	            { className: labelClassName },
+	            labelText,
+	            required ? _react2.default.createElement(
+	              'span',
+	              { className: theme.required },
+	              ' * '
+	            ) : null
+	          ) : null,
+	          hint ? _react2.default.createElement(
+	            'span',
+	            { hidden: labelText, className: theme.hint },
+	            hint
+	          ) : null,
+	          error ? _react2.default.createElement(
+	            'span',
+	            { className: theme.error },
+	            error
+	          ) : null,
+	          maxLength ? _react2.default.createElement(
+	            'span',
+	            { className: theme.counter },
+	            length,
+	            '/',
+	            maxLength
+	          ) : null,
+	          children
+	        );
+	      }
+	    }]);
+
+	    return Input;
+	  }(_react2.default.Component);
+
+	  Input.propTypes = {
+	    children: _react2.default.PropTypes.any,
+	    className: _react2.default.PropTypes.string,
+	    disabled: _react2.default.PropTypes.bool,
+	    error: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.node]),
+	    floating: _react2.default.PropTypes.bool,
+	    hint: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.node]),
+	    icon: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]),
+	    label: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.node]),
+	    maxLength: _react2.default.PropTypes.number,
+	    multiline: _react2.default.PropTypes.bool,
+	    name: _react2.default.PropTypes.string,
+	    onBlur: _react2.default.PropTypes.func,
+	    onChange: _react2.default.PropTypes.func,
+	    onFocus: _react2.default.PropTypes.func,
+	    onKeyPress: _react2.default.PropTypes.func,
+	    required: _react2.default.PropTypes.bool,
+	    rows: _react2.default.PropTypes.number,
+	    theme: _react2.default.PropTypes.shape({
+	      bar: _react2.default.PropTypes.string,
+	      counter: _react2.default.PropTypes.string,
+	      disabled: _react2.default.PropTypes.string,
+	      error: _react2.default.PropTypes.string,
+	      errored: _react2.default.PropTypes.string,
+	      hidden: _react2.default.PropTypes.string,
+	      hint: _react2.default.PropTypes.string,
+	      icon: _react2.default.PropTypes.string,
+	      input: _react2.default.PropTypes.string,
+	      inputElement: _react2.default.PropTypes.string,
+	      required: _react2.default.PropTypes.string,
+	      withIcon: _react2.default.PropTypes.string
+	    }),
+	    type: _react2.default.PropTypes.string,
+	    value: _react2.default.PropTypes.any
+	  };
+	  Input.defaultProps = {
+	    className: '',
+	    hint: '',
+	    disabled: false,
+	    floating: true,
+	    multiline: false,
+	    required: false,
+	    type: 'text'
+	  };
+
+
+	  return Input;
 	};
+
+	var Input = factory(_FontIcon2.default);
+	exports.default = (0, _reactCssThemr.themr)(_identifiers.INPUT, null, { withRef: true })(Input);
+	exports.inputFactory = factory;
+	exports.Input = Input;
 
 /***/ },
 /* 253 */
@@ -44724,10 +45052,1324 @@
 
 	exports = module.exports = __webpack_require__(208)();
 	// imports
+
+
+	// module
+	exports.push([module.id, ".theme_radio_FrPyG, .theme_text_1XmFg {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.theme_input_2k8OY {\n  position: relative;\n  padding: 20px 0; }\n  .theme_input_2k8OY.theme_withIcon_23NMN {\n    margin-left: 48px; }\n\n.theme_icon_79iUB {\n  position: absolute;\n  top: 16px;\n  left: -48px;\n  display: block;\n  width: 48px;\n  height: 48px;\n  font-size: 24px !important;\n  line-height: 48px !important;\n  color: rgba(0, 0, 0, 0.26);\n  text-align: center;\n  transition: color 0.35s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.theme_inputElement_gZJC0 {\n  display: block;\n  width: 100%;\n  padding: 8px 0;\n  font-size: 16px;\n  color: #212121;\n  background-color: transparent;\n  border: 0;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.12);\n  outline: none; }\n  .theme_inputElement_gZJC0:focus:not([disabled]):not([readonly]) ~ .theme_bar_3KItY:before, .theme_inputElement_gZJC0:focus:not([disabled]):not([readonly]) ~ .theme_bar_3KItY:after {\n    width: 50%; }\n  .theme_inputElement_gZJC0:focus:not([disabled]):not([readonly]) ~ .theme_label_3mBjt:not(.theme_fixed_1uChP) {\n    color: #2196f3; }\n  .theme_inputElement_gZJC0:focus:not([disabled]):not([readonly]) ~ .theme_label_3mBjt > .theme_required_3OWCz {\n    color: #de3226; }\n  .theme_inputElement_gZJC0:focus:not([disabled]):not([readonly]) ~ .theme_hint_2J-G6 {\n    display: block;\n    opacity: 1; }\n  .theme_inputElement_gZJC0:focus:not([disabled]):not([readonly]) ~ .theme_icon_79iUB {\n    color: #2196f3; }\n  .theme_inputElement_gZJC0:focus:not([disabled]):not([readonly]) ~ .theme_label_3mBjt:not(.theme_fixed_1uChP), .theme_inputElement_gZJC0.theme_filled_1qPLx ~ .theme_label_3mBjt:not(.theme_fixed_1uChP), .theme_inputElement_gZJC0[type=\"date\"] ~ .theme_label_3mBjt:not(.theme_fixed_1uChP), .theme_inputElement_gZJC0[type=\"time\"] ~ .theme_label_3mBjt:not(.theme_fixed_1uChP) {\n    top: 6px;\n    font-size: 12px; }\n  .theme_inputElement_gZJC0:focus:not([disabled]):not([readonly]).theme_filled_1qPLx ~ .theme_hint_2J-G6, .theme_inputElement_gZJC0.theme_filled_1qPLx.theme_filled_1qPLx ~ .theme_hint_2J-G6, .theme_inputElement_gZJC0[type=\"date\"].theme_filled_1qPLx ~ .theme_hint_2J-G6, .theme_inputElement_gZJC0[type=\"time\"].theme_filled_1qPLx ~ .theme_hint_2J-G6 {\n    opacity: 0; }\n  .theme_inputElement_gZJC0.theme_filled_1qPLx ~ .theme_label_3mBjt.theme_fixed_1uChP, .theme_inputElement_gZJC0.theme_filled_1qPLx ~ .theme_hint_2J-G6 {\n    display: none; }\n\n.theme_label_3mBjt {\n  position: absolute;\n  top: 32px;\n  left: 0;\n  font-size: 16px;\n  line-height: 16px;\n  color: rgba(0, 0, 0, 0.26);\n  pointer-events: none;\n  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  transition-duration: 0.35s;\n  transition-property: top, font-size, color; }\n  .theme_label_3mBjt.theme_fixed_1uChP ~ .theme_hint_2J-G6 {\n    display: none; }\n\n.theme_hint_2J-G6 {\n  position: absolute;\n  top: 32px;\n  left: 0;\n  font-size: 16px;\n  line-height: 16px;\n  color: rgba(0, 0, 0, 0.26);\n  pointer-events: none;\n  opacity: 1;\n  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  transition-duration: 0.35s;\n  transition-property: opacity; }\n\n.theme_bar_3KItY {\n  position: relative;\n  display: block;\n  width: 100%; }\n  .theme_bar_3KItY:before, .theme_bar_3KItY:after {\n    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n    transition-duration: 0.2s;\n    position: absolute;\n    bottom: 0;\n    width: 0;\n    height: 2px;\n    content: \"\";\n    background-color: #2196f3;\n    transition-property: width, background-color; }\n  .theme_bar_3KItY:before {\n    left: 50%; }\n  .theme_bar_3KItY:after {\n    right: 50%; }\n\n.theme_error_1qoGj, .theme_counter_1PLYN {\n  margin-bottom: -20px;\n  font-size: 12px;\n  line-height: 20px;\n  color: #de3226; }\n\n.theme_counter_1PLYN {\n  position: absolute;\n  right: 0;\n  color: rgba(0, 0, 0, 0.26); }\n\n.theme_disabled_3Wpth > .theme_inputElement_gZJC0 {\n  color: rgba(0, 0, 0, 0.26);\n  border-bottom-style: dotted; }\n\n.theme_errored_3w8aA {\n  padding-bottom: 0; }\n  .theme_errored_3w8aA > .theme_inputElement_gZJC0 {\n    margin-top: 1px;\n    border-bottom-color: #de3226; }\n  .theme_errored_3w8aA > .theme_counter_1PLYN, .theme_errored_3w8aA > .theme_label_3mBjt {\n    color: #de3226; }\n  .theme_errored_3w8aA > .theme_label_3mBjt > .theme_required_3OWCz {\n    color: #de3226; }\n\n.theme_hidden_2rIYS {\n  display: none; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"radio": "theme_radio_FrPyG",
+		"text": "theme_text_1XmFg",
+		"input": "theme_input_2k8OY",
+		"withIcon": "theme_withIcon_23NMN",
+		"icon": "theme_icon_79iUB",
+		"inputElement": "theme_inputElement_gZJC0",
+		"bar": "theme_bar_3KItY",
+		"label": "theme_label_3mBjt",
+		"fixed": "theme_fixed_1uChP",
+		"required": "theme_required_3OWCz",
+		"hint": "theme_hint_2J-G6",
+		"filled": "theme_filled_1qPLx",
+		"error": "theme_error_1qoGj",
+		"counter": "theme_counter_1PLYN",
+		"disabled": "theme_disabled_3Wpth",
+		"errored": "theme_errored_3w8aA",
+		"hidden": "theme_hidden_2rIYS"
+	};
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	var React = global.React || __webpack_require__(3);
+	var Formsy = {};
+	var validationRules = __webpack_require__(256);
+	var formDataToObject = __webpack_require__(257);
+	var utils = __webpack_require__(258);
+	var Mixin = __webpack_require__(259);
+	var HOC = __webpack_require__(260);
+	var Decorator = __webpack_require__(261);
+	var options = {};
+	var emptyArray = [];
+
+	Formsy.Mixin = Mixin;
+	Formsy.HOC = HOC;
+	Formsy.Decorator = Decorator;
+
+	Formsy.defaults = function (passedOptions) {
+	  options = passedOptions;
+	};
+
+	Formsy.addValidationRule = function (name, func) {
+	  validationRules[name] = func;
+	};
+
+	Formsy.Form = React.createClass({
+	  displayName: 'Formsy',
+	  getInitialState: function getInitialState() {
+	    return {
+	      isValid: true,
+	      isSubmitting: false,
+	      canChange: false
+	    };
+	  },
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      onSuccess: function onSuccess() {},
+	      onError: function onError() {},
+	      onSubmit: function onSubmit() {},
+	      onValidSubmit: function onValidSubmit() {},
+	      onInvalidSubmit: function onInvalidSubmit() {},
+	      onValid: function onValid() {},
+	      onInvalid: function onInvalid() {},
+	      onChange: function onChange() {},
+	      validationErrors: null,
+	      preventExternalInvalidation: false
+	    };
+	  },
+
+	  childContextTypes: {
+	    formsy: React.PropTypes.object
+	  },
+	  getChildContext: function getChildContext() {
+	    var _this = this;
+
+	    return {
+	      formsy: {
+	        attachToForm: this.attachToForm,
+	        detachFromForm: this.detachFromForm,
+	        validate: this.validate,
+	        isFormDisabled: this.isFormDisabled,
+	        isValidValue: function isValidValue(component, value) {
+	          return _this.runValidation(component, value).isValid;
+	        }
+	      }
+	    };
+	  },
+
+	  // Add a map to store the inputs of the form, a model to store
+	  // the values of the form and register child inputs
+	  componentWillMount: function componentWillMount() {
+	    this.inputs = [];
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this.validateForm();
+	  },
+
+	  componentWillUpdate: function componentWillUpdate() {
+	    // Keep a reference to input names before form updates,
+	    // to check if inputs has changed after render
+	    this.prevInputNames = this.inputs.map(function (component) {
+	      return component.props.name;
+	    });
+	  },
+
+	  componentDidUpdate: function componentDidUpdate() {
+
+	    if (this.props.validationErrors && _typeof(this.props.validationErrors) === 'object' && Object.keys(this.props.validationErrors).length > 0) {
+	      this.setInputValidationErrors(this.props.validationErrors);
+	    }
+
+	    var newInputNames = this.inputs.map(function (component) {
+	      return component.props.name;
+	    });
+	    if (utils.arraysDiffer(this.prevInputNames, newInputNames)) {
+	      this.validateForm();
+	    }
+	  },
+
+	  // Allow resetting to specified data
+	  reset: function reset(data) {
+	    this.setFormPristine(true);
+	    this.resetModel(data);
+	  },
+
+	  // Update model, submit to url prop and send the model
+	  submit: function submit(event) {
+
+	    event && event.preventDefault();
+
+	    // Trigger form as not pristine.
+	    // If any inputs have not been touched yet this will make them dirty
+	    // so validation becomes visible (if based on isPristine)
+	    this.setFormPristine(false);
+	    var model = this.getModel();
+	    this.props.onSubmit(model, this.resetModel, this.updateInputsWithError);
+	    this.state.isValid ? this.props.onValidSubmit(model, this.resetModel, this.updateInputsWithError) : this.props.onInvalidSubmit(model, this.resetModel, this.updateInputsWithError);
+	  },
+
+	  mapModel: function mapModel(model) {
+
+	    if (this.props.mapping) {
+	      return this.props.mapping(model);
+	    } else {
+	      return formDataToObject.toObj(Object.keys(model).reduce(function (mappedModel, key) {
+
+	        var keyArray = key.split('.');
+	        var base = mappedModel;
+	        while (keyArray.length) {
+	          var currentKey = keyArray.shift();
+	          base = base[currentKey] = keyArray.length ? base[currentKey] || {} : model[key];
+	        }
+
+	        return mappedModel;
+	      }, {}));
+	    }
+	  },
+
+	  getModel: function getModel() {
+	    var currentValues = this.getCurrentValues();
+	    return this.mapModel(currentValues);
+	  },
+
+	  // Reset each key in the model to the original / initial / specified value
+	  resetModel: function resetModel(data) {
+	    this.inputs.forEach(function (component) {
+	      var name = component.props.name;
+	      if (data && data.hasOwnProperty(name)) {
+	        component.setValue(data[name]);
+	      } else {
+	        component.resetValue();
+	      }
+	    });
+	    this.validateForm();
+	  },
+
+	  setInputValidationErrors: function setInputValidationErrors(errors) {
+	    this.inputs.forEach(function (component) {
+	      var name = component.props.name;
+	      var args = [{
+	        _isValid: !(name in errors),
+	        _validationError: typeof errors[name] === 'string' ? [errors[name]] : errors[name]
+	      }];
+	      component.setState.apply(component, args);
+	    });
+	  },
+
+	  // Checks if the values have changed from their initial value
+	  isChanged: function isChanged() {
+	    return !utils.isSame(this.getPristineValues(), this.getCurrentValues());
+	  },
+
+	  getPristineValues: function getPristineValues() {
+	    return this.inputs.reduce(function (data, component) {
+	      var name = component.props.name;
+	      data[name] = component.props.value;
+	      return data;
+	    }, {});
+	  },
+
+	  // Go through errors from server and grab the components
+	  // stored in the inputs map. Change their state to invalid
+	  // and set the serverError message
+	  updateInputsWithError: function updateInputsWithError(errors) {
+	    var _this2 = this;
+
+	    Object.keys(errors).forEach(function (name, index) {
+	      var component = utils.find(_this2.inputs, function (component) {
+	        return component.props.name === name;
+	      });
+	      if (!component) {
+	        throw new Error('You are trying to update an input that does not exist. ' + 'Verify errors object with input names. ' + JSON.stringify(errors));
+	      }
+	      var args = [{
+	        _isValid: _this2.props.preventExternalInvalidation || false,
+	        _externalError: typeof errors[name] === 'string' ? [errors[name]] : errors[name]
+	      }];
+	      component.setState.apply(component, args);
+	    });
+	  },
+
+	  isFormDisabled: function isFormDisabled() {
+	    return this.props.disabled;
+	  },
+
+	  getCurrentValues: function getCurrentValues() {
+	    return this.inputs.reduce(function (data, component) {
+	      var name = component.props.name;
+	      data[name] = component.state._value;
+	      return data;
+	    }, {});
+	  },
+
+	  setFormPristine: function setFormPristine(isPristine) {
+	    this.setState({
+	      _formSubmitted: !isPristine
+	    });
+
+	    // Iterate through each component and set it as pristine
+	    // or "dirty".
+	    this.inputs.forEach(function (component, index) {
+	      component.setState({
+	        _formSubmitted: !isPristine,
+	        _isPristine: isPristine
+	      });
+	    });
+	  },
+
+	  // Use the binded values and the actual input value to
+	  // validate the input and set its state. Then check the
+	  // state of the form itself
+	  validate: function validate(component) {
+
+	    // Trigger onChange
+	    if (this.state.canChange) {
+	      this.props.onChange(this.getCurrentValues(), this.isChanged());
+	    }
+
+	    var validation = this.runValidation(component);
+	    // Run through the validations, split them up and call
+	    // the validator IF there is a value or it is required
+	    component.setState({
+	      _isValid: validation.isValid,
+	      _isRequired: validation.isRequired,
+	      _validationError: validation.error,
+	      _externalError: null
+	    }, this.validateForm);
+	  },
+
+	  // Checks validation on current value or a passed value
+	  runValidation: function runValidation(component, value) {
+
+	    var currentValues = this.getCurrentValues();
+	    var validationErrors = component.props.validationErrors;
+	    var validationError = component.props.validationError;
+	    value = arguments.length === 2 ? value : component.state._value;
+
+	    var validationResults = this.runRules(value, currentValues, component._validations);
+	    var requiredResults = this.runRules(value, currentValues, component._requiredValidations);
+
+	    // the component defines an explicit validate function
+	    if (typeof component.validate === "function") {
+	      validationResults.failed = component.validate() ? [] : ['failed'];
+	    }
+
+	    var isRequired = Object.keys(component._requiredValidations).length ? !!requiredResults.success.length : false;
+	    var isValid = !validationResults.failed.length && !(this.props.validationErrors && this.props.validationErrors[component.props.name]);
+
+	    return {
+	      isRequired: isRequired,
+	      isValid: isRequired ? false : isValid,
+	      error: function () {
+
+	        if (isValid && !isRequired) {
+	          return emptyArray;
+	        }
+
+	        if (validationResults.errors.length) {
+	          return validationResults.errors;
+	        }
+
+	        if (this.props.validationErrors && this.props.validationErrors[component.props.name]) {
+	          return typeof this.props.validationErrors[component.props.name] === 'string' ? [this.props.validationErrors[component.props.name]] : this.props.validationErrors[component.props.name];
+	        }
+
+	        if (isRequired) {
+	          var error = validationErrors[requiredResults.success[0]];
+	          return error ? [error] : null;
+	        }
+
+	        if (validationResults.failed.length) {
+	          return validationResults.failed.map(function (failed) {
+	            return validationErrors[failed] ? validationErrors[failed] : validationError;
+	          }).filter(function (x, pos, arr) {
+	            // Remove duplicates
+	            return arr.indexOf(x) === pos;
+	          });
+	        }
+	      }.call(this)
+	    };
+	  },
+
+	  runRules: function runRules(value, currentValues, validations) {
+
+	    var results = {
+	      errors: [],
+	      failed: [],
+	      success: []
+	    };
+	    if (Object.keys(validations).length) {
+	      Object.keys(validations).forEach(function (validationMethod) {
+
+	        if (validationRules[validationMethod] && typeof validations[validationMethod] === 'function') {
+	          throw new Error('Formsy does not allow you to override default validations: ' + validationMethod);
+	        }
+
+	        if (!validationRules[validationMethod] && typeof validations[validationMethod] !== 'function') {
+	          throw new Error('Formsy does not have the validation rule: ' + validationMethod);
+	        }
+
+	        if (typeof validations[validationMethod] === 'function') {
+	          var validation = validations[validationMethod](currentValues, value);
+	          if (typeof validation === 'string') {
+	            results.errors.push(validation);
+	            results.failed.push(validationMethod);
+	          } else if (!validation) {
+	            results.failed.push(validationMethod);
+	          }
+	          return;
+	        } else if (typeof validations[validationMethod] !== 'function') {
+	          var validation = validationRules[validationMethod](currentValues, value, validations[validationMethod]);
+	          if (typeof validation === 'string') {
+	            results.errors.push(validation);
+	            results.failed.push(validationMethod);
+	          } else if (!validation) {
+	            results.failed.push(validationMethod);
+	          } else {
+	            results.success.push(validationMethod);
+	          }
+	          return;
+	        }
+
+	        return results.success.push(validationMethod);
+	      });
+	    }
+
+	    return results;
+	  },
+
+	  // Validate the form by going through all child input components
+	  // and check their state
+	  validateForm: function validateForm() {
+	    var _this3 = this;
+
+	    // We need a callback as we are validating all inputs again. This will
+	    // run when the last component has set its state
+	    var onValidationComplete = function () {
+	      var allIsValid = this.inputs.every(function (component) {
+	        return component.state._isValid;
+	      });
+
+	      this.setState({
+	        isValid: allIsValid
+	      });
+
+	      if (allIsValid) {
+	        this.props.onValid();
+	      } else {
+	        this.props.onInvalid();
+	      }
+
+	      // Tell the form that it can start to trigger change events
+	      this.setState({
+	        canChange: true
+	      });
+	    }.bind(this);
+
+	    // Run validation again in case affected by other inputs. The
+	    // last component validated will run the onValidationComplete callback
+	    this.inputs.forEach(function (component, index) {
+	      var validation = _this3.runValidation(component);
+	      if (validation.isValid && component.state._externalError) {
+	        validation.isValid = false;
+	      }
+	      component.setState({
+	        _isValid: validation.isValid,
+	        _isRequired: validation.isRequired,
+	        _validationError: validation.error,
+	        _externalError: !validation.isValid && component.state._externalError ? component.state._externalError : null
+	      }, index === _this3.inputs.length - 1 ? onValidationComplete : null);
+	    });
+
+	    // If there are no inputs, set state where form is ready to trigger
+	    // change event. New inputs might be added later
+	    if (!this.inputs.length && this.isMounted()) {
+	      this.setState({
+	        canChange: true
+	      });
+	    }
+	  },
+
+	  // Method put on each input component to register
+	  // itself to the form
+	  attachToForm: function attachToForm(component) {
+
+	    if (this.inputs.indexOf(component) === -1) {
+	      this.inputs.push(component);
+	    }
+
+	    this.validate(component);
+	  },
+
+	  // Method put on each input component to unregister
+	  // itself from the form
+	  detachFromForm: function detachFromForm(component) {
+	    var componentPos = this.inputs.indexOf(component);
+
+	    if (componentPos !== -1) {
+	      this.inputs = this.inputs.slice(0, componentPos).concat(this.inputs.slice(componentPos + 1));
+	    }
+
+	    this.validateForm();
+	  },
+	  render: function render() {
+	    var _props = this.props,
+	        mapping = _props.mapping,
+	        validationErrors = _props.validationErrors,
+	        onSubmit = _props.onSubmit,
+	        onValid = _props.onValid,
+	        onValidSubmit = _props.onValidSubmit,
+	        onInvalid = _props.onInvalid,
+	        onInvalidSubmit = _props.onInvalidSubmit,
+	        onChange = _props.onChange,
+	        reset = _props.reset,
+	        preventExternalInvalidation = _props.preventExternalInvalidation,
+	        onSuccess = _props.onSuccess,
+	        onError = _props.onError,
+	        nonFormsyProps = _objectWithoutProperties(_props, ['mapping', 'validationErrors', 'onSubmit', 'onValid', 'onValidSubmit', 'onInvalid', 'onInvalidSubmit', 'onChange', 'reset', 'preventExternalInvalidation', 'onSuccess', 'onError']);
+
+	    return React.createElement(
+	      'form',
+	      _extends({}, nonFormsyProps, { onSubmit: this.submit }),
+	      this.props.children
+	    );
+	  }
+	});
+
+	if (!global.exports && !global.module && (!global.define || !global.define.amd)) {
+	  global.Formsy = Formsy;
+	}
+
+	module.exports = Formsy;
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 256 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var _isExisty = function _isExisty(value) {
+	  return value !== null && value !== undefined;
+	};
+
+	var isEmpty = function isEmpty(value) {
+	  return value === '';
+	};
+
+	var validations = {
+	  isDefaultRequiredValue: function isDefaultRequiredValue(values, value) {
+	    return value === undefined || value === '';
+	  },
+	  isExisty: function isExisty(values, value) {
+	    return _isExisty(value);
+	  },
+	  matchRegexp: function matchRegexp(values, value, regexp) {
+	    return !_isExisty(value) || isEmpty(value) || regexp.test(value);
+	  },
+	  isUndefined: function isUndefined(values, value) {
+	    return value === undefined;
+	  },
+	  isEmptyString: function isEmptyString(values, value) {
+	    return isEmpty(value);
+	  },
+	  isEmail: function isEmail(values, value) {
+	    return validations.matchRegexp(values, value, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i);
+	  },
+	  isUrl: function isUrl(values, value) {
+	    return validations.matchRegexp(values, value, /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i);
+	  },
+	  isTrue: function isTrue(values, value) {
+	    return value === true;
+	  },
+	  isFalse: function isFalse(values, value) {
+	    return value === false;
+	  },
+	  isNumeric: function isNumeric(values, value) {
+	    if (typeof value === 'number') {
+	      return true;
+	    }
+	    return validations.matchRegexp(values, value, /^[-+]?(?:\d*[.])?\d+$/);
+	  },
+	  isAlpha: function isAlpha(values, value) {
+	    return validations.matchRegexp(values, value, /^[A-Z]+$/i);
+	  },
+	  isAlphanumeric: function isAlphanumeric(values, value) {
+	    return validations.matchRegexp(values, value, /^[0-9A-Z]+$/i);
+	  },
+	  isInt: function isInt(values, value) {
+	    return validations.matchRegexp(values, value, /^(?:[-+]?(?:0|[1-9]\d*))$/);
+	  },
+	  isFloat: function isFloat(values, value) {
+	    return validations.matchRegexp(values, value, /^(?:[-+]?(?:\d+))?(?:\.\d*)?(?:[eE][\+\-]?(?:\d+))?$/);
+	  },
+	  isWords: function isWords(values, value) {
+	    return validations.matchRegexp(values, value, /^[A-Z\s]+$/i);
+	  },
+	  isSpecialWords: function isSpecialWords(values, value) {
+	    return validations.matchRegexp(values, value, /^[A-Z\s\u00C0-\u017F]+$/i);
+	  },
+	  isLength: function isLength(values, value, length) {
+	    return !_isExisty(value) || isEmpty(value) || value.length === length;
+	  },
+	  equals: function equals(values, value, eql) {
+	    return !_isExisty(value) || isEmpty(value) || value == eql;
+	  },
+	  equalsField: function equalsField(values, value, field) {
+	    return value == values[field];
+	  },
+	  maxLength: function maxLength(values, value, length) {
+	    return !_isExisty(value) || value.length <= length;
+	  },
+	  minLength: function minLength(values, value, length) {
+	    return !_isExisty(value) || isEmpty(value) || value.length >= length;
+	  }
+	};
+
+	module.exports = validations;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports) {
+
+	function toObj(source) {
+	  return Object.keys(source).reduce(function (output, key) {
+	    var parentKey = key.match(/[^\[]*/i);
+	    var paths = key.match(/\[.*?\]/g) || [];
+	    paths = [parentKey[0]].concat(paths).map(function (key) {
+	      return key.replace(/\[|\]/g, '');
+	    });
+	    var currentPath = output;
+	    while (paths.length) {
+	      var pathKey = paths.shift();
+
+	      if (pathKey in currentPath) {
+	        currentPath = currentPath[pathKey];
+	      } else {
+	        currentPath[pathKey] = paths.length ? isNaN(paths[0]) ? {} : [] : source[key];
+	        currentPath = currentPath[pathKey];
+	      }
+	    }
+
+	    return output;
+	  }, {});
+	}
+
+	function fromObj(obj) {
+	  function recur(newObj, propName, currVal) {
+	    if (Array.isArray(currVal) || Object.prototype.toString.call(currVal) === '[object Object]') {
+	      Object.keys(currVal).forEach(function(v) {
+	        recur(newObj, propName + "[" + v + "]", currVal[v]);
+	      });
+	      return newObj;
+	    }
+
+	    newObj[propName] = currVal;
+	    return newObj;
+	  }
+
+	  var keys = Object.keys(obj);
+	  return keys.reduce(function(newObj, propName) {
+	    return recur(newObj, propName, obj[propName]);
+	  }, {});
+	}
+
+	module.exports = {
+	  fromObj: fromObj,
+	  toObj: toObj
+	}
+
+/***/ },
+/* 258 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	module.exports = {
+	  arraysDiffer: function arraysDiffer(a, b) {
+	    var isDifferent = false;
+	    if (a.length !== b.length) {
+	      isDifferent = true;
+	    } else {
+	      a.forEach(function (item, index) {
+	        if (!this.isSame(item, b[index])) {
+	          isDifferent = true;
+	        }
+	      }, this);
+	    }
+	    return isDifferent;
+	  },
+
+	  objectsDiffer: function objectsDiffer(a, b) {
+	    var isDifferent = false;
+	    if (Object.keys(a).length !== Object.keys(b).length) {
+	      isDifferent = true;
+	    } else {
+	      Object.keys(a).forEach(function (key) {
+	        if (!this.isSame(a[key], b[key])) {
+	          isDifferent = true;
+	        }
+	      }, this);
+	    }
+	    return isDifferent;
+	  },
+
+	  isSame: function isSame(a, b) {
+	    if ((typeof a === 'undefined' ? 'undefined' : _typeof(a)) !== (typeof b === 'undefined' ? 'undefined' : _typeof(b))) {
+	      return false;
+	    } else if (Array.isArray(a)) {
+	      return !this.arraysDiffer(a, b);
+	    } else if (typeof a === 'function') {
+	      return a.toString() === b.toString();
+	    } else if ((typeof a === 'undefined' ? 'undefined' : _typeof(a)) === 'object' && a !== null && b !== null) {
+	      return !this.objectsDiffer(a, b);
+	    }
+
+	    return a === b;
+	  },
+
+	  find: function find(collection, fn) {
+	    for (var i = 0, l = collection.length; i < l; i++) {
+	      var item = collection[i];
+	      if (fn(item)) {
+	        return item;
+	      }
+	    }
+	    return null;
+	  }
+	};
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	var utils = __webpack_require__(258);
+	var React = global.React || __webpack_require__(3);
+
+	var convertValidationsToObject = function convertValidationsToObject(validations) {
+
+	  if (typeof validations === 'string') {
+
+	    return validations.split(/\,(?![^{\[]*[}\]])/g).reduce(function (validations, validation) {
+	      var args = validation.split(':');
+	      var validateMethod = args.shift();
+
+	      args = args.map(function (arg) {
+	        try {
+	          return JSON.parse(arg);
+	        } catch (e) {
+	          return arg; // It is a string if it can not parse it
+	        }
+	      });
+
+	      if (args.length > 1) {
+	        throw new Error('Formsy does not support multiple args on string validations. Use object format of validations instead.');
+	      }
+
+	      validations[validateMethod] = args.length ? args[0] : true;
+	      return validations;
+	    }, {});
+	  }
+
+	  return validations || {};
+	};
+
+	module.exports = {
+	  getInitialState: function getInitialState() {
+	    return {
+	      _value: this.props.value,
+	      _isRequired: false,
+	      _isValid: true,
+	      _isPristine: true,
+	      _pristineValue: this.props.value,
+	      _validationError: [],
+	      _externalError: null,
+	      _formSubmitted: false
+	    };
+	  },
+	  contextTypes: {
+	    formsy: React.PropTypes.object // What about required?
+	  },
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      validationError: '',
+	      validationErrors: {}
+	    };
+	  },
+
+	  componentWillMount: function componentWillMount() {
+	    var configure = function () {
+	      this.setValidations(this.props.validations, this.props.required);
+
+	      // Pass a function instead?
+	      this.context.formsy.attachToForm(this);
+	      //this.props._attachToForm(this);
+	    }.bind(this);
+
+	    if (!this.props.name) {
+	      throw new Error('Form Input requires a name property when used');
+	    }
+
+	    /*
+	    if (!this.props._attachToForm) {
+	      return setTimeout(function () {
+	        if (!this.isMounted()) return;
+	        if (!this.props._attachToForm) {
+	          throw new Error('Form Mixin requires component to be nested in a Form');
+	        }
+	        configure();
+	      }.bind(this), 0);
+	    }
+	    */
+	    configure();
+	  },
+
+	  // We have to make the validate method is kept when new props are added
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.setValidations(nextProps.validations, nextProps.required);
+	  },
+
+	  componentDidUpdate: function componentDidUpdate(prevProps) {
+
+	    // If the value passed has changed, set it. If value is not passed it will
+	    // internally update, and this will never run
+	    if (!utils.isSame(this.props.value, prevProps.value)) {
+	      this.setValue(this.props.value);
+	    }
+
+	    // If validations or required is changed, run a new validation
+	    if (!utils.isSame(this.props.validations, prevProps.validations) || !utils.isSame(this.props.required, prevProps.required)) {
+	      this.context.formsy.validate(this);
+	    }
+	  },
+
+	  // Detach it when component unmounts
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.context.formsy.detachFromForm(this);
+	    //this.props._detachFromForm(this);
+	  },
+
+	  setValidations: function setValidations(validations, required) {
+
+	    // Add validations to the store itself as the props object can not be modified
+	    this._validations = convertValidationsToObject(validations) || {};
+	    this._requiredValidations = required === true ? { isDefaultRequiredValue: true } : convertValidationsToObject(required);
+	  },
+
+	  // We validate after the value has been set
+	  setValue: function setValue(value) {
+	    this.setState({
+	      _value: value,
+	      _isPristine: false
+	    }, function () {
+	      this.context.formsy.validate(this);
+	      //this.props._validate(this);
+	    }.bind(this));
+	  },
+	  resetValue: function resetValue() {
+	    this.setState({
+	      _value: this.state._pristineValue,
+	      _isPristine: true
+	    }, function () {
+	      this.context.formsy.validate(this);
+	      //this.props._validate(this);
+	    });
+	  },
+	  getValue: function getValue() {
+	    return this.state._value;
+	  },
+	  hasValue: function hasValue() {
+	    return this.state._value !== '';
+	  },
+	  getErrorMessage: function getErrorMessage() {
+	    var messages = this.getErrorMessages();
+	    return messages.length ? messages[0] : null;
+	  },
+	  getErrorMessages: function getErrorMessages() {
+	    return !this.isValid() || this.showRequired() ? this.state._externalError || this.state._validationError || [] : [];
+	  },
+	  isFormDisabled: function isFormDisabled() {
+	    return this.context.formsy.isFormDisabled();
+	    //return this.props._isFormDisabled();
+	  },
+	  isValid: function isValid() {
+	    return this.state._isValid;
+	  },
+	  isPristine: function isPristine() {
+	    return this.state._isPristine;
+	  },
+	  isFormSubmitted: function isFormSubmitted() {
+	    return this.state._formSubmitted;
+	  },
+	  isRequired: function isRequired() {
+	    return !!this.props.required;
+	  },
+	  showRequired: function showRequired() {
+	    return this.state._isRequired;
+	  },
+	  showError: function showError() {
+	    return !this.showRequired() && !this.isValid();
+	  },
+	  isValidValue: function isValidValue(value) {
+	    return this.context.formsy.isValidValue.call(null, this, value);
+	    //return this.props._isValidValue.call(null, this, value);
+	  }
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = global.React || __webpack_require__(3);
+	var Mixin = __webpack_require__(259);
+	module.exports = function (Component) {
+	  return React.createClass({
+	    displayName: 'Formsy(' + getDisplayName(Component) + ')',
+	    mixins: [Mixin],
+
+	    render: function render() {
+	      var innerRef = this.props.innerRef;
+
+	      var propsForElement = _extends({
+	        setValidations: this.setValidations,
+	        setValue: this.setValue,
+	        resetValue: this.resetValue,
+	        getValue: this.getValue,
+	        hasValue: this.hasValue,
+	        getErrorMessage: this.getErrorMessage,
+	        getErrorMessages: this.getErrorMessages,
+	        isFormDisabled: this.isFormDisabled,
+	        isValid: this.isValid,
+	        isPristine: this.isPristine,
+	        isFormSubmitted: this.isFormSubmitted,
+	        isRequired: this.isRequired,
+	        showRequired: this.showRequired,
+	        showError: this.showError,
+	        isValidValue: this.isValidValue
+	      }, this.props);
+
+	      if (innerRef) {
+	        propsForElement.ref = innerRef;
+	      }
+	      return React.createElement(Component, propsForElement);
+	    }
+	  });
+	};
+
+	function getDisplayName(Component) {
+	  return Component.displayName || Component.name || (typeof Component === 'string' ? Component : 'Component');
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = global.React || __webpack_require__(3);
+	var Mixin = __webpack_require__(259);
+	module.exports = function () {
+	  return function (Component) {
+	    return React.createClass({
+	      mixins: [Mixin],
+	      render: function render() {
+	        return React.createElement(Component, _extends({
+	          setValidations: this.setValidations,
+	          setValue: this.setValue,
+	          resetValue: this.resetValue,
+	          getValue: this.getValue,
+	          hasValue: this.hasValue,
+	          getErrorMessage: this.getErrorMessage,
+	          getErrorMessages: this.getErrorMessages,
+	          isFormDisabled: this.isFormDisabled,
+	          isValid: this.isValid,
+	          isPristine: this.isPristine,
+	          isFormSubmitted: this.isFormSubmitted,
+	          isRequired: this.isRequired,
+	          showRequired: this.showRequired,
+	          showError: this.showError,
+	          isValidValue: this.isValidValue
+	        }, this.props));
+	      }
+	    });
+	  };
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(263);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(209)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(true) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept(263, function() {
+				var newContent = __webpack_require__(263);
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(208)();
+	// imports
 	exports.i(__webpack_require__(226), undefined);
 
 	// module
-	exports.push([module.id, ".App_radio_2o0X9, .App_text_2B0-5 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.App_main_2rFI5 {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  width: 100%; }\n\n.App_header_3h75s {\n  position: fixed;\n  height: 60px;\n  background: #43a047;\n  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);\n  width: 100%;\n  display: flex;\n  align-items: center; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .App_header_3h75s {\n      padding-left: 16px; } }\n  @media " + __webpack_require__(226).locals["tablet"] + " {\n    .App_header_3h75s {\n      padding-left: 24px; } }\n  @media " + __webpack_require__(226).locals["desktop"] + " {\n    .App_header_3h75s {\n      padding-left: 40px; } }\n\n.App_logo_jooaG {\n  display: block;\n  width: 164px;\n  height: 40px;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: contain; }\n\n.App_container_220Kg {\n  padding-top: 60px;\n  display: flex;\n  flex-direction: column;\n  flex-grow: 1; }\n\n.App_footer_2uEZI {\n  background: #404040;\n  height: 60px;\n  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.5);\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  .App_footer_2uEZI span {\n    padding: 0 16px;\n    font-size: 12px;\n    color: #ffffff;\n    opacity: 0.87; }\n    .App_footer_2uEZI span a {\n      text-decoration: none;\n      color: inherit; }\n", ""]);
+	exports.push([module.id, ".Subscribe_radio_2JXUz, .Subscribe_text_1H3mf {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.Subscribe_subscribe_container_uBvpd {\n  display: flex;\n  flex-direction: column; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .Subscribe_subscribe_container_uBvpd {\n      padding: 32px 16px; } }\n  @media " + __webpack_require__(226).locals["notphone"] + " {\n    .Subscribe_subscribe_container_uBvpd {\n      padding: 32px; } }\n\n.Subscribe_subscribe_title_2zyo5 {\n  text-align: center;\n  font-size: 24px;\n  line-height: 32px; }\n\n.Subscribe_subscribe_input_container_2-EsO {\n  display: flex; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .Subscribe_subscribe_input_container_2-EsO {\n      flex-direction: column; } }\n  @media " + __webpack_require__(226).locals["notphone"] + " {\n    .Subscribe_subscribe_input_container_2-EsO {\n      flex-direction: row;\n      align-items: center;\n      justify-content: center; } }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .Subscribe_subscribe_input_21PIj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(226).locals["notphone"] + " {\n  .Subscribe_subscribe_input_21PIj {\n    flex-basis: 320px; } }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .Subscribe_subscribe_button_yhS2O {\n    margin-top: 16px; } }\n\n@media " + __webpack_require__(226).locals["notphone"] + " {\n  .Subscribe_subscribe_button_yhS2O {\n    margin-left: 24px; } }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"phone": "" + __webpack_require__(226).locals["phone"] + "",
+		"tablet": "" + __webpack_require__(226).locals["tablet"] + "",
+		"desktop": "" + __webpack_require__(226).locals["desktop"] + "",
+		"notphone": "" + __webpack_require__(226).locals["notphone"] + "",
+		"notdesktop": "" + __webpack_require__(226).locals["notdesktop"] + "",
+		"radio": "Subscribe_radio_2JXUz",
+		"text": "Subscribe_text_1H3mf",
+		"subscribe_container": "Subscribe_subscribe_container_uBvpd",
+		"subscribe_title": "Subscribe_subscribe_title_2zyo5",
+		"subscribe_input_container": "Subscribe_subscribe_input_container_2-EsO",
+		"subscribe_input": "Subscribe_subscribe_input_21PIj",
+		"subscribe_button": "Subscribe_subscribe_button_yhS2O"
+	};
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _font_icon = __webpack_require__(249);
+
+	var _ShareBlock = __webpack_require__(265);
+
+	var _ShareBlock2 = _interopRequireDefault(_ShareBlock);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ShareBlock = function (_React$Component) {
+		_inherits(ShareBlock, _React$Component);
+
+		function ShareBlock() {
+			_classCallCheck(this, ShareBlock);
+
+			return _possibleConstructorReturn(this, (ShareBlock.__proto__ || Object.getPrototypeOf(ShareBlock)).call(this));
+		}
+
+		_createClass(ShareBlock, [{
+			key: 'shareVK',
+			value: function shareVK() {
+				var url = 'http://vk.com/share.php';
+				url += '?url=' + encodeURIComponent(this.props.sharedUrl);
+				url += '&title=' + encodeURIComponent(this.props.label);
+				url += '&description=' + encodeURIComponent(this.props.description);
+				url += '&image=' + encodeURIComponent(this.props.sharedImageUrl);
+				url += '&noparse=true';
+				return url;
+			}
+		}, {
+			key: 'shareFB',
+			value: function shareFB() {
+				var url = 'https://www.facebook.com/dialog/feed?app_id=1031167230307124';
+				url += '&link=' + encodeURIComponent(this.props.sharedUrl);
+				url += '&picture=' + encodeURIComponent(this.props.sharedImageUrl);
+				url += '&caption=' + encodeURIComponent(this.props.label);
+				url += '&description=' + encodeURIComponent(this.props.description);
+				return url;
+			}
+		}, {
+			key: 'shareOK',
+			value: function shareOK() {
+				var url = 'https://connect.ok.ru/dk?cmd=WidgetSharePreview&st.cmd=WidgetSharePreview&st._aid=ExternalShareWidget_SharePreview';
+				url += '&st.imageUrl=' + encodeURIComponent(this.props.sharedImageUrl);
+				url += '&st.description=' + encodeURIComponent(this.props.description);
+				url += '&st.sharedUrl=' + encodeURIComponent(this.props.sharedUrl);
+				url += '&st.title=' + encodeURIComponent(this.props.label);
+				return url;
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
+
+				var Shares = this.props.shares.map(function (share) {
+					var imgSrc = 'static/assets/images/' + share + '.svg';
+					var fnName = 'share' + share.toUpperCase();
+					var fn = _this2[fnName];
+					if (typeof fn === 'function') {
+						var shareUrl = fn.bind(_this2)();
+						return _react2.default.createElement(
+							'a',
+							{ className: _ShareBlock2.default.icon, key: share, target: '_blank', href: shareUrl },
+							_react2.default.createElement('img', { src: imgSrc })
+						);
+					}
+					return '';
+				});
+				return _react2.default.createElement(
+					'div',
+					{ className: _ShareBlock2.default.share_block },
+					_react2.default.createElement(
+						'span',
+						{ className: _ShareBlock2.default.share },
+						_react2.default.createElement(_font_icon.FontIcon, { className: _ShareBlock2.default.share_icon, value: 'share' }),
+						'\u041F\u043E\u0434\u0435\u043B\u0438\u0442\u044C\u0441\u044F'
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: _ShareBlock2.default.social_shares },
+						Shares
+					)
+				);
+			}
+		}]);
+
+		return ShareBlock;
+	}(_react2.default.Component);
+
+	ShareBlock.propTypes = {
+		sharedUrl: _react2.default.PropTypes.string.isRequired,
+		sharedImageUrl: _react2.default.PropTypes.string.isRequired,
+		label: _react2.default.PropTypes.string.isRequired,
+		description: _react2.default.PropTypes.string.isRequired,
+		shares: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.oneOf(['vk', 'fb', 'ok'])),
+		root: _react2.default.PropTypes.string
+	};
+
+	ShareBlock.defaultProps = {
+		root: location.protocol + "//" + location.host,
+		shares: ['vk', 'fb', 'ok']
+	};
+
+	exports.default = ShareBlock;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(266);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(209)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(true) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept(266, function() {
+				var newContent = __webpack_require__(266);
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(208)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".ShareBlock_radio_1VfTw, .ShareBlock_text_1Zt6D {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.ShareBlock_share_block_23DFz {\n  padding: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n.ShareBlock_share_3v3BX {\n  display: flex;\n  align-items: center;\n  color: rgba(0, 0, 0, 0.54);\n  font-size: 16px; }\n\n.ShareBlock_share_icon_3urEr {\n  margin-right: 8px; }\n\n.ShareBlock_social_shares_NEs3x {\n  height: 32px;\n  display: flex;\n  align-items: center; }\n\n.ShareBlock_icon_2AVlI {\n  margin-left: 16px;\n  width: 32px; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"radio": "ShareBlock_radio_1VfTw",
+		"text": "ShareBlock_text_1Zt6D",
+		"share_block": "ShareBlock_share_block_23DFz",
+		"share": "ShareBlock_share_3v3BX",
+		"share_icon": "ShareBlock_share_icon_3urEr",
+		"social_shares": "ShareBlock_social_shares_NEs3x",
+		"icon": "ShareBlock_icon_2AVlI"
+	};
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(268);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(209)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(true) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept(268, function() {
+				var newContent = __webpack_require__(268);
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(208)();
+	// imports
+	exports.i(__webpack_require__(269), undefined);
+	exports.i(__webpack_require__(218), undefined);
+	exports.i(__webpack_require__(226), undefined);
+
+	// module
+	exports.push([module.id, ".MainResult_radio_37U7D, .MainResult_text_2MFj3 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.MainResult_top_block_2hgb7 {\n  align-items: center; }\n\n.MainResult_top_container_JSQCe { }\n  @media " + __webpack_require__(226).locals["notdesktop"] + " {\n    .MainResult_top_container_JSQCe {\n      background: none;\n      justify-content: center; } }\n\n@media " + __webpack_require__(226).locals["notdesktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 115px; } }\n\n@media " + __webpack_require__(226).locals["desktop"] + " {\n  .MainResult_img_3rkkp {\n    height: 80px; } }\n\n.MainResult_b_img_2EbyV { }\n  @media " + __webpack_require__(226).locals["tablet"] + " {\n    .MainResult_b_img_2EbyV {\n      display: none; } }\n\n.MainResult_card_block_Z6GKk { }\n\n.MainResult_card_container_1zkS1 { }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 16px; } }\n\n@media " + __webpack_require__(226).locals["notphone"] + " {\n  .MainResult_header_block_24pg8 {\n    padding: 32px 32px 16px; } }\n\n.MainResult_card_title_2TP7X {\n  font-size: 20px;\n  color: rgba(0, 0, 0, 0.54);\n  text-transform: uppercase;\n  display: block; }\n\n.MainResult_law_result_16rkc {\n  display: block;\n  padding-top: 16px; }\n\n.MainResult_law_text_3SvDa {\n  border-top: solid 1px rgba(0, 0, 0, 0.12); }\n  .MainResult_law_text_3SvDa ul {\n    padding-left: 16px;\n    margin-top: 0; }\n    .MainResult_law_text_3SvDa ul li {\n      margin-bottom: 8px; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 16px; } }\n  @media " + __webpack_require__(226).locals["notphone"] + " {\n    .MainResult_law_text_3SvDa {\n      padding: 24px 32px; } }\n\n.MainResult_recomendation_2oJzM {\n  font-weight: 300;\n  display: flex;\n  background-color: #e4e9eb; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px 16px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(226).locals["tablet"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: column; } }\n  @media " + __webpack_require__(226).locals["desktop"] + " {\n    .MainResult_recomendation_2oJzM {\n      padding: 32px;\n      flex-direction: row;\n      flex-wrap: wrap; } }\n\n@media " + __webpack_require__(226).locals["notdesktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 2;\n    padding-top: 32px; } }\n\n@media " + __webpack_require__(226).locals["desktop"] + " {\n  .MainResult_recomendation_content_3ejwV {\n    order: 1;\n    width: 60%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between; } }\n\n.MainResult_recomendation_img_1scjZ {\n  justify-content: center;\n  display: flex; }\n  @media " + __webpack_require__(226).locals["notdesktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 1; } }\n  @media " + __webpack_require__(226).locals["desktop"] + " {\n    .MainResult_recomendation_img_1scjZ {\n      order: 2;\n      width: 40%; } }\n\n.MainResult_recomendation_text_21rqL {\n  font-size: 16px;\n  color: rgba(0, 0, 0, 0.87); }\n\n.MainResult_actions_1wJj_ {\n  display: flex;\n  justify-content: flex-start;\n  padding-top: 16px; }\n  .MainResult_actions_1wJj_ button {\n    margin-right: 8px; }\n\n.MainResult_hints_2wFDV {\n  padding: 16px; }\n\n.MainResult_main_hints_30-4_ {\n  padding-top: 16px;\n  font-size: 16px; }\n\n.MainResult_law_hint_3Hsg_ { }\n\n.MainResult_to_site_Rzemt {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  margin-top: 16px;\n  padding: 16px 0; }\n  .MainResult_to_site_Rzemt button {\n    margin-right: 24px; }\n\n.MainResult_subscribe_card_R9hrp {\n  margin-top: 16px; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"phone": "" + __webpack_require__(226).locals["phone"] + "",
+		"tablet": "" + __webpack_require__(226).locals["tablet"] + "",
+		"desktop": "" + __webpack_require__(226).locals["desktop"] + "",
+		"notphone": "" + __webpack_require__(226).locals["notphone"] + "",
+		"notdesktop": "" + __webpack_require__(226).locals["notdesktop"] + "",
+		"fonts": "\"../styles/fonts.css\"",
+		"radio": "MainResult_radio_37U7D",
+		"text": "MainResult_text_2MFj3",
+		"top_block": "MainResult_top_block_2hgb7 " + __webpack_require__(269).locals["top_block"] + "",
+		"top_container": "MainResult_top_container_JSQCe " + __webpack_require__(269).locals["top_container"] + "",
+		"img": "MainResult_img_3rkkp",
+		"b_img": "MainResult_b_img_2EbyV " + __webpack_require__(269).locals["b_img"] + "",
+		"card_block": "MainResult_card_block_Z6GKk " + __webpack_require__(269).locals["card_block"] + "",
+		"card_container": "MainResult_card_container_1zkS1 " + __webpack_require__(269).locals["card_container"] + "",
+		"header_block": "MainResult_header_block_24pg8",
+		"card_title": "MainResult_card_title_2TP7X",
+		"law_result": "MainResult_law_result_16rkc " + __webpack_require__(218).locals["title"] + "",
+		"law_text": "MainResult_law_text_3SvDa " + __webpack_require__(218).locals["text"] + "",
+		"recomendation": "MainResult_recomendation_2oJzM",
+		"recomendation_content": "MainResult_recomendation_content_3ejwV",
+		"recomendation_img": "MainResult_recomendation_img_1scjZ",
+		"recomendation_text": "MainResult_recomendation_text_21rqL",
+		"actions": "MainResult_actions_1wJj_",
+		"hints": "MainResult_hints_2wFDV",
+		"main_hints": "MainResult_main_hints_30-4_",
+		"law_hint": "MainResult_law_hint_3Hsg_ " + __webpack_require__(218).locals["text"] + "",
+		"to_site": "MainResult_to_site_Rzemt",
+		"subscribe_card": "MainResult_subscribe_card_R9hrp"
+	};
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(208)();
+	// imports
+	exports.i(__webpack_require__(226), undefined);
+
+	// module
+	exports.push([module.id, ".Test_radio_BklPD, .Test_text_2OS6Q {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n.Test_top_block_2qdF_ {\n  background: #ffd54f;\n  height: 184px;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center; }\n\n.Test_top_container_1V2yo {\n  display: flex;\n  justify-content: space-between; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1;\n      justify-content: flex-end; } }\n  @media " + __webpack_require__(226).locals["tablet"] + " {\n    .Test_top_container_1V2yo {\n      flex-grow: 1;\n      margin: 0 40px 40px 40px; } }\n  @media " + __webpack_require__(226).locals["desktop"] + " {\n    .Test_top_container_1V2yo {\n      margin-bottom: 40px;\n      width: 944px; } }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .Test_b_img_9Omh1 {\n    display: none; } }\n\n@media " + __webpack_require__(226).locals["tablet"] + " {\n  .Test_b_img_9Omh1 {\n    width: 500px; } }\n\n@media " + __webpack_require__(226).locals["desktop"] + " {\n  .Test_b_img_9Omh1 {\n    width: 600px; } }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .Test_img_3mDz4 {\n    height: 160px;\n    padding-right: 64px; } }\n\n@media " + __webpack_require__(226).locals["notphone"] + " {\n  .Test_img_3mDz4 {\n    height: 120px;\n    padding-right: 40px; } }\n\n.Test_card_block_3xgZU {\n  display: flex;\n  justify-content: center; }\n\n@media " + __webpack_require__(226).locals["phone"] + " {\n  .Test_card_container_IgvPj {\n    flex-grow: 1; } }\n\n@media " + __webpack_require__(226).locals["tablet"] + " {\n  .Test_card_container_IgvPj {\n    padding: 0 24px;\n    flex-grow: 1;\n    margin-top: -40px; } }\n\n@media " + __webpack_require__(226).locals["desktop"] + " {\n  .Test_card_container_IgvPj {\n    width: 944px;\n    margin-top: -40px; } }\n\n.Test_actions_1Baim {\n  border-top: 1px solid rgba(0, 0, 0, 0.12);\n  display: flex;\n  justify-content: flex-end;\n  padding: 16px; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"phone": "" + __webpack_require__(226).locals["phone"] + "",
+		"tablet": "" + __webpack_require__(226).locals["tablet"] + "",
+		"desktop": "" + __webpack_require__(226).locals["desktop"] + "",
+		"notphone": "" + __webpack_require__(226).locals["notphone"] + "",
+		"radio": "Test_radio_BklPD",
+		"text": "Test_text_2OS6Q",
+		"top_block": "Test_top_block_2qdF_",
+		"top_container": "Test_top_container_1V2yo",
+		"b_img": "Test_b_img_9Omh1",
+		"img": "Test_img_3mDz4",
+		"card_block": "Test_card_block_3xgZU",
+		"card_container": "Test_card_container_IgvPj",
+		"actions": "Test_actions_1Baim"
+	};
+
+/***/ },
+/* 270 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(271);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(209)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(true) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept(271, function() {
+				var newContent = __webpack_require__(271);
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(208)();
+	// imports
+	exports.i(__webpack_require__(226), undefined);
+
+	// module
+	exports.push([module.id, ".App_radio_2o0X9, .App_text_2B0-5 {\n  vertical-align: middle !important;\n  white-space: normal !important;\n  box-sizing: border-box; }\n\n.App_main_2rFI5 {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  width: 100%; }\n\n.App_header_3h75s {\n  position: fixed;\n  height: 60px;\n  background: #43a047;\n  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);\n  width: 100%;\n  display: flex;\n  z-index: 100;\n  align-items: center; }\n  @media " + __webpack_require__(226).locals["phone"] + " {\n    .App_header_3h75s {\n      padding-left: 16px; } }\n  @media " + __webpack_require__(226).locals["tablet"] + " {\n    .App_header_3h75s {\n      padding-left: 24px; } }\n  @media " + __webpack_require__(226).locals["desktop"] + " {\n    .App_header_3h75s {\n      padding-left: 40px; } }\n\n.App_logo_jooaG {\n  display: block;\n  width: 164px;\n  height: 40px;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: contain; }\n\n.App_container_220Kg {\n  padding-top: 60px;\n  display: flex;\n  flex-direction: column;\n  flex-grow: 1; }\n\n.App_footer_2uEZI {\n  background: #404040;\n  height: 60px;\n  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.5);\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  .App_footer_2uEZI span {\n    padding: 0 16px;\n    font-size: 12px;\n    color: #ffffff;\n    opacity: 0.87; }\n    .App_footer_2uEZI span a {\n      text-decoration: none;\n      color: inherit; }\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -44744,7 +46386,7 @@
 	};
 
 /***/ },
-/* 255 */
+/* 272 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -45083,13 +46725,13 @@
 	};
 
 /***/ },
-/* 256 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(257);
+	var content = __webpack_require__(274);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(209)(content, {});
@@ -45098,8 +46740,8 @@
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(257, function() {
-				var newContent = __webpack_require__(257);
+			module.hot.accept(274, function() {
+				var newContent = __webpack_require__(274);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -45109,7 +46751,7 @@
 	}
 
 /***/ },
-/* 257 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(208)();

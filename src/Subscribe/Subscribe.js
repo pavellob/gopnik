@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'react-toolbox/lib/button';
 import { Input } from 'react-toolbox/lib/input';
-
+import Formsy from 'formsy-react';
 
 import styles from './Subscribe.css';
 
@@ -11,26 +11,22 @@ class Subscribe extends React.Component {
 		super();
 		this.state = { email: '', isEmailSend: false};
 		this.sendEmail = this.sendEmail.bind(this);
+		this.handleEmailChange = this.handleEmailChange.bind(this);
 	}
 
+	handleEmailChange (value) {
+    this.setState({email: value});
+  };
+
 	sendEmail () {
-		/*fetch('/api/testresults/', {
-		  method: 'POST',
-		  headers: {
-		    'Content-Type': 'application/json'
-		  },
-		  body: JSON.stringify(req)
-		}).then(()=> {
-			this.state.isEmailSend = true;
-		});*/
-		this.setState({isEmailSend: true});
-	
+		const email = this.state.email;
+		Promise.resolve(this.props.action(email)).then( resp => {
+			this.setState({isEmailSend: true});
+		});
 	}
 
 	render () {
-
 		let { btnLabel, inputPlaceholder, title, successTitle} = this.props;
-		title = unescape(title);
 		if(this.state.isEmailSend) {
 			return (
 				<div className={styles.subscribe_container}>
@@ -45,10 +41,10 @@ class Subscribe extends React.Component {
 					<span className={styles.subscribe_title}> 
 						<div dangerouslySetInnerHTML={{__html: title}} />
 					</span>
-					<div className={styles.subscribe_input_container}>
-						<Input className={styles.subscribe_input} type='email' value={this.state.email} label={inputPlaceholder} />
-						<Button className={styles.subscribe_button} label={btnLabel} primary raised onClick={this.sendEmail} />
-					</div>
+					<Formsy.Form onValidSubmit={this.sendEmail} className={styles.subscribe_input_container}>
+						<Input className={styles.subscribe_input} type='email' required value={this.state.email} label={inputPlaceholder} onChange={this.handleEmailChange}/>
+						<Button type="submit" className={styles.subscribe_button} label={btnLabel} primary raised />
+					</Formsy.Form>
 				</div>
 			)
 		}
@@ -60,6 +56,7 @@ Subscribe.propTypes = {
 	btnLabel: React.PropTypes.string.isRequired,
 	inputPlaceholder: React.PropTypes.string.isRequired,
 	successTitle: React.PropTypes.string.isRequired,
+	action: React.PropTypes.func.isRequired,
 }
 
 Subscribe.defaultProps = {

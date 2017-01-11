@@ -30,6 +30,8 @@ class MainResult extends React.Component {
 		location = root + '?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz';
 	}
 
+	sendReq
+
 	render() {
 		const sharedProps = {
 			label: this.props.lawResult.label,
@@ -37,7 +39,22 @@ class MainResult extends React.Component {
 			sharedUrl: 'https://dreamkas.ru/54fz/test/',
 			sharedImageUrl: window.location + this.props.lawResult.shareImage,
 		}
-		const subscribeTitle = 'Подпишитесь на&nbsp;рассылку, чтобы первым узнавать о&nbsp;скидках и&nbsp;акциях';
+		const subscribeProps = { 
+			title: 'Подпишитесь на&nbsp;рассылку, чтобы первым узнавать о&nbsp;скидках и&nbsp;акциях',
+			action: (email) => {
+				const req = {
+					user_email: email,
+					type: 'mail_to_subscribe_test'
+				}
+				return fetch('/api/mail_messages/', {
+				  method: 'POST',
+				  headers: {
+				    'Content-Type': 'application/json'
+				  },
+				  body: JSON.stringify(req)
+				})
+			}
+		}
 		const actions = () => {
 			return (<div className={styles.actions}> 
 					<Button label="Заказать" primary raised onClick={this.bayProduct.bind(this)}/>
@@ -84,7 +101,7 @@ class MainResult extends React.Component {
 							<ShareBlock {...sharedProps}/>
 						</Card>
 						<Card className={styles.subscribe_card}>
-							<Subscribe title={subscribeTitle}/>
+							<Subscribe {...subscribeProps}/>
 						</Card>
 					</div>
 				</div>
