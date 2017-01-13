@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var path = require('path');
-var values = require('postcss-modules-values');
 var Promise = require("bluebird");
 
 // Configure
@@ -36,42 +35,41 @@ module.exports = {
     publicPath: devServer.publicPath
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015', 'react']
-        }
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015', 'react']
+          } 
+        }]
       },
       {
-        test: /\.css$/,
-        loaders:[
-          'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]',
-          'sass-loader',
-          'postcss-loader',
+        test: [/.css$/, /.scss$/],
+        use:[
+          { loader: 'style-loader' },
+          { loader: 'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]' },
+          { loader: 'sass-loader'},
+          { loader: 'postcss-loader'}
         ],
       },
-      {
-        test: /\.scss$/,
-        loaders:[
-          'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]',
-          'sass-loader',
-          'postcss-loader',
-        ],
-      }
+      
     ]
   },
-  postcss: [ 
-    values
-  ],
-  sassLoader: {
-    data: '@import "' + path.resolve(__dirname, './src/_theme.scss') + '";'
-  },
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+      options: {
+          postcss: [ // <---- postcss configs go here under LoadOptionsPlugin({ options: { ??? } })
+            require('postcss-modules-values')
+          ],
+          sassLoader: {
+            data: '@import "' + path.resolve(__dirname, './src/_theme.scss') + '";'
+          }
+          // ...other configs that used to directly on `modules.exports`
+      }
+    }),
     new webpack.HotModuleReplacementPlugin(),
   ],
 }
