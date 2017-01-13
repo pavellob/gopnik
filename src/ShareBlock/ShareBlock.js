@@ -39,7 +39,7 @@ class ShareBlock extends React.Component {
 
 	render() {
 		let Shares = this.props.shares.map( (share)=> {
-			const imgSrc = `static/assets/images/${share}.svg`;	
+			const imgSrc = `assets/images/${share}.svg`;	
 			const fnName = `share${share.toUpperCase()}`;
 			let fn = this[fnName];
 			if (typeof fn === 'function') {

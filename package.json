@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "deploy": "webpack && gh-pages -d endpoint"
+    "build": "npm install && webpack"
   },
   "author": "pavellob",
   "license": "ISC",
@@ -21,6 +21,7 @@
   },
   "description": "test in react",
   "devDependencies": {
+    "immutability-helper": "^2.0.0",
     "babel-core": "^6.2.1",
     "babel-loader": "^6.2.0",
     "babel-preset-es2015": "^6.1.18",

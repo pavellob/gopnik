@@ -79,7 +79,7 @@ class Test extends React.Component {
     	<div className={styles.main_container}>
 	    	<div className={styles.top_block}>
 					<div className={styles.top_container}>
-						<img src="static/assets/images/back.svg" className={styles.b_img} />
+						<img src="assets/images/back.svg" className={styles.b_img} />
 						<img src={this.state.step.data.image} className={styles.img} />
 					</div>
 	    	</div>

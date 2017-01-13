@@ -1,4 +1,4 @@
-
+/* 
 :root {
 	--unit: $unit;
 
@@ -28,8 +28,13 @@
   --radio-disabled-color: color(var(--color-black) a(26%));
   --radio-text-font-size: 16px;
 
-  p{
-    margin: 0 0 8px;
-  }
 
+} */
+p{
+  margin: 0 0 8px;
+}
+
+body, html{
+	min-width: 320px;  margin: 0; background: rgb(238,238,238); 
+	font-family: 'Roboto', sans-serif;
 }

@@ -81,7 +81,7 @@ class App extends React.Component {
 			<div className={styles.main}>
 				<div className={styles.header}> 
 					<a className={styles.logo} href="/?utm_source=dreamkas_ru&utm_medium=link&utm_campaign=test-54-fz">
-						<img src="static/assets/images/logo.svg"/>
+						<img src="assets/images/logo.svg"/>
 					</a>
 				</div>
 				<div id="root" className={styles.container}> 
